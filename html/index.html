@@ -145,11 +145,12 @@ body{
 
 <input id="botao_repeticao" type="button" value="REPETE" onclick="window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'repeticao'); ">
 <input id="botao_desvio" type="button" value="SE" onclick="window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'desvio'); ">
-<input id="botao_desvio" type="button" value="Fx" onclick="window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'Fx'); ">
-<input id="botao_desvio" type="button" value="Fy" onclick="window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'Fy'); ">
-<input id="botao_desvio" type="button" value="ESPERA" onclick="window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'delay'); ">
+<input id="botao_Fx" type="button" value="Fx" onclick="window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'Fx'); ">
+<input id="botao_Fy" type="button" value="Fy" onclick="window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'Fy'); ">
+<input id="botao_espera" type="button" value="ESPERA" onclick="window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'delay'); ">
 <input id="botao_va_para_x" type="button" value="Va para X" onclick="window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'va_para_x'); ">
-<input id="botao_desvio" type="button" value="Va para Y" onclick="window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'va_para_y'); ">
+<input id="botao_va_para_y" type="button" value="Va para Y" onclick="window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'va_para_y'); ">
+<input id="botao_reset" type="button" value="RESET" onclick="window.config.reset=true;">
 Os botoes acima permitem inserir comandos no codigo aa direita. Com as setas voce pode mudar o ponto de insercao. Com o delete voce pode apagar um comando. Quando estiver com o ponto de insercao num determnado local, o comando abaixo comecara a piscar, indicando que vc pode entrar nele com a seta para a direta.
 O Espaco dispara o codigo.
 </div>
@@ -196,7 +197,16 @@ if (e.target.className == "entrada") {
 
 let pai =  programa.style.ponto_de_insercao.elemento_pai;
 
-if (e.key = " " ) {window.bloco1.monta_executavel(programa.style.principal);}
+if (e.keyCode == 32 ) { if (window.config.em_execucao) 
+				{
+					window.config.reset = true; 
+					setTimeout(function () {if (window.config.em_execucao) {alert("Nao foi possivel parar a execucao!");} else {window.bloco1.monta_executavel(programa.style.principal);}}, 1000);
+				}
+			else {
+				window.bloco1.monta_executavel(programa.style.principal);
+			}
+
+		      }
 
 if (e.key == "Delete") {
 	if (pai.indice_ponto_de_blinking <= pai.instrucoes.length - 1 && pai.indice_ponto_de_blinking >0)

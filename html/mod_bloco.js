@@ -51,6 +51,8 @@ constructor(elemento_pai){
 	this.executavel=[]
 	this.delta_t_execucao = 300; // ms para cara instrucao delta_t
 	this.pc = 0;
+	this.reset = false;
+	this.em_execucao = false;
 	this.movel = null;
 }
 }
@@ -256,6 +258,8 @@ insere_instrucao(objeto){
 }
 
 monta_executavel(objetonics){
+
+
 let i;
 let j;
 let repeticoes = 1;
@@ -276,25 +280,30 @@ for  (j=0; j < repeticoes; j++){
 	}
 }
 console.log(objetonics.configuracoes.executavel);
+
+if (objetonics.tipo == "principal"){
+
 this.configuracoes.pc=0;
 let that=this;
 let executa = setInterval (
 function () {
-
+that.configuracoes.em_execucao = true;
+if (that.configuracoes.reset) { that.configuracoes.reset = false;   clearInterval(executa); that.configuracoes.em_execucao = false; return;}
 	let instrucao = that.configuracoes.executavel[that.configuracoes.pc];
 	let carro =  that.configuracoes.movel;
 	if (instrucao.funcao == "Fx") { carro.Fx =  parseFloat(document.getElementById(instrucao.parametro).value);}
 	if (instrucao.funcao == "Fy") { carro.Fy =  parseFloat(document.getElementById(instrucao.parametro).value);}
-	if (instrucao.funcao == "va_para_x") { carro.vx=0; carro.vy=0; carro.posicao_percentual_x =   parseInt(document.getElementById(instrucao.parametro).value);}
-	if (instrucao.funcao == "va_para_y") { carro.vx=0; carro.vy=0;carro.posicao_percentual_y =  parseInt(document.getElementById(instrucao.parametro).value);}
+	if (instrucao.funcao == "va_para_x") { carro.guarda_vx=0; carro.guarda_vy=0; carro.posicao_percentual_x =   parseInt(document.getElementById(instrucao.parametro).value);}
+	if (instrucao.funcao == "va_para_y") { carro.guarda_vx=0; carro.guarda_vy=0;carro.posicao_percentual_y =  parseInt(document.getElementById(instrucao.parametro).value);}
    	console.log("PC "+that.configuracoes.pc);	
 	that.configuracoes.pc++;
-	if (that.configuracoes.pc >= that.configuracoes.executavel.length) {clearInterval(executa);}
+	if (that.configuracoes.pc >= that.configuracoes.executavel.length) { clearInterval(executa); that.configuracoes.em_execucao = false; return;}
 
 }
 , this.configuracoes.delta_t_execucao )
 
 
+}
 }
 
 

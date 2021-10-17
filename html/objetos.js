@@ -588,7 +588,6 @@ set altura_percentual (value){
 
 set posicao_percentual_x (value){
 	this.posiciona_percentual(value,this.guarda_posicao_percentual_y);
-	if (this.id="16") {console.log("carrinho_vermelho: "+value+" property: "+this.posicao_percentual_x )}
 }
 
 set posicao_percentual_y (value){

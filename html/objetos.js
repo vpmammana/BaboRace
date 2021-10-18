@@ -408,8 +408,10 @@ corrige_palco(x_itz, y_itz) {
 		function (){
 			mobile.style.top  = y_itz + "px";
 			mobile.style.left = x_itz + "px" ;
-			that.central.img_imagem_thrust.style.top    = y_itz + that.central.correcao_thrust_y + "px"; 
-			that.central.img_imagem_thrust.style.left   = x_itz + that.central.correcao_thrust_x + "px"; 
+			that.central.img_imagem_thrust.style.top    = parseInt(y_itz) + parseInt(that.central.correcao_thrust_y) + "px";
+			console.log("thrust y: "+that.central.img_imagem_thrust.style.top); 
+			that.central.img_imagem_thrust.style.left   = parseInt(x_itz + parseInt(that.central.correcao_thrust_x)) + "px"; 
+			console.log("thrust x: "+ that.central.img_imagem_thrust.style.top); 
 
 		mobile.style.visibility="visible";
 		});
@@ -500,8 +502,7 @@ constructor (id, arquivo, nome_fantasia, controle, tipo_objeto, tipo_tag, sofre_
 							this.id_colisao  = temp - 1;
 							}
 	else {this.id_colisao = -1000;}
-	this.acrescenta_imagem_thrust(this.controle.nome_imagem_thrust);
-	this.acrescenta_fantasia(arquivo, nome_fantasia);
+	this.acrescenta_imagem_thrust(this.controle.nome_imagem_thrust, arquivo, nome_fantasia);
 
 }
 
@@ -521,10 +522,13 @@ set Fx(valor) {
 		if (valor > 0){
 			this.img_imagem_thrust.style.transform="rotate(0deg)";
 			this.correcao_thrust_x = - this.img_imagem_thrust.width;
+			this.correcao_thrust_y =  this.lista_de_fantasias[this.fantasia - 1].width /2;
+			
 		}
 		if (valor < 0){
 			this.img_imagem_thrust.style.transform="rotate(180deg)";
 			this.correcao_thrust_x = this.lista_de_fantasias[this.fantasia - 1].width;
+			this.correcao_thrust_y =  this.lista_de_fantasias[this.fantasia - 1].width /2;
 		}
 	this.img_imagem_thrust.style.visibility = "visible";
 	let that = this;
@@ -542,13 +546,15 @@ set Fy(valor) {
 	this.impulso(0, this.guarda_Fy);
 	this.guarda_Fy = 0;
 	if (valor != 0) {	
-		if (valor > 0){
-			this.correcao_thrust_y = - this.img_imagem_thrust.height;
-			this.img_imagem_thrust.style.transform="rotate(90deg)";
-		}
 		if (valor < 0){
-			this.correcao_thrust_y =   this.lista_de_fantasias[this.fantasia - 1].height;
+			this.img_imagem_thrust.style.transform="rotate(90deg)";
+			this.correcao_thrust_y = - this.img_imagem_thrust.height;
+			this.correcao_thrust_x =  this.lista_de_fantasias[this.fantasia - 1].height /2;
+		}
+		if (valor > 0){
 			this.img_imagem_thrust.style.transform="rotate(270deg)";
+			this.correcao_thrust_y =   this.lista_de_fantasias[this.fantasia - 1].height;
+			this.correcao_thrust_x =  this.lista_de_fantasias[this.fantasia - 1].height /2;
 		}
 	this.img_imagem_thrust.style.visibility = "visible";
 	let that = this;
@@ -690,9 +696,9 @@ return interseccao_retas(p1_x, p1_y, q1_x, q1_y, x_in, y_in, x_out, y_out);
 retorna_colisao_movel() { // retorna qual velocidade deve ser invertida: x ou y?
 let that = this;
 this.elemento_colisao_top_esq = this.controle.sistema_de_colisao.retorna_colisao(this.esquerda, this.topo);
-console.log(this.elemento_colisao_top_esq);
+//console.log(this.elemento_colisao_top_esq);
 let itz_top_esq = this.elemento_colisao_top_esq.filter( function(item) { return item !== that.id_colisao;});
-console.log(" -> "+this.elemento_colisao_top_esq.length);
+//console.log(" -> "+this.elemento_colisao_top_esq.length);
 
 this.elemento_colisao_top_dir = this.controle.sistema_de_colisao.retorna_colisao(this.direita, this.topo);
 let itz_top_dir = this.elemento_colisao_top_dir.filter( function(item) { return item !== that.id_colisao;});
@@ -926,7 +932,7 @@ proxima_fantasia(){
 	this.atualiza_fantasia();	
 }
 
-acrescenta_imagem_thrust(arquivo){
+acrescenta_imagem_thrust(arquivo, arquivo_fantasia, nome_fantasia){
 	let thr = document.createElement("img");
 	thr.style.pai = this;
 	thr.style.visibility = "hidden";
@@ -936,12 +942,14 @@ acrescenta_imagem_thrust(arquivo){
 	thr.style.position = "absolute";
 	let that = this;
 	thr.onerror= function () {that.nao_achou_imagem();}        
-	thr.onload= function () {that.achou_imagem();}
+//	thr.onload= function () {that.achou_imagem();}
 	thr.src=arquivo;
 	thr.alt = "erro: " + arquivo + " nao encontrado.";
 	thr.addEventListener("load"	,
 function (){
+	that.achou_imagem();
 	that.img_imagem_thrust = thr;	
+	that.acrescenta_fantasia(arquivo_fantasia, nome_fantasia);
 }
 	,true)
 }

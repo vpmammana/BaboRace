@@ -267,7 +267,12 @@ if (objetonics.tipo == "principal"){ objetonics.configuracoes.executavel.length 
 
 if (objetonics.tipo == "repeticao") { repeticoes = parseInt(document.getElementById(objetonics.funcao_parametro.parametro).value);}
 console.log(" Tipo: " + objetonics.tipo + " repeticoes: "+ repeticoes);
+
 for  (j=0; j < repeticoes; j++){
+if (objetonics.instrucoes.length == 0) {
+objetonics.configuracoes.executavel.push({n_instrucao: "nope", funcao: "nope", parametro: "nope" }); // no operation
+}
+else {
 	for (i=0; i < objetonics.instrucoes.length; i++) {
 		let instrucao = objetonics.instrucoes[i];
 		if (["Fx", "Fy", "va_para_x", "va_para_y", "delay"].includes(instrucao.tipo)){
@@ -278,6 +283,7 @@ for  (j=0; j < repeticoes; j++){
 			instrucao.monta_executavel(instrucao);
 		}
 	}
+}
 }
 console.log(objetonics.configuracoes.executavel);
 

@@ -181,8 +181,8 @@ constructor (div){
 	this.forca_x = 100;
 	this.forca_y = 100;
 	this.auto_increment=0; // usado para gerar ids
-	
-
+	this.fator_thrust_height = 0.3;	
+	this.fator_thrust_width  = 0.3;
 	this.tabuleiro = div;
 	this.selecionado = null; // objeto que estah sendo programado ou controlado
 	this.pronto_para_animar=false; // espera ficar pronto para animar
@@ -199,7 +199,8 @@ constructor (div){
 	this.espacamento_superior = 0;
 	this.palco = new classe_palco(this.tabuleiro, null, this);
 	this.palco.adiciona_event_listeners();
-	this.sistema_de_colisao = new sistema_de_colisao (this.tabuleiro.offsetWidth, this.tabuleiro.offsetHeight, this)
+	this.sistema_de_colisao = new sistema_de_colisao (this.tabuleiro.offsetWidth, this.tabuleiro.offsetHeight, this);
+	this.nome_imagem_thrust="fogo_victor.png";
 }
 
 set central(objeto){
@@ -392,6 +393,7 @@ corrige_palco(x_itz, y_itz) {
 
 	if ( posicao_na_tela_y_top < borda_proibida_y + this.controle.espacamento_superior ) {dy = ( (borda_proibida_y + this.controle.espacamento_superior) - posicao_na_tela_y_top );}
 	if ( posicao_na_tela_y_bottom > altura_tela - borda_proibida_y ) {dy = ( (altura_tela - borda_proibida_y) - posicao_na_tela_y_bottom );}
+
 	if (dx !=0 ) {
 		this.tabuleiro.style.left = parseInt(this.tabuleiro.style.left.replace("px","")) + dx + "px";
 		}
@@ -401,11 +403,16 @@ corrige_palco(x_itz, y_itz) {
 	if (dy !=0  ) {
 		this.tabuleiro.style.top = parseInt(this.tabuleiro.style.top.replace("px","")) + dy + "px";
 		}
-		
-		window.requestAnimationFrame(function (){
+	let that=this;	
+		window.requestAnimationFrame(
+		function (){
 			mobile.style.top  = y_itz + "px";
 			mobile.style.left = x_itz + "px" ;
-		mobile.style.visibility="visible";});
+			that.central.img_imagem_thrust.style.top    = y_itz + that.central.correcao_thrust_y + "px"; 
+			that.central.img_imagem_thrust.style.left   = x_itz + that.central.correcao_thrust_x + "px"; 
+
+		mobile.style.visibility="visible";
+		});
 		
 		
 
@@ -454,6 +461,7 @@ constructor (id, arquivo, nome_fantasia, controle, tipo_objeto, tipo_tag, sofre_
 	this.max_tentativas_de_definir_posicao = 30;
 	this.tentativas_de_definir_posicao = 0;	
 
+	this.img_imagem_thrust = null;
 	this.lista_de_detecao=[];
 	this.lista_de_fantasias=[];
 	this.velho_fantasia=0;
@@ -492,7 +500,7 @@ constructor (id, arquivo, nome_fantasia, controle, tipo_objeto, tipo_tag, sofre_
 							this.id_colisao  = temp - 1;
 							}
 	else {this.id_colisao = -1000;}
-
+	this.acrescenta_imagem_thrust(this.controle.nome_imagem_thrust);
 	this.acrescenta_fantasia(arquivo, nome_fantasia);
 
 }
@@ -508,14 +516,48 @@ get atrito() {
 set Fx(valor) {
 	this.guarda_Fx = valor;
 	this.impulso(this.guarda_Fx, 0);
-	this.guarda_Fx = 0;	
+	this.guarda_Fx = 0;
+	if (valor != 0) {	
+		if (valor > 0){
+			this.img_imagem_thrust.style.transform="rotate(0deg)";
+			this.correcao_thrust_x = - this.img_imagem_thrust.width;
+		}
+		if (valor < 0){
+			this.img_imagem_thrust.style.transform="rotate(180deg)";
+			this.correcao_thrust_x = this.lista_de_fantasias[this.fantasia - 1].width;
+		}
+	this.img_imagem_thrust.style.visibility = "visible";
+	let that = this;
+	setTimeout(
+		function () {
+			that.img_imagem_thrust.style.visibility = "hidden";		
+		}, 500
+	)
+	}
 
 }
 
 set Fy(valor) {
 	this.guarda_Fy = valor;
 	this.impulso(0, this.guarda_Fy);
-	this.guarda_Fy = 0;	
+	this.guarda_Fy = 0;
+	if (valor != 0) {	
+		if (valor > 0){
+			this.correcao_thrust_y = - this.img_imagem_thrust.height;
+			this.img_imagem_thrust.style.transform="rotate(90deg)";
+		}
+		if (valor < 0){
+			this.correcao_thrust_y =   this.lista_de_fantasias[this.fantasia - 1].height;
+			this.img_imagem_thrust.style.transform="rotate(270deg)";
+		}
+	this.img_imagem_thrust.style.visibility = "visible";
+	let that = this;
+	setTimeout(
+		function () {
+			that.img_imagem_thrust.style.visibility = "hidden";		
+		}, 500
+	)
+	}
 
 }
 
@@ -765,6 +807,7 @@ if (this.lista_de_fantasias.length > 0) {
 	{
 		this.lista_de_fantasias[this.fantasia - 1].style.top  = y_itz + "px"; 
 		this.lista_de_fantasias[this.fantasia - 1].style.left = x_itz + "px" ;
+
 	}
 	
 	this.esquerda = x_itz;
@@ -793,6 +836,8 @@ if (this.fantasia > 0) {
 	this.tentativas_de_definir_tamanho = 0;
 	this.lista_de_fantasias[this.fantasia - 1].height = Math.round(this.altura_container * y/100 );
 	this.lista_de_fantasias[this.fantasia - 1].width  = Math.round(this.largura_container * x/100);
+	this.img_imagem_thrust.height       = this.lista_de_fantasias[this.fantasia - 1].height * this.controle.fator_thrust_height;
+	this.img_imagem_thrust.width        = this.lista_de_fantasias[this.fantasia - 1].width  * this.controle.fator_thrust_width ;
 	this.posiciona_percentual(this.posicao_percentual_x, this.posicao_percentual_y);
 	this.atualiza_fantasia();
 }
@@ -881,7 +926,25 @@ proxima_fantasia(){
 	this.atualiza_fantasia();	
 }
 
-
+acrescenta_imagem_thrust(arquivo){
+	let thr = document.createElement("img");
+	thr.style.pai = this;
+	thr.style.visibility = "hidden";
+	document.getElementById("principal").appendChild(thr);
+	thr.id = this.id + "_thrust";
+	thr.style.display = "block";
+	thr.style.position = "absolute";
+	let that = this;
+	thr.onerror= function () {that.nao_achou_imagem();}        
+	thr.onload= function () {that.achou_imagem();}
+	thr.src=arquivo;
+	thr.alt = "erro: " + arquivo + " nao encontrado.";
+	thr.addEventListener("load"	,
+function (){
+	that.img_imagem_thrust = thr;	
+}
+	,true)
+}
 
 acrescenta_fantasia(arquivo, nome){
 

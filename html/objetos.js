@@ -201,6 +201,8 @@ constructor (div){
 	this.palco.adiciona_event_listeners();
 	this.sistema_de_colisao = new sistema_de_colisao (this.tabuleiro.offsetWidth, this.tabuleiro.offsetHeight, this);
 	this.nome_imagem_thrust="fogo_victor.png";
+	this.conta_frames = 0;
+	this.intervalo_frames_troca_fantasia = 4;
 }
 
 set central(objeto){
@@ -408,12 +410,34 @@ corrige_palco(x_itz, y_itz) {
 		function (){
 			mobile.style.top  = y_itz + "px";
 			mobile.style.left = x_itz + "px" ;
-			that.central.img_imagem_thrust.style.top    = parseInt(y_itz) + parseInt(that.central.correcao_thrust_y) + "px";
-			console.log("thrust y: "+that.central.img_imagem_thrust.style.top); 
-			that.central.img_imagem_thrust.style.left   = parseInt(x_itz + parseInt(that.central.correcao_thrust_x)) + "px"; 
-			console.log("thrust x: "+ that.central.img_imagem_thrust.style.top); 
 
-		mobile.style.visibility="visible";
+// o if abaixo foi a melhor configuracao que consegui para tentar animar as rodinhas do carrinho, usando puxando uma fantasia depois da outra. Mas estava ficava imprevisivel para velocidades muito altas - ficaremos sem a animacao das rodinhas
+//		if (
+//
+//( Math.abs(parseInt(mobile.style.top.replace("px","")) -that.central.velho_y)> 1 ||   Math.abs(parseInt(mobile.style.left.replace("px","")) - that.central.velho_x)>1 ) &&
+//( Math.abs(parseInt(mobile.style.top.replace("px","")) -that.central.velho_y)<3) &&  ( Math.abs(parseInt(mobile.style.left.replace("px","")) - that.central.velho_x)<3 )
+// 
+////(Math.abs(that.central.guarda_vx) >0.5 || Math.abs(that.central.guarda_vy) > 0.5) 
+//// && ( (that.controle.conta_frames % that.controle.intervalo_frames_troca_fantasia == 0)) 
+//	) {
+//	console.log(" frames: " + that.controle.conta_frames);
+//
+//	that.central.velho_fantasia=that.central.fantasia;
+//	that.central.fantasia++;
+//
+//	if (that.central.fantasia > that.central.lista_de_fantasias.length) {that.central.fantasia = 1;} // verificar isso aqui. nao testado
+//	that.central.lista_de_fantasias[that.central.fantasia -1].style.top = mobile.style.top; 
+//	that.central.lista_de_fantasias[that.central.fantasia -1].style.left = mobile.style.left; 
+//	mobile.style.visibility = "hidden";
+//	that.central.lista_de_fantasias[that.central.fantasia - 1].style.visibility = "visible";
+//}
+
+	that.controle.conta_frames++;
+			that.central.img_imagem_thrust.style.top    = parseInt(y_itz) + parseInt(that.central.correcao_thrust_y) + "px";
+			//console.log("thrust y: "+that.central.img_imagem_thrust.style.top); 
+			that.central.img_imagem_thrust.style.left   = parseInt(x_itz + parseInt(that.central.correcao_thrust_x)) + "px"; 
+			//console.log("thrust x: "+ that.central.img_imagem_thrust.style.top); 
+
 		});
 		
 		
@@ -584,8 +608,12 @@ impulso (fx,fy) {
 atualiza_fantasia() {
 if (this.lista_de_fantasias.length < 1) {return;}
 	if (this.velho_fantasia != this.fantasia) {
-		if ( this.velho_fantasia >0 ) { this.lista_de_fantasias[this.velho_fantasia - 1].style.visibility = "hidden";}
+		if ( this.velho_fantasia >0 ) { this.lista_de_fantasias[this.velho_fantasia - 1].style.visibility = "hidden";
+		this.lista_de_fantasias[this.fantasia - 1].style.top = this.lista_de_fantasias[this.velho_fantasia - 1].style.top;
+		this.lista_de_fantasias[this.fantasia - 1].style.left = this.lista_de_fantasias[this.velho_fantasia - 1].style.left;
+		}
 		this.lista_de_fantasias[this.fantasia - 1].style.visibility = "visible";
+		
 		this.velho_fantasia = this.fantasia;
 	}
 
@@ -805,7 +833,7 @@ if (this.lista_de_fantasias.length > 0) {
 	this.tentativas_de_definir_posicao = 0;
 	
 	if (this == this.controle.central && this != null && this != undefined && this !="undefined" ) { // esse if eh para evitar que o movel fique chacoalhando quando bate no final da tela. Talvez com a requestAnimationFrame recem incluido, não precise mais disso (2021_10_14)
-		this.lista_de_fantasias[this.fantasia - 1].style.transition = "all 0.05s linear";
+// XXX		this.lista_de_fantasias[this.fantasia - 1].style.transition = "all 0.05s linear";
 		this.controle.palco.corrige_palco(x_itz, y_itz);
 
 	}
@@ -927,9 +955,15 @@ para_desliza() {
 
 
 proxima_fantasia(){
+	this.velho_fantasia=this.fantasia;
 	this.fantasia++;
+
 	if (this.fantasia > this.lista_de_fantasias.length) {this.fantasia = 1;} // verificar isso aqui. nao testado
-	this.atualiza_fantasia();	
+	this.lista_de_fantasias[this.fantasia -1].style.top = this.lista_de_fantasias[this.velho_fantasia -1].style.top;
+	this.lista_de_fantasias[this.fantasia -1].style.left = this.lista_de_fantasias[this.velho_fantasia -1].style.left;
+	this.lista_de_fantasias[this.fantasia - 1].style.visibility = "visible";
+	this.lista_de_fantasias[this.velho_fantasia -1].style.visibility = "hidden";
+	console.log(this.lista_de_fantasias[this.fantasia -1]);
 }
 
 acrescenta_imagem_thrust(arquivo, arquivo_fantasia, nome_fantasia){

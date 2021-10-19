@@ -34,7 +34,7 @@ constructor(elemento_pai){
 	this.backgroundcolor_delay = "white";
 	this.backgroundcolor_repeticao = "yellow";
 	this.backgroundcolor_principal = "blue";
-	this.backgroundcolor_desvio = "orange";
+	this.backgroundcolor_desvio = "green";
 	this.backgroundcolor_va_para = "lightgreen";
 	this.backgroundcolor_insercao = "green";
 	this.backgroundcolor_blink = "gray";
@@ -133,66 +133,69 @@ export class bloco {
 
 constructor (configuracoes, bloco_superior, condicional, esquerda, topo, tipo, altura, largura, elemento_pai){
 	this.configuracoes = configuracoes;
-	if (tipo == "delay") 
+	this.id = "bloco_" + this.configuracoes.conta_id;
+	this.funcao_parametro = {n_instrucao: -1, funcao: "dummy", parametro: "dummy_"+this.configuracoes.conta_id, id: null };
+
+	if (tipo == "delay" || tipo == "delay_exemplo") 
 		{
 			this.nome = "Espera <input id='espera_"+this.configuracoes.conta_id+"' class='entrada' type='text' value='10' size='2'/> ciclos";
 			this.background_tipo = this.configuracoes.backgroundcolor_delay;
 			this.elemento_parametro =  document.getElementById("espera_"+this.configuracoes.conta_id);
-			this.funcao_parametro = {n_instrucao: +this.configuracoes.conta_id, funcao: "espera", parametro: "espera_"+this.configuracoes.conta_id };
+			this.funcao_parametro = {n_instrucao: +this.configuracoes.conta_id, funcao: "espera", parametro: "espera_"+this.configuracoes.conta_id, id: null };
 			this.opacidade = 1.0; 
 		}
-	if (tipo == "va_para_x") 
+	if (tipo == "va_para_x" || tipo == "va_para_x_exemplo") 
 		{
 			this.nome = "Va para X=<input id='va_para_x_"+this.configuracoes.conta_id+"' class='entrada' type='text' value='10' size='2'/>";
 			this.background_tipo = this.configuracoes.backgroundcolor_va_para; 
 			this.elemento_parametro =  document.getElementById("va_para_x_"+this.configuracoes.conta_id); 
-			this.funcao_parametro = {n_instrucao: +this.configuracoes.conta_id, funcao: "va_para_x", parametro: "va_para_x_"+this.configuracoes.conta_id }; 
+			this.funcao_parametro = {n_instrucao: +this.configuracoes.conta_id, funcao: "va_para_x", parametro: "va_para_x_"+this.configuracoes.conta_id, id: null  }; 
 			this.opacidade = 1.0; 
 		}
-	if (tipo == "va_para_y") 
+	if (tipo == "va_para_y" || tipo == "va_para_y_exemplo") 
 		{
 			this.nome = "Va para Y=<input id='va_para_y_"+this.configuracoes.conta_id+"' class='entrada' type='text' value='10' size='2'/>";
 			this.background_tipo = this.configuracoes.backgroundcolor_va_para; 
 			this.elemento_parametro =  document.getElementById("va_para_y_"+this.configuracoes.conta_id); 
-			this.funcao_parametro = {n_instrucao: +this.configuracoes.conta_id, funcao: "va_para_y", parametro: "va_para_y_"+this.configuracoes.conta_id }; 
+			this.funcao_parametro = {n_instrucao: +this.configuracoes.conta_id, funcao: "va_para_y", parametro: "va_para_y_"+this.configuracoes.conta_id, id: null  }; 
 			this.opacidade = 1.0; 
 		}
 
-	if (tipo == "Fy") 
+	if (tipo == "Fy" || tipo == "Fy_exemplo") 
 		{
 			this.nome = "Fy <input id='Fy_"+this.configuracoes.conta_id+"' class='entrada' type='text' value='10' size='2'/> newtons";
 			this.background_tipo = this.configuracoes.backgroundcolor_Fy; 
 			this.elemento_parametro =  document.getElementById("Fy_"+this.configuracoes.conta_id); 
-			this.funcao_parametro = {n_instrucao: +this.configuracoes.conta_id, funcao: "Fy", parametro: "Fy_"+this.configuracoes.conta_id }; 
+			this.funcao_parametro = {n_instrucao: +this.configuracoes.conta_id, funcao: "Fy", parametro: "Fy_"+this.configuracoes.conta_id, id: null  }; 
 			this.opacidade = 1.0; 
 		}
-	if (tipo == "Fx") 
+	if (tipo == "Fx" || tipo == "Fx_exemplo") 
 		{
 			this.nome = "Fx <input id='Fx_"+this.configuracoes.conta_id+"' class='entrada' type='text' value='10' size='2'/> newtons";
 			this.background_tipo = this.configuracoes.backgroundcolor_Fx; 
 			this.elemento_parametro =  document.getElementById("Fx_"+this.configuracoes.conta_id); 
-			this.funcao_parametro = {n_instrucao: +this.configuracoes.conta_id, funcao: "Fx", parametro: "Fx_"+this.configuracoes.conta_id }; 
+			this.funcao_parametro = {n_instrucao: +this.configuracoes.conta_id, funcao: "Fx", parametro: "Fx_"+this.configuracoes.conta_id, id: null  }; 
 			this.opacidade = 1.0; 
 		}
 	
-	if (tipo == "principal") 
+	if (tipo == "principal" || tipo == "principal_exemplo") 
 		{
 			this.nome = "principal";
 			this.background_tipo = this.configuracoes.backgroundcolor_principal; 
 			this.elemento_parametro =  document.getElementById("principal_"+this.configuracoes.conta_id); 
-			this.funcao_parametro = {n_instrucao: +this.configuracoes.conta_id, funcao: "principal", parametro: "principal_"+this.configuracoes.conta_id }; 
+			this.funcao_parametro = {n_instrucao: +this.configuracoes.conta_id, funcao: "principal", parametro: "principal_"+this.configuracoes.conta_id, id: null  }; 
 			this.opacidade = 1.0; 
 		}
-	if (tipo == "repeticao") 
+	if (tipo == "repeticao" || tipo == "repeticao_exemplo") 
 		{
 			this.nome = "repete <input id='repeticao_"+this.configuracoes.conta_id+"' class='entrada' type='text' value='10' size='2'/> vezes";
 			this.background_tipo = this.configuracoes.backgroundcolor_repeticao;
 			this.elemento_parametro =  document.getElementById("repeticao_"+this.configuracoes.conta_id); 
-			this.funcao_parametro = {n_instrucao: +this.configuracoes.conta_id, funcao: "repete", parametro: "repeticao_"+this.configuracoes.conta_id }; 
+			this.funcao_parametro = {n_instrucao: +this.configuracoes.conta_id, funcao: "repete", parametro: "repeticao_"+this.configuracoes.conta_id, id: null  }; 
 			this.opacidade = 1.0; 
 		}
 		
-	if (tipo == "desvio"   ) 
+	if (tipo == "desvio"   || tipo == "desvio_exemplo" ) 
 		{
 			this.nome = "se";
 			this.background_tipo = this.configuracoes.backgroundcolor_desvio;
@@ -214,9 +217,13 @@ constructor (configuracoes, bloco_superior, condicional, esquerda, topo, tipo, a
 	this.topo = topo;
 	this.esquerda = esquerda;
 	this.face = this.retorna_face();
+	this.funcao_parametro.id = this.face;
 }
 
 mostra(baixo){
+	if (["delay_exemplo","va_para_x_exemplo","va_para_y_exemplo","Fy_exemplo","Fx_exemplo","repeticao_exemplo","desvio_exemplo"].includes(this.tipo)) {
+	this.elemento_pai.appendChild(this.face);
+} else {
 	if (this.tipo == "principal") {
 	this.elemento_pai.appendChild(this.face);
 	}
@@ -225,6 +232,7 @@ mostra(baixo){
 	this.elemento_pai.face.appendChild(this.face);
 	}
 	return this.lista_instrucoes();
+}
 }
 
 ativa_ponto_de_insercao(posicao){
@@ -259,18 +267,18 @@ insere_instrucao(objeto){
 
 monta_executavel(objetonics){
 
-
 let i;
 let j;
 let repeticoes = 1;
 if (objetonics.tipo == "principal"){ objetonics.configuracoes.executavel.length =0;}
 
 if (objetonics.tipo == "repeticao") { repeticoes = parseInt(document.getElementById(objetonics.funcao_parametro.parametro).value);}
+if (objetonics.tipo == "delay") { repeticoes = parseInt(document.getElementById(objetonics.funcao_parametro.parametro).value);}
 console.log(" Tipo: " + objetonics.tipo + " repeticoes: "+ repeticoes);
 
 for  (j=0; j < repeticoes; j++){
 if (objetonics.instrucoes.length == 0) {
-objetonics.configuracoes.executavel.push({n_instrucao: "nope", funcao: "nope", parametro: "nope" }); // no operation
+objetonics.configuracoes.executavel.push({n_instrucao: "nope", funcao: "nope", parametro: "nope", id: objetonics.face }); // no operation
 }
 else {
 	for (i=0; i < objetonics.instrucoes.length; i++) {
@@ -278,7 +286,7 @@ else {
 		if (["Fx", "Fy", "va_para_x", "va_para_y", "delay"].includes(instrucao.tipo)){
 		objetonics.configuracoes.executavel.push(instrucao.funcao_parametro);
 		}
-		if([ "repeticao", "principal"].includes(instrucao.tipo)) {
+		if([ "repeticao", "principal", "delay"].includes(instrucao.tipo)) {
 		
 			instrucao.monta_executavel(instrucao);
 		}
@@ -287,7 +295,7 @@ else {
 }
 console.log(objetonics.configuracoes.executavel);
 
-if (objetonics.tipo == "principal"){
+if (objetonics.tipo == "principal" && objetonics.configuracoes.executavel.length >0){
 
 this.configuracoes.pc=0;
 let that=this;
@@ -302,9 +310,11 @@ if (that.configuracoes.reset) { that.configuracoes.reset = false;   clearInterva
 	if (instrucao.funcao == "va_para_x") { carro.guarda_vx=0; carro.guarda_vy=0; carro.posicao_percentual_x =   parseInt(document.getElementById(instrucao.parametro).value);}
 	if (instrucao.funcao == "va_para_y") { carro.guarda_vx=0; carro.guarda_vy=0;carro.posicao_percentual_y =  parseInt(document.getElementById(instrucao.parametro).value);}
    	console.log("PC "+that.configuracoes.pc);	
+	let itz = instrucao.id.style.border; 
+	instrucao.id.style.border = "5px solid red";
+	setTimeout(function (){ instrucao.id.style.border = itz}, 250);
 	that.configuracoes.pc++;
 	if (that.configuracoes.pc >= that.configuracoes.executavel.length) { clearInterval(executa); that.configuracoes.em_execucao = false; return;}
-
 }
 , this.configuracoes.delta_t_execucao )
 
@@ -351,9 +361,14 @@ retorna_face(){
 		div.style.height = Math.round(parseInt(this.elemento_pai.style.height.replace("px","")) * this.configuracoes.fator_reducao) +"px" ;
 		//alert(this.elemento_pai.style.width);
 	}
-	else{
+	if (["delay","va_para_x","va_para_y","Fy","Fx","repeticao","desvio"].includes(this.tipo)) {
 	div.style.width =  parseInt(this.elemento_pai.face.style.width.replace("px","")) *this.configuracoes.fator_reducao +"px"  ;
 	div.style.height = parseInt(this.elemento_pai.face.style.height.replace("px","")) *this.configuracoes.fator_reducao +"px" ;
+	}
+
+	if (["delay_exemplo","va_para_x_exemplo","va_para_y_exemplo","Fy_exemplo","Fx_exemplo","repeticao_exemplo","desvio_exemplo"].includes(this.tipo)) {
+		div.style.width = this.configuracoes.largura + "px"; 
+		div.style.height = this.configuracoes.altura + "px";
 	}
 	this.guarda_largura = parseInt(div.style.width.replace("px",""));
 	this.guarda_altura  = parseInt(div.style.height.replace("px",""));

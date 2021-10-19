@@ -39,7 +39,7 @@ input[type="text"]{
     line-height: 1em;
     display: inline-block;
     padding: 0px;
-    border: none;
+    border: 1px solid black;
 }
 
 body{
@@ -143,16 +143,21 @@ body{
 <!---	</tr>--->
 <!---</table>--->
 
-<input id="botao_repeticao" type="button" value="REPETE" onclick="window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'repeticao'); ">
-<input id="botao_desvio" type="button" value="SE" onclick="window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'desvio'); ">
-<input id="botao_Fx" type="button" value="Fx" onclick="window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'Fx'); ">
-<input id="botao_Fy" type="button" value="Fy" onclick="window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'Fy'); ">
-<input id="botao_espera" type="button" value="ESPERA" onclick="window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'delay'); ">
-<input id="botao_va_para_x" type="button" value="Va para X" onclick="window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'va_para_x'); ">
-<input id="botao_va_para_y" type="button" value="Va para Y" onclick="window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'va_para_y'); ">
-<input id="botao_reset" type="button" value="RESET" onclick="window.config.reset=true;">
-Os botoes acima permitem inserir comandos no codigo aa direita. Com as setas voce pode mudar o ponto de insercao. Com o delete voce pode apagar um comando. Quando estiver com o ponto de insercao num determnado local, o comando abaixo comecara a piscar, indicando que vc pode entrar nele com a seta para a direta.
+<!--- <input id="botao_repeticao" type="button" value="REPETE" onclick="window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'repeticao'); "> --->
+<!--- <input id="botao_desvio" type="button" value="SE" onclick="window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'desvio'); "> --->
+<!--- <input id="botao_Fx" type="button" value="Fx" onclick="window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'Fx'); "> --->
+<!--- <input id="botao_Fy" type="button" value="Fy" onclick="window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'Fy'); "> --->
+<!--- <input id="botao_espera" type="button" value="ESPERA" onclick="window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'delay'); "> --->
+<!--- <input id="botao_va_para_x" type="button" value="Va para X" onclick="window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'va_para_x'); "> --->
+<!--- <input id="botao_va_para_y" type="button" value="Va para Y" onclick="window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'va_para_y'); "> --->
+<!--- <input id="botao_reset" type="button" value="RESET" onclick="window.config.reset=true;"> --->
+ --->
+<div style="float: right; width: 50%; overflow: scroll">
+<span style="color: white">
+Os botões ao lado permitem inserir comandos no código à direita. Com as setas voce pode mudar o ponto de inserção. Com o delete voce pode apagar um comando. Quando estiver com o ponto de inserção num determinado local, o comando abaixo comecará a piscar, indicando que você pode entrar no bloco com a seta à direta. Seta à esquerda sai do bloco. Delete apaga o comando ou bloco que estiver abaixo do ponto de inserção.
 O Espaco dispara o codigo.
+</span>
+</div>
 </div>
 
 <div id="principal">
@@ -197,7 +202,8 @@ if (e.target.className == "entrada") {
 
 let pai =  programa.style.ponto_de_insercao.elemento_pai;
 
-if (e.keyCode == 32 ) { if (window.config.em_execucao) 
+if (e.keyCode == 32 ) { limpa_todos_blink(window.config);
+			 if (window.config.em_execucao) 
 				{
 					window.config.reset = true; 
 					setTimeout(function () {if (window.config.em_execucao) {alert("Nao foi possivel parar a execucao!");} else {window.bloco1.monta_executavel(programa.style.principal);}}, 1000);
@@ -346,8 +352,8 @@ setTimeout(function (){
 	window.movel1.acrescenta_fantasia("../fantasias/carrinho_amarelo4.png", "fantasia4");
 	//window.movel1.acrescenta_fantasia("../fantasias/carrinho_vermelho1.png", "fantasia4");
     console.log(window.movel1)
-	window.movel1.posicao_percentual_x=10;
-	window.movel1.posicao_percentual_y=90;
+//	window.movel1.posicao_percentual_x=10;
+//	window.movel1.posicao_percentual_y=90;
 
 	window.movel2.largura_percentual=3;
 	window.movel2.altura_percentual=3;
@@ -366,7 +372,7 @@ setTimeout(function (){
 	alert("Não foi possível carregar o arquivo: "+window.movel1.fantasia.src);
 	throw new Error ('Não foi possível ler o arquivo de imagem');
 	}
-	window.controle.selecionado = window.movel1;
+	window.controle.selecionado = window.movel1; // eh o clicado (veja evento click)
 	window.controle.central = window.movel1;
 
 	window.controle.inicia_animacao();
@@ -374,6 +380,7 @@ setTimeout(function (){
 
 var contem =  document.getElementById("contem");
 var programa = document.getElementById("programa");
+var comandos = document.getElementById("comandos");
 
 programa.style.width = contem.getBoundingClientRect().width + "px";
 programa.style.height = contem.getBoundingClientRect().height + "px";
@@ -384,11 +391,60 @@ programa.style.height = contem.getBoundingClientRect().height + "px";
 window.config = new configuracoes(programa);
 window.bloco1 = new bloco(config, null, null, config.esquerda, config.topo, "principal", config.altura, config.largura, config.elemento_pai);
 window.config.movel = window.movel1;
+	window.movel1.posicao_percentual_x=10; // sempre posicione o movel depois do config
+	window.movel1.posicao_percentual_y=90;
+
+window.config_comandos = new configuracoes(comandos);
+window.config_comandos.topo=3;
+window.config_comandos.altura =  parseInt(document.getElementById("comandos").getBoundingClientRect().height) * 0.5;
+
+let espacamento=20;
+
+window.bloco_repete = new bloco(config_comandos, null, null, config_comandos.esquerda, config_comandos.topo, "repeticao_exemplo", config_comandos.altura, config_comandos.largura, config_comandos.elemento_pai);
+window.bloco_repete.face.addEventListener ("click",
+function () {window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'repeticao');});
+
+window.config_comandos.esquerda = window.config_comandos.esquerda + window.config_comandos.largura + espacamento;
+window.bloco_va_para_x = new bloco(config_comandos, null, null, config_comandos.esquerda, config_comandos.topo, "va_para_x_exemplo", config_comandos.altura, config_comandos.largura, config_comandos.elemento_pai);
+window.bloco_va_para_x.face.addEventListener ("click",
+function () {window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'va_para_x');});
+
+window.config_comandos.esquerda = window.config_comandos.esquerda + window.config_comandos.largura + espacamento;
+window.bloco_va_para_y = new bloco(config_comandos, null, null, config_comandos.esquerda, config_comandos.topo, "va_para_y_exemplo", config_comandos.altura, config_comandos.largura, config_comandos.elemento_pai);
+window.bloco_va_para_y.face.addEventListener ("click",
+function () {window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'va_para_y');});
+
+window.config_comandos.esquerda = window.config_comandos.esquerda + window.config_comandos.largura + espacamento;
+window.bloco_Fx = new bloco(config_comandos, null, null, config_comandos.esquerda, config_comandos.topo, "Fx_exemplo", config_comandos.altura, config_comandos.largura, config_comandos.elemento_pai);
+window.bloco_Fx.face.addEventListener ("click",
+function () {window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'Fx');});
+
+window.config_comandos.esquerda = window.config_comandos.esquerda + window.config_comandos.largura + espacamento;
+window.bloco_Fy = new bloco(config_comandos, null, null, config_comandos.esquerda, config_comandos.topo, "Fy_exemplo", config_comandos.altura, config_comandos.largura, config_comandos.elemento_pai);
+window.bloco_Fy.face.addEventListener ("click",
+function () {window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'Fy');});
+
+window.config_comandos.esquerda = window.config_comandos.esquerda + window.config_comandos.largura + espacamento;
+window.bloco_delay = new bloco(config_comandos, null, null, config_comandos.esquerda, config_comandos.topo, "delay_exemplo", config_comandos.altura, config_comandos.largura, config_comandos.elemento_pai);
+window.bloco_delay.face.addEventListener ("click",
+function () {window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'delay');});
+
+window.config_comandos.esquerda = window.config_comandos.esquerda + window.config_comandos.largura + espacamento;
+window.bloco_desvio = new bloco(config_comandos, null, null, config_comandos.esquerda, config_comandos.topo, "desvio_exemplo", config_comandos.altura, config_comandos.largura, config_comandos.elemento_pai);
+window.bloco_desvio.face.addEventListener ("click",
+function () {alert("Este comando ainda não está disponível. Aguarde a próxima versão."); return; window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'desvio');});
+
+
 programa.style.principal = bloco1;
 programa.style.ponto_de_insercao =  bloco1.ativa_ponto_de_insercao(0);
 bloco1.mostra();
-
-
+bloco_repete.mostra();
+bloco_va_para_x.mostra();
+bloco_va_para_y.mostra();
+bloco_Fx.mostra();
+bloco_Fy.mostra();
+bloco_delay.mostra();
+bloco_desvio.mostra();
 
 
 

@@ -37,6 +37,7 @@ constructor(elemento_pai){
 	this.backgroundcolor_desvio = "green";
 	this.backgroundcolor_va_para = "lightgreen";
 	this.backgroundcolor_insercao = "green";
+	this.backgroundcolor_freio = "lightblue";
 	this.backgroundcolor_blink = "gray";
 	this.borderradius = "25px";
 	this.topo_nome =    parseInt(this.borderradius)/3;
@@ -136,9 +137,18 @@ constructor (configuracoes, bloco_superior, condicional, esquerda, topo, tipo, a
 	this.id = "bloco_" + this.configuracoes.conta_id;
 	this.funcao_parametro = {n_instrucao: -1, funcao: "dummy", parametro: "dummy_"+this.configuracoes.conta_id, id: null };
 
+	if (tipo == "freio" || tipo == "freio_exemplo") 
+		{
+			this.nome = "freia <input id='freio_"+this.configuracoes.conta_id+"' class='entrada' type='text' maxlength='1' style='width: 1rem' size='2' maxlength='2' value='1' size='2'/> <i>(atrito)</i>";
+			this.background_tipo = this.configuracoes.backgroundcolor_freio;
+			this.elemento_parametro = document.getElementById("freio_"+this.configuracoes.conta_id);
+			this.funcao_parametro = {n_instrucao: +this.configuracoes.conta_id, funcao: "freio", parametro: "freio_"+this.configuracoes.conta_id , id: null };
+			this.opacidade = 1.0; 
+		}
+
 	if (tipo == "delay" || tipo == "delay_exemplo") 
 		{
-			this.nome = "Espera <input id='espera_"+this.configuracoes.conta_id+"' class='entrada' type='text' value='10' size='2'/> ciclos";
+			this.nome = "espera <input id='espera_"+this.configuracoes.conta_id+"' class='entrada' type='text' size='2' maxlength='2' value='10' size='2'/> ciclos";
 			this.background_tipo = this.configuracoes.backgroundcolor_delay;
 			this.elemento_parametro =  document.getElementById("espera_"+this.configuracoes.conta_id);
 			this.funcao_parametro = {n_instrucao: +this.configuracoes.conta_id, funcao: "espera", parametro: "espera_"+this.configuracoes.conta_id, id: null };
@@ -146,7 +156,7 @@ constructor (configuracoes, bloco_superior, condicional, esquerda, topo, tipo, a
 		}
 	if (tipo == "va_para_x" || tipo == "va_para_x_exemplo") 
 		{
-			this.nome = "Va para X=<input id='va_para_x_"+this.configuracoes.conta_id+"' class='entrada' type='text' value='10' size='2'/>";
+			this.nome = "vá! X = <input id='va_para_x_"+this.configuracoes.conta_id+"' class='entrada' style='width: 4rem'  type='text' value='10' size='2'/>%";
 			this.background_tipo = this.configuracoes.backgroundcolor_va_para; 
 			this.elemento_parametro =  document.getElementById("va_para_x_"+this.configuracoes.conta_id); 
 			this.funcao_parametro = {n_instrucao: +this.configuracoes.conta_id, funcao: "va_para_x", parametro: "va_para_x_"+this.configuracoes.conta_id, id: null  }; 
@@ -154,7 +164,7 @@ constructor (configuracoes, bloco_superior, condicional, esquerda, topo, tipo, a
 		}
 	if (tipo == "va_para_y" || tipo == "va_para_y_exemplo") 
 		{
-			this.nome = "Va para Y=<input id='va_para_y_"+this.configuracoes.conta_id+"' class='entrada' type='text' value='10' size='2'/>";
+			this.nome = " vá! Y = <input id='va_para_y_"+this.configuracoes.conta_id+"' class='entrada' style='width: 4rem' type='text' value='10' size='2'/>%";
 			this.background_tipo = this.configuracoes.backgroundcolor_va_para; 
 			this.elemento_parametro =  document.getElementById("va_para_y_"+this.configuracoes.conta_id); 
 			this.funcao_parametro = {n_instrucao: +this.configuracoes.conta_id, funcao: "va_para_y", parametro: "va_para_y_"+this.configuracoes.conta_id, id: null  }; 
@@ -163,7 +173,7 @@ constructor (configuracoes, bloco_superior, condicional, esquerda, topo, tipo, a
 
 	if (tipo == "Fy" || tipo == "Fy_exemplo") 
 		{
-			this.nome = "Fy <input id='Fy_"+this.configuracoes.conta_id+"' class='entrada' type='text' value='10' size='2'/> newtons";
+			this.nome = "Fy <input id='Fy_"+this.configuracoes.conta_id+"' class='entrada' ' style='width: 55px' maxlength='4' type='text' value='10' size='2'/> <i>(força)</i>";
 			this.background_tipo = this.configuracoes.backgroundcolor_Fy; 
 			this.elemento_parametro =  document.getElementById("Fy_"+this.configuracoes.conta_id); 
 			this.funcao_parametro = {n_instrucao: +this.configuracoes.conta_id, funcao: "Fy", parametro: "Fy_"+this.configuracoes.conta_id, id: null  }; 
@@ -171,7 +181,7 @@ constructor (configuracoes, bloco_superior, condicional, esquerda, topo, tipo, a
 		}
 	if (tipo == "Fx" || tipo == "Fx_exemplo") 
 		{
-			this.nome = "Fx <input id='Fx_"+this.configuracoes.conta_id+"' class='entrada' type='text' value='10' size='2'/> newtons";
+			this.nome = "Fx <input id='Fx_"+this.configuracoes.conta_id+"' style='width: 55px' maxlength='4' class='entrada' type='text' value='10' size='2'/> <i>(força)</i>";
 			this.background_tipo = this.configuracoes.backgroundcolor_Fx; 
 			this.elemento_parametro =  document.getElementById("Fx_"+this.configuracoes.conta_id); 
 			this.funcao_parametro = {n_instrucao: +this.configuracoes.conta_id, funcao: "Fx", parametro: "Fx_"+this.configuracoes.conta_id, id: null  }; 
@@ -188,7 +198,7 @@ constructor (configuracoes, bloco_superior, condicional, esquerda, topo, tipo, a
 		}
 	if (tipo == "repeticao" || tipo == "repeticao_exemplo") 
 		{
-			this.nome = "repete <input id='repeticao_"+this.configuracoes.conta_id+"' class='entrada' type='text' value='10' size='2'/> vezes";
+			this.nome = "repete <input id='repeticao_"+this.configuracoes.conta_id+"' class='entrada' type='text' value='10' maxlength='2' size='2'/> vezes";
 			this.background_tipo = this.configuracoes.backgroundcolor_repeticao;
 			this.elemento_parametro =  document.getElementById("repeticao_"+this.configuracoes.conta_id); 
 			this.funcao_parametro = {n_instrucao: +this.configuracoes.conta_id, funcao: "repete", parametro: "repeticao_"+this.configuracoes.conta_id, id: null  }; 
@@ -221,7 +231,7 @@ constructor (configuracoes, bloco_superior, condicional, esquerda, topo, tipo, a
 }
 
 mostra(baixo){
-	if (["delay_exemplo","va_para_x_exemplo","va_para_y_exemplo","Fy_exemplo","Fx_exemplo","repeticao_exemplo","desvio_exemplo"].includes(this.tipo)) {
+	if (["freio_exemplo","delay_exemplo","va_para_x_exemplo","va_para_y_exemplo","Fy_exemplo","Fx_exemplo","repeticao_exemplo","desvio_exemplo"].includes(this.tipo)) {
 	this.elemento_pai.appendChild(this.face);
 } else {
 	if (this.tipo == "principal") {
@@ -283,7 +293,7 @@ objetonics.configuracoes.executavel.push({n_instrucao: "nope", funcao: "nope", p
 else {
 	for (i=0; i < objetonics.instrucoes.length; i++) {
 		let instrucao = objetonics.instrucoes[i];
-		if (["Fx", "Fy", "va_para_x", "va_para_y", "delay"].includes(instrucao.tipo)){
+		if (["Fx", "Fy", "va_para_x", "va_para_y", "freio", "delay"].includes(instrucao.tipo)){ //delay precisa vir aqui?
 		objetonics.configuracoes.executavel.push(instrucao.funcao_parametro);
 		}
 		if([ "repeticao", "principal", "delay"].includes(instrucao.tipo)) {
@@ -305,6 +315,7 @@ that.configuracoes.em_execucao = true;
 if (that.configuracoes.reset) { that.configuracoes.reset = false;   clearInterval(executa); that.configuracoes.em_execucao = false; return;}
 	let instrucao = that.configuracoes.executavel[that.configuracoes.pc];
 	let carro =  that.configuracoes.movel;
+	if (instrucao.funcao == "freio") {carro.freio = parseFloat(document.getElementById(instrucao.parametro).value);}; 	
 	if (instrucao.funcao == "Fx") { carro.Fx =  parseFloat(document.getElementById(instrucao.parametro).value);}
 	if (instrucao.funcao == "Fy") { carro.Fy =  parseFloat(document.getElementById(instrucao.parametro).value);}
 	if (instrucao.funcao == "va_para_x") { carro.guarda_vx=0; carro.guarda_vy=0; carro.posicao_percentual_x =   parseInt(document.getElementById(instrucao.parametro).value);}
@@ -361,12 +372,12 @@ retorna_face(){
 		div.style.height = Math.round(parseInt(this.elemento_pai.style.height.replace("px","")) * this.configuracoes.fator_reducao) +"px" ;
 		//alert(this.elemento_pai.style.width);
 	}
-	if (["delay","va_para_x","va_para_y","Fy","Fx","repeticao","desvio"].includes(this.tipo)) {
+	if (["delay","va_para_x","va_para_y","Fy","Fx","repeticao","desvio", "freio"].includes(this.tipo)) {
 	div.style.width =  parseInt(this.elemento_pai.face.style.width.replace("px","")) *this.configuracoes.fator_reducao +"px"  ;
 	div.style.height = parseInt(this.elemento_pai.face.style.height.replace("px","")) *this.configuracoes.fator_reducao +"px" ;
 	}
 
-	if (["delay_exemplo","va_para_x_exemplo","va_para_y_exemplo","Fy_exemplo","Fx_exemplo","repeticao_exemplo","desvio_exemplo"].includes(this.tipo)) {
+	if (["delay_exemplo","va_para_x_exemplo","va_para_y_exemplo","Fy_exemplo","Fx_exemplo","repeticao_exemplo","desvio_exemplo", "freio_exemplo"].includes(this.tipo)) {
 		div.style.width = this.configuracoes.largura + "px"; 
 		div.style.height = this.configuracoes.altura + "px";
 	}

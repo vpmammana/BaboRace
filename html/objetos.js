@@ -186,8 +186,8 @@ constructor (div){
 	this.tabuleiro = div;
 	this.selecionado = null; // objeto que estah sendo programado ou controlado
 	this.pronto_para_animar=false; // espera ficar pronto para animar
-	this.guarda_atrito       = 1; // coeficiente de atrito para todos os objetos deslizantes
-	this.guarda_atrito_freio = 30;
+	this.guarda_atrito       = 2; // coeficiente de atrito para todos os objetos deslizantes
+	this.guarda_atrito_freio = 10;
 	this.objetos_em_cena = []; // todos os objetos em cena que precisam ser animados
 	this.objetos_fixos = []; // todos os objetos que nao precisam ser animados -> cenario
 	this.objetos_que_colidem = [];
@@ -238,7 +238,6 @@ let i;
 			objeto.guarda_ax = - objeto.guarda_vx * (objeto.atrito + (objeto.freio * objeto.guarda_atrito_freio));
 			objeto.guarda_vy = objeto.guarda_vy + objeto.guarda_ay * that.delta_t_simulacao;
 			objeto.guarda_ay = - objeto.guarda_vy * (objeto.atrito + (objeto.freio * objeto.guarda_atrito_freio));
-
 			if (Math.abs(objeto.guarda_vx) < 0.003) { objeto.guarda_vx = 0;} // mata um resquicio de velocidade o que vai melhorar a performance
 			if (Math.abs(objeto.guarda_vy) < 0.003) { objeto.guarda_vy = 0;}
 
@@ -266,14 +265,14 @@ let i;
 	for (i=0; i < this.objetos_em_cena.length; i++){
 		
 		let objeto = this.objetos_em_cena[i];
-		objeto.atrito = this.guarda_atrito_freio;
+		objeto.atrito_freio = this.guarda_atrito_freio;
 
 	}
 
 }
 
 get atrito_freio(){
-	return guarda_atrito_freio;
+	return this.guarda_atrito_freio;
 }
 
 set atrito_geral(valor) { // quando esta propriedade eh definida, sobescreve os atritos de todos os objetos em cena

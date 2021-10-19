@@ -39,6 +39,7 @@ input[type="text"]{
     line-height: 1em;
     display: inline-block;
     padding: 0px;
+    width: 2rem;
     border: 1px solid black;
 }
 
@@ -61,7 +62,7 @@ body{
 	box-sizing: border-box;
 	z-index: 100;
 	background-color: blue;
-	overflow: scroll;
+	overflow: hidden;
 }
 
 
@@ -152,12 +153,14 @@ body{
 <!--- <input id="botao_va_para_y" type="button" value="Va para Y" onclick="window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'va_para_y'); "> --->
 <!--- <input id="botao_reset" type="button" value="RESET" onclick="window.config.reset=true;"> --->
  --->
-<div style="float: right; width: 50%; overflow: scroll">
-<span style="color: white">
-Os botões ao lado permitem inserir comandos no código à direita. Com as setas voce pode mudar o ponto de inserção. Com o delete voce pode apagar um comando. Quando estiver com o ponto de inserção num determinado local, o comando abaixo comecará a piscar, indicando que você pode entrar no bloco com a seta à direta. Seta à esquerda sai do bloco. Delete apaga o comando ou bloco que estiver abaixo do ponto de inserção.
-O Espaco dispara o codigo.
+
+
+<input type="button" style="float: right; width: 4%; height: 40px; " value="help " onclick="alert('Os botões ao lado permitem inserir comandos no código à direita. Com as setas voce pode mudar o ponto de inserção. Com o delete voce pode apagar um comando. Quando estiver com o ponto de inserção num determinado local, o comando abaixo comecará a piscar, indicando que você pode entrar no bloco com a seta à direta. Seta à esquerda sai do bloco. Delete apaga o comando ou bloco que estiver abaixo do ponto de inserção.O Espaco dispara o codigo.')"/>
+<span style="color: white; float: right; ">
+Autor: Victor Pellegrini Mammana &nbsp
+<br>CEMADEN
 </span>
-</div>
+
 </div>
 
 <div id="principal">
@@ -397,8 +400,9 @@ window.config.movel = window.movel1;
 window.config_comandos = new configuracoes(comandos);
 window.config_comandos.topo=3;
 window.config_comandos.altura =  parseInt(document.getElementById("comandos").getBoundingClientRect().height) * 0.5;
+window.config_comandos.largura = 200;
 
-let espacamento=20;
+let espacamento=10;
 
 window.bloco_repete = new bloco(config_comandos, null, null, config_comandos.esquerda, config_comandos.topo, "repeticao_exemplo", config_comandos.altura, config_comandos.largura, config_comandos.elemento_pai);
 window.bloco_repete.face.addEventListener ("click",
@@ -430,6 +434,11 @@ window.bloco_delay.face.addEventListener ("click",
 function () {window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'delay');});
 
 window.config_comandos.esquerda = window.config_comandos.esquerda + window.config_comandos.largura + espacamento;
+window.bloco_freio = new bloco(config_comandos, null, null, config_comandos.esquerda, config_comandos.topo, "freio_exemplo", config_comandos.altura, config_comandos.largura, config_comandos.elemento_pai);
+window.bloco_freio.face.addEventListener ("click",
+function () {window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'freio');});
+
+window.config_comandos.esquerda = window.config_comandos.esquerda + window.config_comandos.largura + espacamento;
 window.bloco_desvio = new bloco(config_comandos, null, null, config_comandos.esquerda, config_comandos.topo, "desvio_exemplo", config_comandos.altura, config_comandos.largura, config_comandos.elemento_pai);
 window.bloco_desvio.face.addEventListener ("click",
 function () {alert("Este comando ainda não está disponível. Aguarde a próxima versão."); return; window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'desvio');});
@@ -444,6 +453,7 @@ bloco_va_para_y.mostra();
 bloco_Fx.mostra();
 bloco_Fy.mostra();
 bloco_delay.mostra();
+bloco_freio.mostra();
 bloco_desvio.mostra();
 
 

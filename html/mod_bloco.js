@@ -173,7 +173,7 @@ constructor (configuracoes, bloco_superior, condicional, esquerda, topo, tipo, a
 
 	if (tipo == "Fy" || tipo == "Fy_exemplo") 
 		{
-			this.nome = "Fy <input id='Fy_"+this.configuracoes.conta_id+"' class='entrada' ' style='width: 55px' maxlength='4' type='text' value='10' size='2'/> <i>(força)</i>";
+			this.nome = "Fy <input id='Fy_"+this.configuracoes.conta_id+"' class='entrada' ' style='width: 65px' maxlength='5' type='text' value='10' size='2'/> <i>(força)</i>";
 			this.background_tipo = this.configuracoes.backgroundcolor_Fy; 
 			this.elemento_parametro =  document.getElementById("Fy_"+this.configuracoes.conta_id); 
 			this.funcao_parametro = {n_instrucao: +this.configuracoes.conta_id, funcao: "Fy", parametro: "Fy_"+this.configuracoes.conta_id, id: null  }; 
@@ -181,7 +181,7 @@ constructor (configuracoes, bloco_superior, condicional, esquerda, topo, tipo, a
 		}
 	if (tipo == "Fx" || tipo == "Fx_exemplo") 
 		{
-			this.nome = "Fx <input id='Fx_"+this.configuracoes.conta_id+"' style='width: 55px' maxlength='4' class='entrada' type='text' value='10' size='2'/> <i>(força)</i>";
+			this.nome = "Fx <input id='Fx_"+this.configuracoes.conta_id+"' style='width: 65px' maxlength='5' class='entrada' type='text' value='10' size='2'/> <i>(força)</i>";
 			this.background_tipo = this.configuracoes.backgroundcolor_Fx; 
 			this.elemento_parametro =  document.getElementById("Fx_"+this.configuracoes.conta_id); 
 			this.funcao_parametro = {n_instrucao: +this.configuracoes.conta_id, funcao: "Fx", parametro: "Fx_"+this.configuracoes.conta_id, id: null  }; 

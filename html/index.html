@@ -178,7 +178,7 @@ location.search.slice(1).split("&").forEach(function(pair) {
    params[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
         whoami=decodeURIComponent(pair[1]);
 });
-alert(whoami);
+//alert(whoami);
 
 function limpa_todos_blink(config){
 let i;
@@ -407,7 +407,7 @@ programa.style.height = contem.getBoundingClientRect().height + "px";
 window.usuarios = new usuarios(whoami);
 
 window.usuarios.carrega_lista_usuarios();
-alert(window.usuarios.usuario_local.on_line);
+//alert(window.usuarios.usuario_local.on_line);
 
 while (window.usuarios.usuario_local.on_line=="in"){ // ja estah logado
 	setTimeout(

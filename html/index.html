@@ -169,6 +169,17 @@ Autor: Victor Pellegrini Mammana &nbsp
 </div>
 <script>
 
+
+var whoami;
+
+var params = {};
+location.search.slice(1).split("&").forEach(function(pair) {
+   pair = pair.split("=");
+   params[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+        whoami=decodeURIComponent(pair[1]);
+});
+
+
 function limpa_todos_blink(config){
 let i;
 
@@ -317,6 +328,7 @@ document.getElementById("principal").addEventListener("focusout", function (e) {
 	import { controle_geral } from "./objetos.js";
 	import { configuracoes } from "./mod_bloco.js";
 	import { bloco } from "./mod_bloco.js";
+	import { usuarios } from "./usuarios.js";
 
 function insere_bloco(objeto, tipo){
 
@@ -391,6 +403,21 @@ programa.style.height = contem.getBoundingClientRect().height + "px";
 //alert(contem.getBoundingClientRect().width);
 //contem.style.width = programa.offsetWidth + "px";
 //contem.style.height = programa.offsetHeight; 
+
+window.usuarios = new usuarios(whoami);
+
+window.usuarios.carrega_lista_usuarios();
+
+while (window.usuarios.login() == false) {
+//	setTimeout(
+//function (){
+	if (confirm("O usuário "+whoami+" já está logado. Quer tentar mais uma vez?"))
+	{}
+	else
+	{throw new Error();  }
+//}, 5000);	
+}
+
 window.config = new configuracoes(programa);
 window.bloco1 = new bloco(config, null, null, config.esquerda, config.topo, "principal", config.altura, config.largura, config.elemento_pai);
 window.config.movel = window.movel1;

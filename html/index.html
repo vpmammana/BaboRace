@@ -178,7 +178,7 @@ location.search.slice(1).split("&").forEach(function(pair) {
    params[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
         whoami=decodeURIComponent(pair[1]);
 });
-
+alert(whoami);
 
 function limpa_todos_blink(config){
 let i;
@@ -407,9 +407,9 @@ programa.style.height = contem.getBoundingClientRect().height + "px";
 window.usuarios = new usuarios(whoami);
 
 window.usuarios.carrega_lista_usuarios();
+alert(window.usuarios.usuario_local.on_line);
 
-
-while (this.usuario_local.on_line=="in"){ // ja estah logado
+while (window.usuarios.usuario_local.on_line=="in"){ // ja estah logado
 	setTimeout(
 function (){
 	if (confirm("O usuário "+whoami+" já está logado. Quer tentar mais uma vez?"))
@@ -418,7 +418,7 @@ function (){
 	{throw new Error();  }
 }, 5000);
 
-this.usuario_local =this.usuario.autenticando;
+window.usuarios.usuario_local =window.usuarios.usuario.autenticando;
 
 }
 

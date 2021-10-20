@@ -26,7 +26,7 @@ set autenticando(valor){
 }
 
 get autenticando(){
-this.carrega_dados_usuarios(this.apelido);
+this.carrega_dados_usuario(this.apelido);
 return  this.guarda_autenticando;
 
 }

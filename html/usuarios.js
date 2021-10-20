@@ -1,7 +1,11 @@
 class usuario{
 constructor(apelido){
+	this.apelido = apelido;
 	this.carrega_dados_usuario(apelido);
 }
+
+
+
 
 carrega_dados_usuario(apelido){
 
@@ -12,9 +16,19 @@ let that=this;
 oReq.open("GET", url, false);
 oReq.onload = function (e) {
           resposta = oReq.responseText;
-	  that.autenticando = JSON.parse(resposta);
+	  that.guarda_autenticando = JSON.parse(resposta);
           }
 oReq.send();
+}
+
+set autenticando(valor){
+ 	this.guarda_autenticando = valor;
+}
+
+get autenticando(){
+this.carrega_dados_usuarios(this.apelido);
+return  this.guarda_autenticando;
+
 }
 
 }
@@ -56,11 +70,7 @@ oReq.send();
 
 login(){
 
-this.usuario_local = this.usuario.carrega_dados_usuario(this.apelido);
 
-if (this.usuario_local.on_line=="in") { // ja estah logado
-return false;
-}
 
 var resposta = "";
 var url = '../php/login_usuario.php?id_usuario='+this.usuario_local.id+'&operacao=in';
@@ -69,17 +79,14 @@ var oReq = new XMLHttpRequest();
 oReq.open("GET", url, false);
 oReq.onload = function (e) {
           resposta = oReq.responseText;
-	  if (resposta=="sucesso") { return true;}
-	  else { return false;}
+//	  if (resposta=="sucesso") { return true;}
+//	  else { return false;}
           }
 oReq.send();
 }
 
 logout(){
 
-if (this.usuario_local.on_line=="in") { // ja estah logado
-return false;
-}
 
 var resposta = "";
 var url = '../php/login_usuario.php?usuario='+this.usuario_local.id+'&operacao=out';

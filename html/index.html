@@ -408,15 +408,23 @@ window.usuarios = new usuarios(whoami);
 
 window.usuarios.carrega_lista_usuarios();
 
-while (window.usuarios.login() == false) {
-//	setTimeout(
-//function (){
+
+while (this.usuario_local.on_line=="in"){ // ja estah logado
+	setTimeout(
+function (){
 	if (confirm("O usuário "+whoami+" já está logado. Quer tentar mais uma vez?"))
 	{}
 	else
 	{throw new Error();  }
-//}, 5000);	
+}, 5000);
+
+this.usuario_local =this.usuario.autenticando;
+
 }
+
+
+window.usuarios.login();
+	
 
 window.config = new configuracoes(programa);
 window.bloco1 = new bloco(config, null, null, config.esquerda, config.topo, "principal", config.altura, config.largura, config.elemento_pai);

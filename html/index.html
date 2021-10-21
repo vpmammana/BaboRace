@@ -410,16 +410,11 @@ window.usuarios.carrega_lista_usuarios();
 //alert(window.usuarios.usuario_local.on_line);
 
 while (window.usuarios.usuario_local.on_line=="in"){ // ja estah logado
-	setTimeout(
-function (){
 	if (confirm("O usuário "+whoami+" já está logado. Quer tentar mais uma vez?"))
 	{}
 	else
 	{throw new Error();  }
-}, 5000);
-
 window.usuarios.usuario_local =window.usuarios.usuario.autenticando;
-
 }
 
 

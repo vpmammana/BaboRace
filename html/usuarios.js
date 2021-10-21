@@ -69,11 +69,10 @@ oReq.send();
 }
 
 login(){
-
-
-
+alert("oi");
 var resposta = "";
 var url = '../php/login_usuario.php?id_usuario='+this.usuario_local.id+'&operacao=in';
+alert(url);
 var oReq = new XMLHttpRequest();
 
 oReq.open("GET", url, false);

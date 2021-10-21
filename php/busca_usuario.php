@@ -26,7 +26,7 @@ if ($result->num_rows == 1) {
       $fantasia=$row["nome_fantasia"];
       $movel=$row["nome_movel"];
     }
-   $arr = array('nome' => $nome, 'movel' => $movel,'fantasia' => $fantasia, 'on_line' => $on_line );
+   $arr = array('id' => $id, 'nome' => $nome, 'movel' => $movel,'fantasia' => $fantasia, 'on_line' => $on_line );
 echo json_encode($arr);
 } else {echo 'Deu Problema: Numero de linhas deveria ser 1 e é '.$result->num_rows.' além disso retornou: '.$conn->error;}
 ?>

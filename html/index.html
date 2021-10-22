@@ -328,6 +328,7 @@ document.getElementById("principal").addEventListener("focusout", function (e) {
 	import { configuracoes } from "./mod_bloco.js";
 	import { bloco } from "./mod_bloco.js";
 	import { usuarios } from "./usuarios.js";
+	import { websocketa } from "./websocketa.js";
 
 function insere_bloco(objeto, tipo){
 
@@ -346,8 +347,9 @@ function () {
 window.controle = new controle_geral(document.getElementById("principal")); // principal eh onde estah o tabuleiro
 window.controle.espacamento_superior = document.getElementById("comandos").clientHeight; 
 window.controle.palco.carrega_json_cenario(); // palco eh onde estah o tabuleiro
-   
-
+window.conexao_socket = new websocketa();
+window.conexao_socket.controle = window.controle;
+window.controle.socket = window.conexao_socket;
 
 setTimeout(function (){
 	window.usuarios = new usuarios(whoami);
@@ -372,22 +374,32 @@ window.usuarios.usuarios[window.usuarios.usuario_local.id].online = "in";
 setTimeout(
 function (){
 let i=0;
+let objeto_em_cena;
 for (let key in window.usuarios.usuarios)
 {
  if (Object.prototype.hasOwnProperty.call(window.usuarios.usuarios, key)) {
  if (key != "length") {
 //		let objeto_em_cena = window.controle.objetos_em_cena[i];
 		let userman = window.usuarios.usuarios[key];
+console.log("userman");
+console.log(userman);
 		if (userman.online == "in") 
 {
-		console.log("vem userman "+key);
-		console.log(userman);
-		let objeto_em_cena = new movel("movel_"+userman.id, userman.imagem, userman.nome_fantasia, window.controle, "movel", "img","falta_algoritmo_para_sofre_colisao");
 		let primeira_fantasia = userman.id_fantasia;
-		console.log("vem objeto_em_cena");
-		console.log(objeto_em_cena);
-		console.log("userma.id -> "+ window.usuarios.usuario_local.id);
-		if (userman.id_usuario == window.usuarios.usuario_local.id) { window.controle.selecionado = objeto_em_cena; window.controle.central = objeto_em_cena;  }
+		if (userman.id_usuario == window.usuarios.usuario_local.id) 
+			{ 
+				objeto_em_cena = new movel("movel_"+userman.id, userman.imagem, userman.nome_fantasia, window.controle, "movel", "img","falta_algoritmo_para_sofre_colisao");
+				//objeto_em_cena.usuario=
+				window.controle.selecionado = objeto_em_cena; 
+				window.controle.central = objeto_em_cena;  
+			}
+			else
+			{
+				objeto_em_cena = new movel("remoto_"+userman.id, userman.imagem, userman.nome_fantasia, window.controle, "remoto", "img","falta_algoritmo_para_sofre_colisao");
+			}
+		objeto_em_cena.usuario = userman.nome_registrado;
+		objeto_em_cena.id_fantasia = userman.id_fantasia;
+		objeto_em_cena.id_usuario = userman.id_usuario;
 		objeto_em_cena.largura_percentual = window.controle.largura_inicial_percentual;
       		objeto_em_cena.altura_percentual = window.controle.altura_inicial_percentual;
 		for (let key2 in window.usuarios.lista_de_fantasias[userman.id_usuario]){

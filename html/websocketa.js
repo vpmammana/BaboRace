@@ -12,6 +12,7 @@ export class websocketa{
 
 constructor (){
 	this.websocket_aberto = false;
+	this.controle = null;
 	this.config_socket = new config_socket();
 	this.conn_websocket = new WebSocket("ws://"+this.config_socket.ip+":"+this.config_socket.port);
 	let that=this;
@@ -27,8 +28,26 @@ constructor (){
 
 } // fim constructor websocketa
 
+posiciona(usuario, id_usuario, x, y){
+
+let i;
+
+for (i=0; i < this.controle.objetos_remotos.length; i++){
+	let objeto = this.controle.objetos_remotos[i];
+	if (objeto.id_usuario == id_usuario){
+		objeto.posicao_percentual_x = x;
+		objeto.posicao_percentual_y = y;
+	}
+}
+
+}
+
 trata_mensagem(){
-	alert(this.mensagem_recebida);		
+	let msg_json = JSON.parse(this.mensagem_recebida);
+	if (msg_json.tipo = "pos") {
+		this.posiciona(msg_json.user, msg_json.id_u, msg_json.x, msg_json.y);
+	}
+//	alert(this.mensagem_recebida);		
 } // fim trata_mensagem
 
 manda_mensagem(mensagem){

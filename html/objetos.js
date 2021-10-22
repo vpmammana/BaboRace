@@ -182,7 +182,7 @@ constructor (div){
 	this.posicao_inicial_percentual_y = 82;
 	this.largura_inicial_percentual = 3;
 	this.altura_inicial_percentual = 3;
-
+	this.socket = null;
 	this.forca_x = 100;
 	this.forca_y = 100;
 	this.auto_increment=0; // usado para gerar ids
@@ -195,6 +195,7 @@ constructor (div){
 	this.guarda_atrito_freio = 10;
 	this.objetos_em_cena = []; // todos os objetos em cena que precisam ser animados
 	this.objetos_fixos = []; // todos os objetos que nao precisam ser animados -> cenario
+	this.objetos_remotos = []; // todos os moveis vinculados a usuarios que tem a posicao definida por clientes remotos
 	this.objetos_que_colidem = [];
 	this.delta_t_animacao=100; // tempo de repeticao do algoritmo de anomacao (setInterval)
 	this.delta_t_simulacao= 0.01; // tempo de simulacao
@@ -247,6 +248,7 @@ let i;
 			if (Math.abs(objeto.guarda_vy) < 0.003) { objeto.guarda_vy = 0;}
 
 			if ( objeto.guarda_vx !=0 || objeto.guarda_vy !=0 ) { // para otimizar performance
+				that.socket.msg_posicao(objeto.usuario, objeto.id_usuario, objeto.id_fantasia, objeto.posicao_percentual_x, objeto.posicao_percentual_y);
 				objeto.velho_x = parseInt(objeto.lista_de_fantasias[objeto.fantasia -1].style.left.replace("px","")); // importante para a colisao: vai determinar a direcao do "ricochete"
 				objeto.velho_y = parseInt(objeto.lista_de_fantasias[objeto.fantasia -1].style.top.replace("px",""));
 	
@@ -466,6 +468,9 @@ constructor (id, arquivo, nome_fantasia, controle, tipo_objeto, tipo_tag, sofre_
 	this.controle = controle;
 	this.automatiza=null;
 	this.automatiza_giros=null;
+	this.usuario = "";
+	this.id_fantasia = -1;
+	this.id_usuario = -1;
 	
 	this.guarda_rotacao = 0;
 
@@ -524,6 +529,8 @@ constructor (id, arquivo, nome_fantasia, controle, tipo_objeto, tipo_tag, sofre_
 	this.tipo_objeto = tipo_objeto;
 	this.sofre_colisao = sofre_colisao;
 	//console.log("colisaoi2: "+sofre_colisao);
+	
+	if (this.tipo_objeto == "remoto")   { this.controle.objetos_remotos.push(this);}
 	if (this.tipo_objeto == "movel")   { this.controle.objetos_em_cena.push(this);}
 	if (this.tipo_objeto == "fixo") { this.controle.objetos_fixos.push(this);}
 	if (this.sofre_colisao == "sofre_colisao") { let temp = this.controle.objetos_que_colidem.push(this);

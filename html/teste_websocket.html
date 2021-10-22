@@ -1,0 +1,26 @@
+
+<html>
+	<head>
+		<title>
+
+		</title>
+	</head>
+	<style>
+	</style>
+
+<body>
+<input type="button" value="posicao" onclick="window.conexao_socket.msg_posicao();"/>
+<input type="button" value="login" onclick="window.conexao_socket.msg_login();"/>
+<input type="button" value="login" onclick="window.conexao_socket.msg_logout();"/>
+<script>
+</script>
+<script type="module">
+	import { websocketa } from "./websocketa.js";
+	window.conexao_socket = new websocketa();
+</script>
+</body>
+</html>
+
+
+
+

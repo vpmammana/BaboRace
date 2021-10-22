@@ -311,9 +311,8 @@ if ( parseInt(programa.style.ponto_de_insercao.face.style.top.replace("px","")) 
 function acao(){
 
 
-window.movel1.desliza(0.1,0,300); 
+window.controle.selecionado.desliza(0.1,0,300); 
 
-window.movel2.desliza(-0.1,0,295); 
 
 //window.movel1.gira(1,2000)
 
@@ -344,51 +343,99 @@ window.insere_bloco = insere_bloco;
 window.addEventListener("load", 
 function () {
 
-window.controle = new controle_geral(document.getElementById("principal"));
-window.controle.espacamento_superior = document.getElementById("comandos").clientHeight;
-window.controle.palco.carrega_json_cenario();
+window.controle = new controle_geral(document.getElementById("principal")); // principal eh onde estah o tabuleiro
+window.controle.espacamento_superior = document.getElementById("comandos").clientHeight; 
+window.controle.palco.carrega_json_cenario(); // palco eh onde estah o tabuleiro
    
-setTimeout(function (){
-   window.movel1 = new movel("amarelo", "../fantasias/carrinho_amarelo1.png", "fantasia1", window.controle, "movel", "img","falta_algoritmo_para_sofre_colisao");
-}, 1000);
-
-setTimeout(function (){
-        window.movel2 = new movel("vermelho", "../fantasias/carrinho_vermelho1.png", "fantasia1", window.controle, "movel", "img","fata_algoritmo_para_sofre_colisao");
-}, 1500);
 
 
 setTimeout(function (){
-	
-	window.movel1.largura_percentual=3;
-	window.movel1.altura_percentual=3;
+	window.usuarios = new usuarios(whoami);
 
-	window.movel1.acrescenta_fantasia("../fantasias/carrinho_amarelo2.png", "fantasia2");
-	window.movel1.acrescenta_fantasia("../fantasias/carrinho_amarelo3.png", "fantasia3");
-	window.movel1.acrescenta_fantasia("../fantasias/carrinho_amarelo4.png", "fantasia4");
-	//window.movel1.acrescenta_fantasia("../fantasias/carrinho_vermelho1.png", "fantasia4");
-    console.log(window.movel1)
+window.usuarios.carrega_lista_usuarios();
+//alert(window.usuarios.usuario_local.on_line);
+
+while (window.usuarios.usuario_local.on_line=="in"){ // ja estah logado
+	if (confirm("O usuário "+whoami+" já está logado. Quer tentar mais uma vez?"))
+	{}
+	else
+	{throw new Error();  }
+window.usuarios.usuario_local =window.usuarios.usuario.autenticando;
+}
+console.log("usuario_local");
+console.log(window.usuarios.usuario_local);
+
+window.usuarios.login();
+window.usuarios.usuarios[window.usuarios.usuario_local.id].online = "in";
+}, 2000);
+
+setTimeout(
+function (){
+let i=0;
+for (let key in window.usuarios.usuarios)
+{
+ if (Object.prototype.hasOwnProperty.call(window.usuarios.usuarios, key)) {
+ if (key != "length") {
+//		let objeto_em_cena = window.controle.objetos_em_cena[i];
+		let userman = window.usuarios.usuarios[key];
+		if (userman.online == "in") 
+{
+		console.log("vem userman "+key);
+		console.log(userman);
+		let objeto_em_cena = new movel("movel_"+userman.id, userman.imagem, userman.nome_fantasia, window.controle, "movel", "img","falta_algoritmo_para_sofre_colisao");
+		let primeira_fantasia = userman.id_fantasia;
+		console.log("vem objeto_em_cena");
+		console.log(objeto_em_cena);
+		console.log("userma.id -> "+ window.usuarios.usuario_local.id);
+		if (userman.id_usuario == window.usuarios.usuario_local.id) { window.controle.selecionado = objeto_em_cena; window.controle.central = objeto_em_cena;  }
+		objeto_em_cena.largura_percentual = window.controle.largura_inicial_percentual;
+      		objeto_em_cena.altura_percentual = window.controle.altura_inicial_percentual;
+		for (let key2 in window.usuarios.lista_de_fantasias[userman.id_usuario]){
+			 if (Object.prototype.hasOwnProperty.call(window.usuarios.lista_de_fantasias[userman.id_usuario], key2)) {
+			 if (key2 != "length") {
+				let fantasy = 	window.usuarios.lista_de_fantasias[userman.id_usuario][key2];
+				if (fantasy.id_fantasia != primeira_fantasia) {objeto_em_cena.acrescenta_fantasia(fantasy.imagem, fantasy.nome_fantasia);}
+			 }
+
+		}
+		i++;
+ }
+}
+}
+
+//   window.movel1 = new movel("amarelo", "../fantasias/carrinho_amarelo1.png", "fantasia1", window.controle, "movel", "img","falta_algoritmo_para_sofre_colisao");
+//   window.movel2 = new movel("vermelho", "../fantasias/carrinho_vermelho1.png", "fantasia1", window.controle, "movel", "img","fata_algoritmo_para_sofre_colisao");
+
+}
+}
+}
+, 2500
+);
+
+//setTimeout(
+//function () {
+//
+//
+//	window.movel1.acrescenta_fantasia("../fantasias/carrinho_amarelo2.png", "fantasia2");
+//	window.movel1.acrescenta_fantasia("../fantasias/carrinho_amarelo3.png", "fantasia3");
+//	window.movel1.acrescenta_fantasia("../fantasias/carrinho_amarelo4.png", "fantasia4");
+//	//window.movel1.acrescenta_fantasia("../fantasias/carrinho_vermelho1.png", "fantasia4");
+//    console.log(window.movel1)
 //	window.movel1.posicao_percentual_x=10;
 //	window.movel1.posicao_percentual_y=90;
-
-	window.movel2.largura_percentual=3;
-	window.movel2.altura_percentual=3;
-	//window.movel1.acrescenta_em_detecao(window.movel2);
-	window.movel2.posicao_percentual_x=20;
-	window.movel2.posicao_percentual_y=90;
-
-
-
-	
-	},2000);
+//	window.movel2.largura_percentual=3;
+//	window.movel2.altura_percentual=3;
+//	//window.movel1.acrescenta_em_detecao(window.movel2);
+//	window.movel2.posicao_percentual_x=20;
+//	window.movel2.posicao_percentual_y=90;
+//},3000);
 
 setTimeout(function (){
 	//alert(window.movel1.estado_prop);
-	if (window.movel1.estado_prop == "falhou"){
-	alert("Não foi possível carregar o arquivo: "+window.movel1.fantasia.src);
+	if (window.controle.central.estado_prop == "falhou"){
+	alert("Não foi possível carregar o arquivo: "+window.controle.central.fantasia.src);
 	throw new Error ('Não foi possível ler o arquivo de imagem');
 	}
-	window.controle.selecionado = window.movel1; // eh o clicado (veja evento click)
-	window.controle.central = window.movel1;
 
 	window.controle.inicia_animacao();
 
@@ -404,28 +451,13 @@ programa.style.height = contem.getBoundingClientRect().height + "px";
 //contem.style.width = programa.offsetWidth + "px";
 //contem.style.height = programa.offsetHeight; 
 
-window.usuarios = new usuarios(whoami);
-
-window.usuarios.carrega_lista_usuarios();
-//alert(window.usuarios.usuario_local.on_line);
-
-while (window.usuarios.usuario_local.on_line=="in"){ // ja estah logado
-	if (confirm("O usuário "+whoami+" já está logado. Quer tentar mais uma vez?"))
-	{}
-	else
-	{throw new Error();  }
-window.usuarios.usuario_local =window.usuarios.usuario.autenticando;
-}
-
-
-window.usuarios.login();
 	
 
 window.config = new configuracoes(programa);
 window.bloco1 = new bloco(config, null, null, config.esquerda, config.topo, "principal", config.altura, config.largura, config.elemento_pai);
-window.config.movel = window.movel1;
-	window.movel1.posicao_percentual_x=10; // sempre posicione o movel depois do config
-	window.movel1.posicao_percentual_y=90;
+window.config.movel = window.controle.central;
+	window.controle.central.posicao_percentual_x=window.controle.posicao_inicial_percentual_x; // sempre posicione o movel depois do config
+	window.controle.central.posicao_percentual_y=window.controle.posicao_inicial_percentual_y + window.controle.objetos_em_cena.indexOf(window.controle.central);
 
 window.config_comandos = new configuracoes(comandos);
 window.config_comandos.topo=3;
@@ -488,7 +520,7 @@ bloco_desvio.mostra();
 
 
 
-	},2500);
+	},3500);
 });
 						//window.movel1.posiciona_percentual(50,50);
     </script>

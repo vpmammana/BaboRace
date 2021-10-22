@@ -178,6 +178,11 @@ return intersect(this.matriz_colisao_x[x], this.matriz_colisao_y[y]);
 export class controle_geral {
 
 constructor (div){
+	this.posicao_inicial_percentual_x = 10;
+	this.posicao_inicial_percentual_y = 82;
+	this.largura_inicial_percentual = 3;
+	this.altura_inicial_percentual = 3;
+
 	this.forca_x = 100;
 	this.forca_y = 100;
 	this.auto_increment=0; // usado para gerar ids

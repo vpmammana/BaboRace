@@ -11,7 +11,8 @@ $database="baboracex";
 $conn= new mysqli("localhost", $username, $pass, $database);
 $arr=array();
 
-$sql="select  row_number() over (order by id_chave_registrado) as ordem, id_chave_registrado as id, nome_on_line as on_line, nome_registrado, nome_movel from registrados as r, moveis as m,  tipos_operacoes_on_line where r.id_movel = id_chave_movel and id_on_line = id_chave_tipo_operacao_on_line;";
+$sql="select id_chave_registrado, nome_registrado, id_chave_movel, nome_movel, nome_on_line, id_fantasia, nome_fantasia, photo_filename_fantasia, ordem from fantasias as f, moveis as m, registrados as r, moveis_fantasias as mf, tipos_operacoes_on_line where id_chave_movel = r.id_movel and mf.id_movel = id_chave_movel and mf.id_fantasia = id_chave_fantasia and id_on_line=id_chave_tipo_operacao_on_line order by nome_registrado, ordem
+";
 
 
 $result=$conn->query("$sql");
@@ -20,12 +21,17 @@ $result=$conn->query("$sql");
 if ($result->num_rows >0) {
   while($row=$result->fetch_assoc())
     {
-      $ordem=$row["ordem"];
-      $id=$row["id"];
-      $nome=$row["nome_registrado"];
-      $movel=$row["nome_movel"];
-      $on_line=$row["on_line"];
-   array_push($arr,array('ordem' => $ordem, 'id'=> $id , 'nome' => $nome, 'movel' => $movel, 'on_line' => $on_line));
+      $id_usuario = $row["id_chave_registrado"];
+      $nome_registrado = $row["nome_registrado"];
+      $id_movel = $row["id_chave_movel"];
+      $nome_movel = $row["nome_movel"];
+      $online = $row["nome_on_line"];
+      $id_fantasia = $row["id_fantasia"];
+      $nome_fantasia = $row["nome_fantasia"];
+      $imagem = $row["photo_filename_fantasia"];
+      $ordem = $row["ordem"];
+      
+   array_push($arr,array('id_usuario' => $id_usuario, 'nome_registrado' => $nome_registrado, 'id_movel'=> $id_movel , 'nome_movel' => $nome_movel, 'online' => $online, 'id_fantasia' => $id_fantasia ,'nome_fantasia' => $nome_fantasia, 'imagem'=> $imagem, 'ordem' => $ordem));
     }
 
 $final = array('lista' => $arr);

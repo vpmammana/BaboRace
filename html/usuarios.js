@@ -40,7 +40,8 @@ constructor (whoami){
 	this.numero_maximo_usuarios = 30;
 	this.usuario = new usuario(whoami); // carrega os dados do usuario que estah tentando autenticar
 	this.usuario_local = this.usuario.autenticando;
-	this.usuarios_remotos = [];
+	this.usuarios = {};
+	this.lista_de_fantasias = {};
 }
 
 inicializa_lista_usuarios_remotos(){
@@ -50,9 +51,41 @@ inicializa_lista_usuarios_remotos(){
 	}
 }
 
+carrega_json_na_matriz(matriz_destino, matriz_origem){
+
+let i;
+
+for (i=0; i < matriz_origem.length; i++){
+	let elemento = matriz_origem[i];
+	matriz_destino[elemento.id_usuario] = elemento;
+}
+}
+
+carrega_lista_fantasias(id_usuario){
+
+var resposta = "";
+var url = '../php/busca_lista_de_fantasias.php?id_usuario='+id_usuario;
+var oReq = new XMLHttpRequest();
+
+let that=this;
+oReq.open("GET", url, false);
+oReq.onload = function (e) {
+		resposta = oReq.responseText;
+		let resposta2=JSON.parse(resposta);
+		console.log("id_usuario -> "+id_usuario + " resposta -> "+ resposta);
+		console.log(resposta2);
+		that.lista_de_fantasias[id_usuario] = resposta2;
+}
+oReq.send();
+}
+
+
+
+
+
 carrega_lista_usuarios(){
 
-this.usuarios_remotos.length = 0;
+this.usuarios.length = 0;
 var resposta = "";
 var url = '../php/busca_lista_de_usuarios.php';
 var oReq = new XMLHttpRequest();
@@ -61,10 +94,19 @@ let that=this;
 oReq.open("GET", url, false);
 oReq.onload = function (e) {
 		resposta = oReq.responseText;
-		that.usuarios_remotos=JSON.parse(resposta);
-		console.log(that.usuarios_remotos);
-		
-	}
+		let resposta2=JSON.parse(resposta);
+		that.carrega_json_na_matriz(that.usuarios, resposta2);
+		console.log(that.usuarios);
+		that.debug = resposta2;
+	for (var key in that.usuarios) {
+	    if (Object.prototype.hasOwnProperty.call(that.usuarios, key)) {
+		if (key != "length") {that.carrega_lista_fantasias(that.usuarios[key].id_usuario);}
+        // use val
+    }
+}
+	
+//		that.usuarios.forEach( function(elemento, indice) {that.carrega_lista_fantasias(indice);});
+			}
 oReq.send();
 }
 

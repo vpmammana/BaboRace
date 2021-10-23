@@ -13,6 +13,12 @@
 	</head>
 <style>
 
+.exemplo {
+	position: absolute;
+box-sizing: border-box ;
+
+}
+
 img {
 	display: block;
 }
@@ -121,7 +127,7 @@ body{
 <div id="comandos">
 <!---<table width="10%" cellspacing="0">--->
 <!---	<tr>--->
-<!---		<td><input type="button" value="Gira Móvel" onclick="window.controle.selecionado.gira(document.getElementById('delta_graus').value,document.getElementById('passos').value);"></td>--->
+<!---		<td><input type="button" value="Gira MÃ³vel" onclick="window.controle.selecionado.gira(document.getElementById('delta_graus').value,document.getElementById('passos').value);"></td>--->
 <!---		<td><input id="delta_graus" size="4" type="text"  placeholder="delta_graus"></td>--->
 <!---		<td><input id="passos" type="text" size="4" placeholder="passos"></td>--->
 <!---		<td width="30px"></td>--->
@@ -129,7 +135,7 @@ body{
 <!---		<td><input type="button" value="Impulso X" onclick="window.controle.selecionado.Fx = document.getElementById('impulso_X').value;"></td>--->
 <!---		<td><input id="impulso_X" type="text" size="4" placeholder="impulso_X"></td>--->
 <!---		<td><input type="button" value="Para o Giro" onclick="window.controle.selecionado.para_giro();"></td><td></td><td></td>--->
-<!---		<td><input type="button" value="Ação" onclick="acao();"></td><td></td><td></td>--->
+<!---		<td><input type="button" value="AÃ§Ã£o" onclick="acao();"></td><td></td><td></td>--->
 <!---	</tr>--->
 <!---	<tr>--->
 <!---		<td><input type="button" value="Deslizar" onclick="window.controle.selecionado.desliza( document.getElementById('x_percentual').value, document.getElementById('y_percentual').value, document.getElementById('passos_posicao').value);"></td>--->
@@ -152,10 +158,9 @@ body{
 <!--- <input id="botao_va_para_x" type="button" value="Va para X" onclick="window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'va_para_x'); "> --->
 <!--- <input id="botao_va_para_y" type="button" value="Va para Y" onclick="window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'va_para_y'); "> --->
 <!--- <input id="botao_reset" type="button" value="RESET" onclick="window.config.reset=true;"> --->
- --->
 
 
-<input type="button" style="float: right; width: 4%; height: 40px; " value="help " onclick="alert('Os botões ao lado permitem inserir comandos no código à direita. Com as setas voce pode mudar o ponto de inserção. Com o delete voce pode apagar um comando. Quando estiver com o ponto de inserção num determinado local, o comando abaixo comecará a piscar, indicando que você pode entrar no bloco com a seta à direta. Seta à esquerda sai do bloco. Delete apaga o comando ou bloco que estiver abaixo do ponto de inserção.O Espaco dispara o codigo.')"/>
+<input type="button" style="float: right; width: 4%; height: 40px; " value="help " onclick="alert('Os botÃµes ao lado permitem inserir comandos no cÃ³digo Ã  direita. Com as setas voce pode mudar o ponto de inserÃ§Ã£o. Com o delete voce pode apagar um comando. Quando estiver com o ponto de inserÃ§Ã£o num determinado local, o comando abaixo comecarÃ¡ a piscar, indicando que vocÃª pode entrar no bloco com a seta Ã  direta. Seta Ã  esquerda sai do bloco. Delete apaga o comando ou bloco que estiver abaixo do ponto de inserÃ§Ã£o.O Espaco dispara o codigo.')"/>
 <span style="color: white; float: right; ">
 Autor: Victor Pellegrini Mammana &nbsp
 <br>CEMADEN
@@ -179,6 +184,58 @@ location.search.slice(1).split("&").forEach(function(pair) {
         whoami=decodeURIComponent(pair[1]);
 });
 //alert(whoami);
+
+function ajusta_tamanho_do_exemplo(container, exemplo_entrada, borda_str){
+
+let altura = parseInt(container.getBoundingClientRect().height);
+let borda =parseInt(borda_str.replace("px","")) / 1.5;
+let exemplo = exemplo_entrada.children[0].children[0];
+
+console.log(exemplo);
+console.log(exemplo.innerHTML);
+console.log(exemplo.getBoundingClientRect().height);
+console.log(exemplo.parentElement);
+console.log(exemplo.parentElement.parentElement);
+	exemplo.style.display = "block";
+	exemplo.style.visibility = "visible";
+	exemplo.style.fontSize = altura *0.4 + "px"; 	
+	exemplo.parentElement.style.top = "0px";
+	exemplo.parentElement.style.padding = "0px";
+	exemplo.parentElement.style.height = exemplo.style.fontSize;
+	exemplo.parentElement.parentElement.style.height = exemplo.getBoundingClientRect().height + "px";
+	exemplo.style.top="0px";
+	exemplo.parentElement.style.width = exemplo.getBoundingClientRect().width + borda + "px";
+
+	exemplo.parentElement.parentElement.style.width = exemplo.parentElement.style.width;
+	return parseInt(exemplo.parentElement.parentElement.style.width.replace("px","")) + borda;	
+
+
+}
+
+function ajusta_tamanho_de_todos_exemplos(container){
+
+let exemplos = document.getElementsByClassName("exemplo");
+let i;
+let altura = parseInt(container.getBoundingClientRect().height);
+
+for (i=0; i < exemplos.length; i++){
+	exemplo = exemplos[i];
+	exemplo.style.fontSize = altura *0.3 + "px"; 	
+	exemplo.style.display = "block";
+	exemplo.style.visibility = "visible";
+	exemplo.parentElement.style.top = "0px";
+	exemplo.parentElement.style.padding = "0px";
+	exemplo.parentElement.style.height = exemplo.style.fontSize;
+	exemplo.parentElement.parentElement.style.height = exemplo.getBoundingClientRect().height + "px";
+	exemplo.style.top="0px";
+	exemplo.parentElement.style.width = exemplo.getBoundingClientRect().width + "px";
+
+	exemplo.parentElement.parentElement.style.width = exemplo.parentElement.style.width;
+	
+}
+
+
+}
 
 function limpa_todos_blink(config){
 let i;
@@ -358,11 +415,8 @@ window.usuarios.carrega_lista_usuarios();
 //alert(window.usuarios.usuario_local.on_line);
 
 while (window.usuarios.usuario_local.on_line=="in"){ // ja estah logado
-	if (confirm("O usuário "+whoami+" já está logado. Quer tentar mais uma vez?"))
-	{}
-	else
-	{throw new Error();  }
-window.usuarios.usuario_local =window.usuarios.usuario.autenticando;
+	alert("O usuÃ¡rio "+whoami+" jÃ¡ estÃ¡ logado. Quer tentar mais uma vez?");
+	window.usuarios.usuario_local =window.usuarios.usuario.autenticando;
 }
 console.log("usuario_local");
 console.log(window.usuarios.usuario_local);
@@ -445,8 +499,8 @@ console.log(userman);
 setTimeout(function (){
 	//alert(window.movel1.estado_prop);
 	if (window.controle.central.estado_prop == "falhou"){
-	alert("Não foi possível carregar o arquivo: "+window.controle.central.fantasia.src);
-	throw new Error ('Não foi possível ler o arquivo de imagem');
+	alert("NÃ£o foi possÃ­vel carregar o arquivo: "+window.controle.central.fantasia.src);
+	throw new Error ('NÃ£o foi possÃ­vel ler o arquivo de imagem');
 	}
 
 	window.controle.inicia_animacao();
@@ -481,55 +535,63 @@ let espacamento=10;
 window.bloco_repete = new bloco(config_comandos, null, null, config_comandos.esquerda, config_comandos.topo, "repeticao_exemplo", config_comandos.altura, config_comandos.largura, config_comandos.elemento_pai);
 window.bloco_repete.face.addEventListener ("click",
 function () {window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'repeticao');});
+bloco_repete.mostra();
+window.config_comandos.largura = ajusta_tamanho_do_exemplo(comandos, window.bloco_repete.face, window.config_comandos.borderradius);
 
 window.config_comandos.esquerda = window.config_comandos.esquerda + window.config_comandos.largura + espacamento;
 window.bloco_va_para_x = new bloco(config_comandos, null, null, config_comandos.esquerda, config_comandos.topo, "va_para_x_exemplo", config_comandos.altura, config_comandos.largura, config_comandos.elemento_pai);
 window.bloco_va_para_x.face.addEventListener ("click",
 function () {window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'va_para_x');});
+bloco_va_para_x.mostra();
+window.config_comandos.largura = ajusta_tamanho_do_exemplo(comandos, window.bloco_va_para_x.face, window.config_comandos.borderradius);
 
 window.config_comandos.esquerda = window.config_comandos.esquerda + window.config_comandos.largura + espacamento;
 window.bloco_va_para_y = new bloco(config_comandos, null, null, config_comandos.esquerda, config_comandos.topo, "va_para_y_exemplo", config_comandos.altura, config_comandos.largura, config_comandos.elemento_pai);
 window.bloco_va_para_y.face.addEventListener ("click",
 function () {window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'va_para_y');});
+bloco_va_para_y.mostra();
+window.config_comandos.largura = ajusta_tamanho_do_exemplo(comandos, window.bloco_va_para_y.face, window.config_comandos.borderradius);
 
 window.config_comandos.esquerda = window.config_comandos.esquerda + window.config_comandos.largura + espacamento;
 window.bloco_Fx = new bloco(config_comandos, null, null, config_comandos.esquerda, config_comandos.topo, "Fx_exemplo", config_comandos.altura, config_comandos.largura, config_comandos.elemento_pai);
 window.bloco_Fx.face.addEventListener ("click",
 function () {window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'Fx');});
+bloco_Fx.mostra();
+window.config_comandos.largura = ajusta_tamanho_do_exemplo(comandos, window.bloco_Fx.face, window.config_comandos.borderradius);
 
 window.config_comandos.esquerda = window.config_comandos.esquerda + window.config_comandos.largura + espacamento;
 window.bloco_Fy = new bloco(config_comandos, null, null, config_comandos.esquerda, config_comandos.topo, "Fy_exemplo", config_comandos.altura, config_comandos.largura, config_comandos.elemento_pai);
 window.bloco_Fy.face.addEventListener ("click",
 function () {window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'Fy');});
+bloco_Fy.mostra();
+window.config_comandos.largura = ajusta_tamanho_do_exemplo(comandos, window.bloco_Fy.face, window.config_comandos.borderradius);
 
 window.config_comandos.esquerda = window.config_comandos.esquerda + window.config_comandos.largura + espacamento;
 window.bloco_delay = new bloco(config_comandos, null, null, config_comandos.esquerda, config_comandos.topo, "delay_exemplo", config_comandos.altura, config_comandos.largura, config_comandos.elemento_pai);
 window.bloco_delay.face.addEventListener ("click",
 function () {window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'delay');});
+bloco_delay.mostra();
+window.config_comandos.largura = ajusta_tamanho_do_exemplo(comandos, window.bloco_delay.face, window.config_comandos.borderradius);
 
 window.config_comandos.esquerda = window.config_comandos.esquerda + window.config_comandos.largura + espacamento;
 window.bloco_freio = new bloco(config_comandos, null, null, config_comandos.esquerda, config_comandos.topo, "freio_exemplo", config_comandos.altura, config_comandos.largura, config_comandos.elemento_pai);
 window.bloco_freio.face.addEventListener ("click",
 function () {window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'freio');});
+bloco_freio.mostra();
+window.config_comandos.largura = ajusta_tamanho_do_exemplo(comandos, window.bloco_freio.face, window.config_comandos.borderradius);
 
 window.config_comandos.esquerda = window.config_comandos.esquerda + window.config_comandos.largura + espacamento;
 window.bloco_desvio = new bloco(config_comandos, null, null, config_comandos.esquerda, config_comandos.topo, "desvio_exemplo", config_comandos.altura, config_comandos.largura, config_comandos.elemento_pai);
 window.bloco_desvio.face.addEventListener ("click",
-function () {alert("Este comando ainda não está disponível. Aguarde a próxima versão."); return; window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'desvio');});
+function () {alert("Este comando ainda nÃ£o estÃ¡ disponÃ­vel. Aguarde a prÃ³xima versÃ£o."); return; window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'desvio');});
+bloco_desvio.mostra();
+window.config_comandos.largura = ajusta_tamanho_do_exemplo(comandos, window.bloco_desvio.face, window.config_comandos.borderradius);
 
 
 programa.style.principal = bloco1;
 programa.style.ponto_de_insercao =  bloco1.ativa_ponto_de_insercao(0);
 bloco1.mostra();
-bloco_repete.mostra();
-bloco_va_para_x.mostra();
-bloco_va_para_y.mostra();
-bloco_Fx.mostra();
-bloco_Fy.mostra();
-bloco_delay.mostra();
-bloco_freio.mostra();
-bloco_desvio.mostra();
-
+//ajusta_tamanho_de_todos_exemplos(comandos);
 
 
 	},3500);

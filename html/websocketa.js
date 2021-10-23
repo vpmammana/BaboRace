@@ -12,6 +12,7 @@ export class websocketa{
 
 constructor (){
 	this.websocket_aberto = false;
+	this.mensagem_de_falha_mostrada = false;
 	this.controle = null;
 	this.config_socket = new config_socket();
 	this.conn_websocket = new WebSocket("ws://"+this.config_socket.ip+":"+this.config_socket.port);
@@ -51,7 +52,14 @@ trata_mensagem(){
 } // fim trata_mensagem
 
 manda_mensagem(mensagem){
-	if (this.websocket_aberto) {console.log("vou mandar:"+mensagem); this.conn_websocket.send(mensagem);} else { alert("Conexão websocket não está aberta");};
+	if (this.websocket_aberto) {console.log("vou mandar:"+mensagem); this.conn_websocket.send(mensagem);} 
+	else 
+		{ 
+			if (this.mensagem_de_falha_mostrada == false){
+			alert("Conexão websocket não está aberta");
+			this.mensagem_de_falha_mostrada = true;
+			}
+		};
 } // fim manda_mensagem
 
 msg_posicao(usuario, id_usuario, id_fantasia, x,y){

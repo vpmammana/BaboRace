@@ -520,13 +520,19 @@ programa.style.height = contem.getBoundingClientRect().height + "px";
 	
 
 window.config = new configuracoes(programa);
+window.config.topo=parseInt(document.getElementById("comandos").getBoundingClientRect().height) * 0.001; // usando comandos como escala
+window.config.altura =  parseInt(document.getElementById("comandos").getBoundingClientRect().height) * 0.5;
+window.config.altura_insercao = parseInt(document.getElementById("comandos").getBoundingClientRect().height) * 0.5;
+window.config.font_ponto_insercao = window.config.altura_insercao/1.1 ;
+window.config.fonte_tamanho = window.config.font_ponto_insercao; 
+window.config.padding_inferior = parseInt(document.getElementById("comandos").getBoundingClientRect().height) * 0.2;
 window.bloco1 = new bloco(config, null, null, config.esquerda, config.topo, "principal", config.altura, config.largura, config.elemento_pai);
 window.config.movel = window.controle.central;
 	window.controle.central.posicao_percentual_x=window.controle.posicao_inicial_percentual_x; // sempre posicione o movel depois do config
 	window.controle.central.posicao_percentual_y=window.controle.posicao_inicial_percentual_y + window.controle.objetos_em_cena.indexOf(window.controle.central);
 
 window.config_comandos = new configuracoes(comandos);
-window.config_comandos.topo=3;
+window.config_comandos.topo=parseInt(document.getElementById("comandos").getBoundingClientRect().height) * 0.05;
 window.config_comandos.altura =  parseInt(document.getElementById("comandos").getBoundingClientRect().height) * 0.5;
 window.config_comandos.largura = 200;
 

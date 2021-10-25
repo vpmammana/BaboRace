@@ -126,6 +126,7 @@ function cria_item_menu(link, path_img, logado, nome, nome2, x, y, largura){
 	function (){
 		let razao = elemento_img.height / elemento_img.width;
 		elemento_img.height = parseInt(document.getElementById("cabecalio").getBoundingClientRect().height /1.5);
+		elemento_a.style.height = elemento_img.height + "px";		
 		elemento_img.width = elemento_img.height / razao;
 		elemento_span.style.fontSize = elemento_img.height/3 + "px";
 		document.getElementById("cabecalio").style.fontSize = document.getElementById("cabecalio").getBoundingClientRect().height * 0.7 + "px";
@@ -155,8 +156,7 @@ function cria_item_menu(link, path_img, logado, nome, nome2, x, y, largura){
 	if (logado == "in"){
 		elemento_a.style.opacity = 0.5;
 	}
-		
-return elemento_a;
+return elemento_a; // cuidado porque o retorno eh assincrono. Isso aqui pode nao funcionar
 }
 
 function apresenta_menu(){
@@ -170,12 +170,7 @@ let y;
 let largura;
 
 
-let trial = cria_item_menu("http://34.95.214.164/BaboRace/html/game.html?usuario=victor","../fantasias/carrinho_vermelho1.png", "out", "Caramba","Teste1", 30, 200, 200);
-//console.log("trial");
-//console.log(trial);
-let altura = parseInt(trial.getBoundingClientRect().height);
-alert(altura);
-trial.remove();
+let altura = parseInt(document.getElementById("cabecalio").getBoundingClientRect().height);
 colunas = 2;
 linhas = Math.ceil(n_usuarios /2);
 largura = (largura_tela - 2* padding_pixels_da_tela) / 2;

@@ -31,7 +31,7 @@ return  this.guarda_autenticando;
 
 }
 
-}
+} // fim class usuario
 
 export class usuarios {
 

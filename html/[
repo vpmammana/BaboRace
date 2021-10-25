@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+		<title>
+Babo Race - Corrida da Babolina
+		</title>
+	</head>
+	<style>
+body{
+  background-color: blue;
+  background: -moz-radial-gradient(center, ellipse cover, #0047ea 0%, #151515 100%);
+  background: radial-gradient(#0047ea, #151515);
+  height: 100vh;
+  overflow: hidden;
+}
+
+	</style>
+
+<body>
+
+<script>
+
+var lista_usuarios=[];
+var razao_tamanho = 0.4;
+var cor_back = "darkblue";
+var cor_span1 = "white";
+var cor_span2 = "blue";
+var largura_tela = document.body.clientWidth;
+var altura_tela = document.body.clientHeight;
+var padding_percentual_da_tela = 10; // medido em percentual
+var padding_pixels_da_tela = padding_percentual_da_tela * largura_tela;
+
+function busca_usuarios(){
+           var resposta="";
+           var url='../php/busca_lista_de_usuarios.php';
+           var oReq=new XMLHttpRequest();
+           oReq.open("GET", url, false);
+           oReq.onload = function (e) {
+                     resposta=oReq.responseText;
+		     lista_usuarios = resposta;
+                     }
+           oReq.send();
+}
+
+function cria_item_menu(link, path_img, logado, nome, nome2, x, y, largura){
+	
+	var elemento_a = document.createElement("a");
+	document.body.appendChild(elemento_a);
+	elemento_a.href=link;
+	elemento_a.style.width = largura + "px";
+	elemento_a.style.overflow="hidden";
+	elemento_a.style.visibility="visible";
+	var elemento_img = document.createElement("img");	
+        elemento_img.src = path_img;
+	elemento_a.appendChild(elemento_img);
+	elemento_img.visibility="visible";
+	elemento_img.style.float = "left";	
+	elemento_a.style.position = "absolute";
+	elemento_a.style.top =  y + "px";
+	elemento_a.style.left = x + "px";
+
+	var elemento_span = document.createElement("span");
+	var elemento_span2 = document.createElement("span");
+	elemento_span.innerHTML="<b>"+nome+"</b><br><span style='color: "+cor_span2+"; text-align: right'>"+nome2;
+	elemento_span2.innerHTML="&nbsp &nbsp";
+//	 elemento_span.style.float = "";
+//	elemento_span2.style.float = "";
+	elemento_span.style.position =  "sticky";
+	elemento_span2.style.position = "sticky";
+
+	elemento_span.style.align = "right";
+	elemento_span2.style.align = "right";
+
+	elemento_span.style.display =  "inline-block";
+	elemento_span2.style.display = "inline-block";
+
+	elemento_span.style.color = cor_span1;
+	elemento_span2.style.color = cor_span2;
+	elemento_a.appendChild(elemento_span);
+	elemento_a.appendChild(elemento_span2);
+	elemento_img.addEventListener("load", 
+	function (){
+		elemento_img.width=elemento_img.width * razao_tamanho;
+		elemento_img.width=elemento_img.width * razao_tamanho;
+	}
+	);
+
+	elemento_a.addEventListener("mouseout",
+	function (){
+		elemento_a.style.border="none";
+	
+		elemento_a.style.backgroundColor="";
+	}, true
+	)
+	if (logado == "out") {
+		elemento_a.style.opacity=1;
+		elemento_a.addEventListener("mouseover",
+		function () {
+			elemento_a.style.border = "1px solid red";
+			elemento_a.style.backgroundColor = cor_back;
+		}, true
+		)
+	} 
+	if (logado == "in"){
+		elemento_a.style.opacity = 0.5;
+	}
+		
+
+}
+
+function apresenta_menu(){
+
+let i;
+let n_usuarios = lista_usuarios.length;
+let linhas;
+let colunas;
+let x;
+let y;
+let largura;
+
+colunas = 2;
+linhas = Math.ceil(n_usuarios /2);
+largura = (largura_tela - 2* padding_pixels_da_tela) / 2;
+if (n_usuarios == 1){
+	linhas=1;
+	colunas=1;
+	x = (largura_tela /2) - largura /2; 
+}
+
+if (n_usuarios == 2){
+	linhas=1;
+	colunas=2;
+	x = (largura_tela/2) - largura;
+}
+
+if (n_usuarios == 3){
+	linhas=1;
+	colunas=3;
+	largura = (largura_tela - 2 * padding_pixels_da_tela) /3;
+	x = (largura_tela/2) - (largura * 1.5);
+}
+
+
+for (i=0; i < lista_usuarios.length; i++){
+
+}
+
+}
+
+busca_usuarios();
+
+ cria_item_menu("http://34.95.214.164/BaboRace/html/game.html?usuario=victor","../fantasias/carrinho_vermelho1.png", "out", "Caramba","Teste1", 30, 200, 200);
+ cria_item_menu("http://34.95.214.164/BaboRace/html/game.html?usuario=victor","../fantasias/carrinho_vermelho1.png",  "in", "Cara"   ,"Teste2", 30, 300, 300);
+cria_item_menu("http://34.95.214.164/BaboRace/html/game.html?usuario=victor","../fantasias/carrinho_vermelho1.png",  "out", "Cara2"  ,"Teste3", 30, 400, 300);
+
+
+</script>
+</body>
+</html>
+

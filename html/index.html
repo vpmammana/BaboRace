@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+		<title>
+Babo Race - Corrida da Babolina
+		</title>
+	</head>
+	<style>
+body{
+  background-color: blue;
+  background: -moz-radial-gradient(center, ellipse cover, #0047ea 0%, #151515 100%);
+  background: radial-gradient(#0047ea, #151515);
+  height: 100vh;
+  overflow: hidden;
+}
+
+#cabecalio{
+  width: 100%;
+  height: 10%;
+  padding: 0.1%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  color: yellow;
+  border: 1px solid yellow;
+  background: -moz-radial-gradient(center, ellipse cover, #0047ea 0%, #151515 100%);
+  background: radial-gradient(#0047ea, #151515);
+  overflow: hidden;
+}
+
+	</style>
+
+<body>
+
+<div id="cabecalio">
+BaboRace - Escolha o carrinho para jogar!
+</div>
+
+
+<script>
+
+var lista_usuarios=[];
+var razao_tamanho = 0.4;
+var cor_back = "darkblue";
+var cor_span1 = "white";
+var cor_span2 = "yellow";
+var largura_tela = document.body.clientWidth;
+var altura_tela = document.body.clientHeight;
+var padding_percentual_da_tela = 0.1; // medido em percentual
+var padding_pixels_da_tela = Math.round(padding_percentual_da_tela * largura_tela);
+var url = "http://34.95.214.164/BaboRace/html/game.html?usuario=";
+var objeto_de_usuarios = {}; // na verdade nao eh uma matriz
+var matriz_de_usuarios = [];
+
+function carrega_json_na_matriz(matriz_destino, matriz_origem){
+
+let i;
+
+for (i=0; i < matriz_origem.length; i++){
+        let elemento = matriz_origem[i];
+        objeto_de_usuarios[elemento.id_usuario] = elemento;
+	console.log(objeto_de_usuarios);
+}
+
+matriz_de_usuarios = Object.entries(objeto_de_usuarios);
+
+}
+
+
+function busca_usuarios(){
+           var resposta="";
+           var url='../php/busca_lista_de_usuarios.php';
+           var oReq=new XMLHttpRequest();
+           oReq.open("GET", url, false);
+           oReq.onload = function (e) {
+                     resposta=oReq.responseText;
+		     lista_usuarios = JSON.parse(resposta);
+		     carrega_json_na_matriz(objeto_de_usuarios, lista_usuarios)
+		     apresenta_menu();
+                     }
+           oReq.send();
+}
+
+function cria_item_menu(link, path_img, logado, nome, nome2, x, y, largura){
+//console.log("link: "+link+" path_img: "+path_img+" logado: "+ logado + "nome: "+nome+" nome2: "+nome2+" x: "+x+" y: "+y +" largura: "+largura)	
+	var elemento_a = document.createElement("a");
+	document.body.appendChild(elemento_a);
+	elemento_a.href=link;
+	elemento_a.style.width = largura + "px";
+	elemento_a.style.overflow="hidden";
+	elemento_a.style.visibility="visible";
+	var elemento_img = document.createElement("img");	
+        elemento_img.src = path_img;
+	elemento_a.appendChild(elemento_img);
+	elemento_img.visibility="visible";
+	elemento_img.style.float = "left";	
+	elemento_a.style.position = "absolute";
+	elemento_a.style.top =  y + "px";
+	elemento_a.style.left = x + "px";
+	
+	var elemento_text = document.createElement("input");
+	elemento_text.type = "text";
+	
+
+
+	var elemento_span = document.createElement("span");
+	var elemento_span2 = document.createElement("span");
+	elemento_span.innerHTML="<b>"+nome+"</b><br><span style='color: "+cor_span2+"; text-align: right'>"+nome2;
+	elemento_span2.innerHTML="&nbsp &nbsp";
+//	 elemento_span.style.float = "";
+//	elemento_span2.style.float = "";
+	elemento_span.style.position =  "sticky";
+	elemento_span2.style.position = "sticky";
+
+	elemento_span.style.align = "right";
+	elemento_span2.style.align = "right";
+
+	elemento_span.style.display =  "inline-block";
+	elemento_span2.style.display = "inline-block";
+
+	elemento_span.style.color = cor_span1;
+	elemento_span2.style.color = cor_span2;
+	elemento_a.appendChild(elemento_span);
+	elemento_a.appendChild(elemento_span2);
+	elemento_img.addEventListener("load", 
+	function (){
+		let razao = elemento_img.height / elemento_img.width;
+		elemento_img.height = parseInt(document.getElementById("cabecalio").getBoundingClientRect().height /1.5);
+		elemento_img.width = elemento_img.height / razao;
+		elemento_span.style.fontSize = elemento_img.height/3 + "px";
+		document.getElementById("cabecalio").style.fontSize = document.getElementById("cabecalio").getBoundingClientRect().height * 0.7 + "px";
+//	alert(parseInt(document.getElementById("cabecalio").getBoundingClientRect().height));
+//		elemento_img.width= "auto";
+//		elemento_img.height=elemento_img.height * razao_tamanho;
+//		elemento_img.width=elemento_img.width * razao_tamanho;
+	}
+	);
+
+	elemento_a.addEventListener("mouseout",
+	function (){
+		elemento_a.style.border="none";
+	
+		elemento_a.style.backgroundColor="";
+	}, true
+	)
+	if (logado == "out") {
+		elemento_a.style.opacity=1;
+		elemento_a.addEventListener("mouseover",
+		function () {
+			elemento_a.style.border = "1px solid red";
+			elemento_a.style.backgroundColor = cor_back;
+		}, true
+		)
+	} 
+	if (logado == "in"){
+		elemento_a.style.opacity = 0.5;
+	}
+		
+return elemento_a;
+}
+
+function apresenta_menu(){
+
+let i;
+let n_usuarios = matriz_de_usuarios.length;
+let linhas;
+let colunas;
+let x;
+let y;
+let largura;
+
+
+let trial = cria_item_menu("http://34.95.214.164/BaboRace/html/game.html?usuario=victor","../fantasias/carrinho_vermelho1.png", "out", "Caramba","Teste1", 30, 200, 200);
+//console.log("trial");
+//console.log(trial);
+let altura = parseInt(trial.getBoundingClientRect().height);
+alert(altura);
+trial.remove();
+colunas = 2;
+linhas = Math.ceil(n_usuarios /2);
+largura = (largura_tela - 2* padding_pixels_da_tela) / 2;
+y = (altura_tela /2) - Math.floor(n_usuarios /2) * altura;
+
+if (n_usuarios == 1){
+	linhas=1;
+	colunas=1;
+	x = (largura_tela /2) - largura /2; 
+	y = (altura_tela /2) - altura / 2;
+}
+
+if (n_usuarios == 2 || n_usuarios>3){
+	linhas=1;
+	colunas=2;
+	x = (largura_tela/2) - largura;
+	y = (altura_tela /2) - altura / 2;
+}
+
+if (n_usuarios == 3){
+	linhas=1;
+	colunas=3;
+	largura = (largura_tela - 2 * padding_pixels_da_tela) /3;
+	x = (largura_tela/2) - (largura * 1.5);
+	y = (altura_tela /2) - altura / 2;
+}
+let x_inicial = x;
+let y_inicial = y;
+//console.log(matriz_de_usuarios);
+//alert(colunas);
+for (i=0; i < matriz_de_usuarios.length; i++){
+	let usuario = matriz_de_usuarios[i][1];
+//	console.log(usuario.apelido);
+// cria_item_menu(link, path_img, logado, nome, nome2, x, y, largura){
+
+	cria_item_menu(url+usuario.apelido, usuario.imagem, usuario.online, usuario.nome_movel, usuario.apelido, x, y, largura);
+	x = x + largura;
+	if (x >= x_inicial + (colunas) * largura) {
+		//console.log("bateu");
+		x = x_inicial;
+ 		y = y + altura;
+	}
+
+}
+
+}
+
+busca_usuarios();
+
+
+</script>
+</body>
+</html>
+

@@ -24,13 +24,18 @@ ALTER TABLE operacoes_on_line ADD CONSTRAINT FK_operacao_on_line FOREIGN KEY (id
 
 insert into moveis(nome_movel) values ("carrinho_amarelo");
 insert into moveis(nome_movel) values ("carrinho_vermelho");
-
+insert into moveis(nome_movel) values ("carro_babolina");
+insert into moveis(nome_movel) values ("carro_babolina2");
+insert into moveis(nome_movel) values ("carro_babolina3");
+insert into moveis(nome_movel) values ("carro_babolina4");
 
 insert into fantasias (nome_fantasia, photo_filename_fantasia) values ("carrinho_amarelo_1", "../php/imagens/carrinho_amarelo1.png");
 insert into fantasias (nome_fantasia, photo_filename_fantasia) values ("carrinho_amarelo_2", "../php/imagens/carrinho_amarelo2.png");
 insert into fantasias (nome_fantasia, photo_filename_fantasia) values ("carrinho_amarelo_3", "../php/imagens/carrinho_amarelo3.png");
 insert into fantasias (nome_fantasia, photo_filename_fantasia) values ("carrinho_amarelo_4", "../php/imagens/carrinho_amarelo4.png");
 insert into fantasias (nome_fantasia, photo_filename_fantasia) values ("carrinho_vermelho_1", "../php/imagens/carrinho_vermelho1.png");
+insert into fantasias (nome_fantasia, photo_filename_fantasia) values ("carro_babolina_1", "../php/imagens/carro_babolina.png");
+
 
 insert into tipos_operacoes_on_line(nome_on_line) values ("in");
 insert into tipos_operacoes_on_line(nome_on_line) values ("out");
@@ -41,12 +46,25 @@ insert into moveis_fantasias (id_movel, id_fantasia, ordem) values ((select id_c
 insert into moveis_fantasias (id_movel, id_fantasia, ordem) values ((select id_chave_movel from moveis where nome_movel = "carrinho_amarelo"),(select id_chave_fantasia from fantasias where nome_fantasia="carrinho_amarelo_3"),3);
 insert into moveis_fantasias (id_movel, id_fantasia, ordem) values ((select id_chave_movel from moveis where nome_movel = "carrinho_amarelo"),(select id_chave_fantasia from fantasias where nome_fantasia="carrinho_amarelo_4"),4);
 
+insert into moveis_fantasias (id_movel, id_fantasia, ordem) values ((select id_chave_movel from moveis where nome_movel = "carro_babolina"),(select id_chave_fantasia from fantasias where nome_fantasia="carro_babolina_1"),4);
+insert into moveis_fantasias (id_movel, id_fantasia, ordem) values ((select id_chave_movel from moveis where nome_movel = "carro_babolina2"),(select id_chave_fantasia from fantasias where nome_fantasia="carro_babolina_1"),4);
+insert into moveis_fantasias (id_movel, id_fantasia, ordem) values ((select id_chave_movel from moveis where nome_movel = "carro_babolina3"),(select id_chave_fantasia from fantasias where nome_fantasia="carro_babolina_1"),4);
+
+insert into moveis_fantasias (id_movel, id_fantasia, ordem) values ((select id_chave_movel from moveis where nome_movel = "carro_babolina4"),(select id_chave_fantasia from fantasias where nome_fantasia="carro_babolina_1"),4);
+
+
 
 insert into moveis_fantasias (id_movel, id_fantasia, ordem) values ((select id_chave_movel from moveis where nome_movel = "carrinho_vermelho"),(select id_chave_fantasia from fantasias where nome_fantasia="carrinho_vermelho_1"),1);
 
 
 insert into registrados (nome_registrado, apelido, id_movel, id_on_line) values ("Victor Pellegrini Mammana", "victor", (select id_chave_movel from moveis where nome_movel="carrinho_vermelho"), (select id_chave_tipo_operacao_on_line from tipos_operacoes_on_line where nome_on_line="out"));
 insert into registrados (nome_registrado, apelido, id_movel, id_on_line) values ("Victoria Mammana", "victoria", (select id_chave_movel from moveis where nome_movel="carrinho_amarelo"), (select id_chave_tipo_operacao_on_line from tipos_operacoes_on_line where nome_on_line="out"));
+insert into registrados (nome_registrado, apelido, id_movel, id_on_line) values ("Babolina", "babolina", (select id_chave_movel from moveis where nome_movel="carro_babolina"), (select id_chave_tipo_operacao_on_line from tipos_operacoes_on_line where nome_on_line="out"));
+insert into registrados (nome_registrado, apelido, id_movel, id_on_line) values ("Babolina2", "babolinai2", (select id_chave_movel from moveis where nome_movel="carro_babolina2"), (select id_chave_tipo_operacao_on_line from tipos_operacoes_on_line where nome_on_line="out"));
+
+insert into registrados (nome_registrado, apelido, id_movel, id_on_line) values ("Babolina3", "babolina3", (select id_chave_movel from moveis where nome_movel="carro_babolina3"), (select id_chave_tipo_operacao_on_line from tipos_operacoes_on_line where nome_on_line="out"));
+
+insert into registrados (nome_registrado, apelido, id_movel, id_on_line) values ("Babolina4", "babolina4", (select id_chave_movel from moveis where nome_movel="carro_babolina4"), (select id_chave_tipo_operacao_on_line from tipos_operacoes_on_line where nome_on_line="out"));
 
 
 

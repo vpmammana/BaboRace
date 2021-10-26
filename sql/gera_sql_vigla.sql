@@ -34,7 +34,7 @@ insert into fantasias (nome_fantasia, photo_filename_fantasia) values ("carrinho
 insert into fantasias (nome_fantasia, photo_filename_fantasia) values ("carrinho_amarelo_3", "../php/imagens/carrinho_amarelo3.png");
 insert into fantasias (nome_fantasia, photo_filename_fantasia) values ("carrinho_amarelo_4", "../php/imagens/carrinho_amarelo4.png");
 insert into fantasias (nome_fantasia, photo_filename_fantasia) values ("carrinho_vermelho_1", "../php/imagens/carrinho_vermelho1.png");
-insert into fantasias (nome_fantasia, photo_filename_fantasia) values ("carro_babolina_1", "../php/imagens/carro_babolina.png");
+insert into fantasias (nome_fantasia, photo_filename_fantasia) values ("carro_babolina_1", "../php/imagens/Carro_Victoria10.png");
 
 
 insert into tipos_operacoes_on_line(nome_on_line) values ("in");

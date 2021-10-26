@@ -161,13 +161,13 @@ body{
 <!--- <input id="botao_reset" type="button" value="RESET" onclick="window.config.reset=true;"> --->
 
 
-<input type="button" style="float: right; width: 4%; height: 40px; " value="help " onclick="alert('Os botões ao lado permitem inserir comandos no código à direita. Com as setas voce pode mudar o ponto de inserção. Com o delete voce pode apagar um comando. Quando estiver com o ponto de inserção num determinado local, o comando abaixo comecará a piscar, indicando que você pode entrar no bloco com a seta à direta. Seta à esquerda sai do bloco. Delete apaga o comando ou bloco que estiver abaixo do ponto de inserção.O Espaco dispara o codigo.')"/>
-<span style="color: white; float: right; ">
+<input class="extra" type="button" style="float: right; width: 80px; height: 40px; " value="help " onclick="alert('Os botões ao lado permitem inserir comandos no código à direita. Com as setas voce pode mudar o ponto de inserção. Com o delete voce pode apagar um comando. Quando estiver com o ponto de inserção num determinado local, o comando abaixo comecará a piscar, indicando que você pode entrar no bloco com a seta à direta. Seta à esquerda sai do bloco. Delete apaga o comando ou bloco que estiver abaixo do ponto de inserção.O Espaco dispara o codigo.')"/>
+<div class="texto" style="color: white; float: right; ">
 Autor: Victor Pellegrini Mammana &nbsp
 <br>CEMADEN<br>
 Design: Babolina
-</span>
-
+</div>
+<input class="extra" type="button" style="float: right; width: 80px; height: 40px; " value="Sair"/>
 </div>
 
 <div id="principal">
@@ -186,6 +186,38 @@ location.search.slice(1).split("&").forEach(function(pair) {
         whoami=decodeURIComponent(pair[1]);
 });
 //alert(whoami);
+
+function ajusta_tamanho_componentes_texto(container){
+
+let i;
+let textos = document.getElementsByClassName("texto");
+for (i=0; i < textos.length; i++)
+{	
+
+	texto = textos[i];
+	texto.style.fontSize = 0.25*(container.clientHeight)/2 + "px";
+
+}
+
+}
+
+function ajusta_tamanho_componentes_extras(container){
+
+let i;
+let extras = document.getElementsByClassName("extra");
+let razao_extra;
+for (i=0; i < extras.length; i++)
+{	
+
+	extra = extras[i];
+	razao_extra = extra.clientHeight/ extra.clientWidth;
+	extra.style.height = container.clientHeight/2 + "px";
+	extra.style.fontSize = 0.7*(container.clientHeight)/2 + "px";
+	extra.style.width = container.clientHeight /razao_extra + "px";
+
+}
+
+}
 
 function ajusta_tamanho_do_exemplo(container, exemplo_entrada, borda_str){
 
@@ -621,6 +653,10 @@ window.bloco_desvio.face.addEventListener ("click",
 function () {alert("Este comando ainda não está disponível. Aguarde a próxima versão."); return; window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'desvio');});
 bloco_desvio.mostra();
 window.config_comandos.largura = ajusta_tamanho_do_exemplo(comandos, window.bloco_desvio.face, window.config_comandos.borderradius);
+
+
+ajusta_tamanho_componentes_extras(comandos);
+ajusta_tamanho_componentes_texto(comandos);
 
 
 programa.style.principal = bloco1;

@@ -48,8 +48,7 @@ var largura_tela = document.body.clientWidth;
 var altura_tela = document.body.clientHeight;
 var padding_percentual_da_tela = 0.1; // medido em percentual
 var padding_pixels_da_tela = Math.round(padding_percentual_da_tela * largura_tela);
-var url = "<?php include \"direciona.php\"?>";
-alert(url);
+var url_global;
 var objeto_de_usuarios = {}; // na verdade nao eh uma matriz
 var matriz_de_usuarios = [];
 
@@ -67,6 +66,17 @@ matriz_de_usuarios = Object.entries(objeto_de_usuarios);
 
 }
 
+function busca_url(){
+           var resposta="";
+           var url='../php/direciona.php';
+           var oReq=new XMLHttpRequest();
+           oReq.open("GET", url, false);
+           oReq.onload = function (e) {
+                     url_global=oReq.responseText;
+			alert(url_global);
+                     }
+           oReq.send();
+}
 
 function busca_usuarios(){
            var resposta="";
@@ -207,7 +217,7 @@ for (i=0; i < matriz_de_usuarios.length; i++){
 //	console.log(usuario.apelido);
 // cria_item_menu(link, path_img, logado, nome, nome2, x, y, largura){
 
-	cria_item_menu(url+usuario.apelido, usuario.imagem, usuario.online, usuario.nome_movel, usuario.apelido, x, y, largura);
+	cria_item_menu(url_global+usuario.apelido, usuario.imagem, usuario.online, usuario.nome_movel, usuario.apelido, x, y, largura);
 	x = x + largura;
 	if (x >= x_inicial + (colunas) * largura) {
 		//console.log("bateu");
@@ -218,7 +228,7 @@ for (i=0; i < matriz_de_usuarios.length; i++){
 }
 
 }
-
+busca_url();
 busca_usuarios();
 
 

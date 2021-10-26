@@ -4,8 +4,7 @@ if(isset($_GET["usuario"])){
   $usuario = $_GET["usuario"];
 } else {$usuario="victor";}
 
-$username="victor";
-$pass="aerofolio";
+include "atomo.php";
 $database="baboracex";
 
 $conn= new mysqli("localhost", $username, $pass, $database);

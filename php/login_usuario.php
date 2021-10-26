@@ -8,8 +8,7 @@ if(isset($_GET["operacao"])){
 } else { echo "falhou_faltou_operacao"; return;}
 
 
-$username="victor";
-$pass="aerofolio";
+include "atomo.php";
 $database="baboracex";
 
 $conn= new mysqli("localhost", $username, $pass, $database);

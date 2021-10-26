@@ -25,8 +25,8 @@ $fs_cria_puxa=fopen($dir.'/autophp/puxa_lista_NtoN.php','w');
 
 $cria = '
 <?php
-$username="victor";
-$pass="aerofolio";
+include "atomo.php";
+
 
 if(isset($_GET["banco"])){
   $banco_de_dados = $_GET["banco"];
@@ -347,8 +347,7 @@ foreach ($arquivos as $value)
 					      <td>".$dados_imagem[0]."x".$dados_imagem[1]."<br>".$dados_imagem["mime"]."</td>
 					      <td><b>Imagem usada por:</b><br>";
 					
-					$username="victor";
-					$pass="aerofolio";
+					include "atomo.php";
 					$database=$banco;
 
 					$conn= new mysqli("localhost", $username, $pass, $database);
@@ -574,8 +573,7 @@ if(isset($_GET["busca_str"])){
 
 
 
-$username="victor";
-$pass="aerofolio";
+include "atomo.php";
 $database=$banco;
 
 $conn= new mysqli("localhost", $username, $pass, $database);
@@ -720,8 +718,8 @@ $busca='
 
 
 <?php
-$username="victor";
-$pass="aerofolio";
+
+include "atomo.php";
 
 if(isset($_GET["banco"])){
   $banco = $_GET["banco"];
@@ -818,8 +816,7 @@ if(isset($_GET["valores"])){
   $valores = $_GET["valores"];
 }
 
-$username="victor";
-$pass="aerofolio";
+include "atomo.php";
 $database=$banco;
 
 $conn= new mysqli("localhost", $username, $pass, $database);
@@ -865,8 +862,7 @@ if(isset($_GET["id"])){
 $campo_nome=\'\';
 $achado=\'\';
 
-$username="victor";
-$pass="aerofolio";
+include "atomo.php";
 $database=$banco;
 
 $conn= new mysqli("localhost", $username, $pass, $database);
@@ -935,8 +931,7 @@ if(isset($_GET["valor"])){
 $campo_nome=\'\';
 $achado=\'\';
 
-$username="victor";
-$pass="aerofolio";
+include "atomo.php";
 $database=$banco;
 
 $conn= new mysqli("localhost", $username, $pass, $database);
@@ -994,8 +989,7 @@ if(isset($_GET["id"])){
 $campo_nome=\'\';
 $achado=\'\';
 
-$username="victor";
-$pass="aerofolio";
+include "atomo.php";
 $database=$banco;
 
 $conn= new mysqli("localhost", $username, $pass, $database);
@@ -1059,9 +1053,8 @@ if (strpos($value,'id_chave')===false){} else {$campo_id_chave=$value;}
 // $tabela é a tabela_de_ligacao
 // $campos_com_fks[0] e [1] me parece que é o nome do campo da chave externa na tabela de ligação 
 
-$username="victor";
-$pass="aerofolio";
-$database="camerax";
+include "atomo.php";
+$database="baboracex";
 
 $conn_local= new mysqli("localhost", $username, $pass, $database);
 
@@ -1203,8 +1196,7 @@ table,td,th {
 ";
 
 
-$username="victor";
-$pass="aerofolio";
+include "atomo.php";
 $database="'.$banco.'";
 
 $conn= new mysqli("localhost", $username, $pass, $database);
@@ -1521,8 +1513,9 @@ input[type=button]{
 <div id=\'insercao\' class=\'botoeira\'>
 </div>
 ";
-$username="victor";
-$pass="aerofolio";
+
+include "atomo.php";
+
 $database="'.$banco.'";
 $path_imagem="";
 
@@ -2566,8 +2559,8 @@ $dir=getcwd();
 $fs_def=fopen($dir.'/autophp/NtoN_insercao.php','w');
 $php='
 <?php
-$username="victor";
-$pass="aerofolio";
+
+include "atomo.php";
 
 if(isset($_GET["banco"])){
   $banco_de_dados = $_GET["banco"];
@@ -3006,8 +2999,8 @@ $php='
 
 // 2021-04-21 -> esse código teve origem no insercao.php. Diferentemente daquele, o objetivo nao é inserir um novo dado, mas permitir a selecao de um id presente num campo externo. Para isso é preciso retirar todo o procedimento de insere_registro.php, porque não será feita insercao ou atualização, mas apenas o retorno do id do campo selecionado.
 
-$username="victor";
-$pass="aerofolio";
+
+include "atomo.php";
 
 if(isset($_GET["banco"])){
   $banco_de_dados = $_GET["banco"];
@@ -3290,8 +3283,8 @@ $dir=getcwd();
 $fs_def=fopen($dir.'/autophp/insercao.php','w');
 $php='
 <?php
-$username="victor";
-$pass="aerofolio";
+
+include "atomo.php";
 
 if(isset($_GET["banco"])){
   $banco_de_dados = $_GET["banco"];
@@ -3589,8 +3582,8 @@ $dir=getcwd();
 $fs_def=fopen($dir.'/autophp/verdef.php','w');
 $php='
 <?php
-$username="victor";
-$pass="aerofolio";
+
+include "atomo.php";
 
 if(isset($_GET["banco"])){
   $banco_de_dados = $_GET["banco"];
@@ -4128,9 +4121,9 @@ $php='
 
 // esse backoffice sintético é exclusivo para a entrada de dados no banco de dados da aldir blanc (camerax). Ele assume que existe um campo id_curador na tabela documentos e usa o nome do usuário como chave de busca, para que o usuário veja apenas os registros que estão associados a ele.
 
-$username=\'victor\';
-$pass=\'aerofolio\';
-$banco_de_dados = \'camerax\'; 
+include \'atomo2.php\';
+
+$banco_de_dados = \'baboracex\'; 
 $limitador_registros=50;
 if(isset($_GET[\'id_usuario\'])){
   $id_usuario = $_GET[\'id_usuario\'];
@@ -4254,9 +4247,8 @@ $php='
 
 // esse backoffice sintético é exclusivo para a entrada de dados no banco de dados da aldir blanc (camerax). Ele assume que existe um campo id_curador na tabela documentos e usa o nome do usuário como chave de busca, para que o usuário veja apenas os registros que estão associados a ele.
 
-$username=\'victor\';
-$pass=\'aerofolio\';
-$banco_de_dados = \'camerax\'; 
+include \'atomo2.php\';
+$banco_de_dados = \'baboracex\'; 
 $limitador_registros=50;
 if(isset($_GET[\'usuario\'])){
   $usuario = $_GET[\'usuario\'];
@@ -4584,8 +4576,7 @@ Cria_Entrada_Para_Aldir_Blanc($fs_4);
 
 Cabecalio_main($fs);
 
-$username="victor";
-$pass="aerofolio";
+include "atomo.php";
 
 if(isset($_GET["banco"])){
   $banco_de_dados = $_GET["banco"];

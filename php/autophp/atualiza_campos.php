@@ -27,8 +27,7 @@ if(isset($_GET["valor"])){
 $campo_nome='';
 $achado='';
 
-$username="victor";
-$pass="aerofolio";
+include "atomo.php";
 $database=$banco;
 
 $conn= new mysqli("localhost", $username, $pass, $database);

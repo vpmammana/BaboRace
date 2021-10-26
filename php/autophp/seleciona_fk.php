@@ -3,8 +3,8 @@
 
 // 2021-04-21 -> esse código teve origem no insercao.php. Diferentemente daquele, o objetivo nao é inserir um novo dado, mas permitir a selecao de um id presente num campo externo. Para isso é preciso retirar todo o procedimento de insere_registro.php, porque não será feita insercao ou atualização, mas apenas o retorno do id do campo selecionado.
 
-$username="victor";
-$pass="aerofolio";
+
+include "atomo.php";
 
 if(isset($_GET["banco"])){
   $banco_de_dados = $_GET["banco"];

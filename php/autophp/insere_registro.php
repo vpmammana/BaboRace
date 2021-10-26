@@ -19,8 +19,7 @@ if(isset($_GET["valores"])){
   $valores = $_GET["valores"];
 }
 
-$username="victor";
-$pass="aerofolio";
+include "atomo.php";
 $database=$banco;
 
 $conn= new mysqli("localhost", $username, $pass, $database);

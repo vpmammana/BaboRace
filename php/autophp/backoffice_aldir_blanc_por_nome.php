@@ -4,9 +4,8 @@
 
 // esse backoffice sintético é exclusivo para a entrada de dados no banco de dados da aldir blanc (camerax). Ele assume que existe um campo id_curador na tabela documentos e usa o nome do usuário como chave de busca, para que o usuário veja apenas os registros que estão associados a ele.
 
-$username='victor';
-$pass='aerofolio';
-$banco_de_dados = 'camerax'; 
+include 'atomo2.php';
+$banco_de_dados = 'baboracex'; 
 $limitador_registros=50;
 if(isset($_GET['usuario'])){
   $usuario = $_GET['usuario'];

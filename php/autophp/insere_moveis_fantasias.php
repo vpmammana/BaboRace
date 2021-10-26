@@ -187,8 +187,9 @@ input[type=button]{
 <div id='insercao' class='botoeira'>
 </div>
 ";
-$username="victor";
-$pass="aerofolio";
+
+include "atomo.php";
+
 $database="baboracex";
 $path_imagem="";
 
@@ -256,7 +257,7 @@ echo "
 
 echo "
 <table class='botoeira'>
-<tr class='cabecalio_table'><th></th><th>id</th><th>nome_movel_fantasia</th><th>id_fantasia</th><th>id_movel</th><th>time_stamp</th></tr>";
+<tr class='cabecalio_table'><th></th><th>id</th><th>nome_movel_fantasia</th><th>id_fantasia</th><th>id_movel</th><th>ordem</th><th>time_stamp</th></tr>";
 
 
 
@@ -286,6 +287,8 @@ $id_fantasia=$row["id_fantasia"];
 
 $id_movel=$row["id_movel"];
 
+$ordem=$row["ordem"];
+$campos_atualizaveis=$campos_atualizaveis.",".'"campo_'.$id_registro.'_5"';
 $time_stamp=$row["time_stamp"];
 
 $campos_atualizaveis=$campos_atualizaveis."]";
@@ -367,7 +370,19 @@ echo "<tr class='principal'><td>".$row_number."</td><td>".$id_chave_movel_fantas
   </div>
 </div>
 </td>
-<td>".$time_stamp."</td>
+<td>
+				<input 
+					id='campo_".$id_registro."_5' 
+                                        class='editavel'
+					type='text' 
+					value='".$ordem."'
+					data-alterado='nao'
+					data-tabela='moveis_fantasias'
+					data-campo='ordem'
+                                        data-id='".$id_registro."'
+        				data-nivel='0'
+				/>
+			   </td><td>".$time_stamp."</td>
 	<th class='classe_ponto_insercao_nton' id='ponto_insercao_nton_".'"'.$id_registro.'"'."'>
 	".''.$id_registro.''."	
 	</th>

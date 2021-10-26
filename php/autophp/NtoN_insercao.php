@@ -1,7 +1,7 @@
 
 <?php
-$username="victor";
-$pass="aerofolio";
+
+include "atomo.php";
 
 if(isset($_GET["banco"])){
   $banco_de_dados = $_GET["banco"];

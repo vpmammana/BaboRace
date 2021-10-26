@@ -48,7 +48,8 @@ var largura_tela = document.body.clientWidth;
 var altura_tela = document.body.clientHeight;
 var padding_percentual_da_tela = 0.1; // medido em percentual
 var padding_pixels_da_tela = Math.round(padding_percentual_da_tela * largura_tela);
-var url = "http://34.95.214.164/BaboRace/html/game.html?usuario=";
+var url = "<?php include \"direciona.php\"?>";
+alert(url);
 var objeto_de_usuarios = {}; // na verdade nao eh uma matriz
 var matriz_de_usuarios = [];
 

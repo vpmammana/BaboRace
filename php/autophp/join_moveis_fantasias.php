@@ -46,8 +46,7 @@ table,td,th {
 ";
 
 
-$username="victor";
-$pass="aerofolio";
+include "atomo.php";
 $database="baboracex";
 
 $conn= new mysqli("localhost", $username, $pass, $database);

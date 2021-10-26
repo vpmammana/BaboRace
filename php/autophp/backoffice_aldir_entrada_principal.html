@@ -153,7 +153,7 @@ input_inserivel.addEventListener('keydown', function(e){e.target.style.backgroun
 function painel_escolha_fk(div_insercao, tabela, campo_de_escolha){
 	   nivel_insercao++;
            var resposta='';
-           var url='seleciona_fk.php?banco=camerax&tabela='+tabela+'&nivel='+nivel_insercao+'&campo_de_escolha='+campo_de_escolha;
+           var url='seleciona_fk.php?banco=baboracex&tabela='+tabela+'&nivel='+nivel_insercao+'&campo_de_escolha='+campo_de_escolha;
            var oReq=new XMLHttpRequest();
            oReq.open('GET', url, false);
            oReq.onload = function (e) {
@@ -175,7 +175,7 @@ function carrega_drop_btn(element){
 
   if(element.getAttribute('data-momento')=='atualizacao'){
            var resposta='';
-           var url='auto_ler_tabela_campo.php?banco=camerax&tabela='+element.getAttribute('data-fk-tabela')+'&campo_id='+element.getAttribute('data-fk-id')+'&id='+element.getAttribute('data-fkid');
+           var url='auto_ler_tabela_campo.php?banco=baboracex&tabela='+element.getAttribute('data-fk-tabela')+'&campo_id='+element.getAttribute('data-fk-id')+'&id='+element.getAttribute('data-fkid');
            var oReq=new XMLHttpRequest();
            oReq.open('GET', url, false);
            oReq.onload = function (e) {

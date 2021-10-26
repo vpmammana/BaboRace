@@ -187,8 +187,9 @@ input[type=button]{
 <div id='insercao' class='botoeira'>
 </div>
 ";
-$username="victor";
-$pass="aerofolio";
+
+include "atomo.php";
+
 $database="baboracex";
 $path_imagem="";
 

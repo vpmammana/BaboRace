@@ -21,8 +21,7 @@ if(isset($_GET["busca_str"])){
 
 
 
-$username="victor";
-$pass="aerofolio";
+include "atomo.php";
 $database=$banco;
 
 $conn= new mysqli("localhost", $username, $pass, $database);

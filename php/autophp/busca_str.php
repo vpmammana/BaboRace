@@ -2,8 +2,8 @@
 
 
 <?php
-$username="victor";
-$pass="aerofolio";
+
+include "atomo.php";
 
 if(isset($_GET["banco"])){
   $banco = $_GET["banco"];

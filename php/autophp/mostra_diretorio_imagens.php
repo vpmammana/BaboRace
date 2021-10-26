@@ -123,8 +123,7 @@ foreach ($arquivos as $value)
 					      <td>".$dados_imagem[0]."x".$dados_imagem[1]."<br>".$dados_imagem["mime"]."</td>
 					      <td><b>Imagem usada por:</b><br>";
 					
-					$username="victor";
-					$pass="aerofolio";
+					include "atomo.php";
 					$database=$banco;
 
 					$conn= new mysqli("localhost", $username, $pass, $database);

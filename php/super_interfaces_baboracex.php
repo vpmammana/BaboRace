@@ -3702,7 +3702,7 @@ fclose($fs_def);
 function Cria_Entrada_Para_Aldir_Blanc($fs){
 
 
-$banco='camerax';
+$banco='baboracex';
 $html='
 <html>
 	<head>
@@ -4580,7 +4580,7 @@ include "atomo.php";
 
 if(isset($_GET["banco"])){
   $banco_de_dados = $_GET["banco"];
-} else {$banco_de_dados="camerax";}
+} else {$banco_de_dados="baboracex";}
 $database=$banco_de_dados;
 
 $conn= new mysqli("localhost", $username, $pass, $database);

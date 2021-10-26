@@ -264,9 +264,41 @@ function isCharNumber(c) {
   return c >= '0' && c <= '9';
 }
 
+function scroll_programa(programa){
+let correcao_y = 0;
+let elemento = programa.style.ponto_de_insercao.face;
+console.log("elemento funcao");
+console.log(elemento);
+while (elemento != programa){
+	correcao_y = correcao_y +parseInt( elemento.style.top.replace("px",""));
+	elemento = elemento.parentElement;
+	console.log("correcao_y: " + correcao_y);
+}
+
+if ( ((correcao_y +  3* parseInt(programa.style.ponto_de_insercao.face.style.height.replace("px","")) ) - programa.scrollTop) > parseInt(contem.clientHeight))
+{
+
+	programa.scrollTop=parseInt( (correcao_y + 3* parseInt(programa.style.ponto_de_insercao.face.style.height.replace("px",""))) - parseInt(contem.clientHeight) );
+	console.log("scroll top -> "+programa.scrollTop+ " contem_height: "+contem.clientHeight+ " correcao_y: "+correcao_y);
+}
+
+if (correcao_y< programa.scrollTop) {
+        let itz = parseInt(correcao_y - 4 * parseInt(programa.style.ponto_de_insercao.face.style.height.replace("px","")));
+	if (itz > 0)
+	{
+		programa.scrollTop = itz ;
+	}
+	else
+	{
+		programa.scrollTop = 0;
+	}
+}
+
+}
+
 document.addEventListener("keydown",
 function (e){
-
+console.log("teste");
 console.log(e.key);
 if (e.target.className == "entrada") {
 
@@ -341,6 +373,7 @@ if (e.key == "ArrowLeft") {
 		limpa_todos_blink(window.config);	
 		document.getElementById('programa').style.principal.innerHTML=''; 
 		document.getElementById('programa').style.principal.mostra();
+		scroll_programa(programa);
 		return;
 	}
 }
@@ -357,12 +390,8 @@ if (pai.indice_ponto_de_blinking <= pai.instrucoes.length - 1) {
 document.getElementById('programa').style.principal.innerHTML=''; 
 document.getElementById('programa').style.principal.mostra();
 console.log(contem.clientHeight + " - " + programa.style.ponto_de_insercao.face.style.top.replace("px","") );
-if ( parseInt(programa.style.ponto_de_insercao.face.style.top.replace("px","")) > parseInt(contem.clientHeight) ||
-	parseInt(programa.style.ponto_de_insercao.face.style.height.replace("px","")) < programa.scrollTop)
-{
 
-	programa.scrollTop=parseInt(programa.style.ponto_de_insercao.face.style.top.replace("px",""));
-}
+scroll_programa(programa);
 
 }, false
 )
@@ -390,12 +419,10 @@ document.getElementById("principal").addEventListener("focusout", function (e) {
 	import { websocketa } from "./websocketa.js";
 
 function insere_bloco(objeto, tipo){
-
 let objeto_itz = new bloco(window.config, null, null, objeto.esquerda, objeto.topo, tipo, objeto.guarda_altura, objeto.guarda_largura, objeto);
 objeto.insere_instrucao(objeto_itz);
-
-
 document.getElementById('programa').style.principal.innerHTML=''; document.getElementById('programa').style.principal.mostra();
+scroll_programa(programa);
 }
 
 window.insere_bloco = insere_bloco;

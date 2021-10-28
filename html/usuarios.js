@@ -128,13 +128,12 @@ logout(){
 
 
 var resposta = "";
-var url = '../php/login_usuario.php?usuario='+this.usuario_local.id+'&operacao=out';
+var url = '../php/login_usuario.php?id_usuario='+this.usuario_local.id+'&operacao=out';
 var oReq = new XMLHttpRequest();
 
 oReq.open("GET", url, false);
 oReq.onload = function (e) {
           resposta = oReq.responseText;
-	  return resposta;
           }
 oReq.send();
 }

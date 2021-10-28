@@ -73,7 +73,6 @@ function busca_url(){
            oReq.open("GET", url, false);
            oReq.onload = function (e) {
                      url_global=oReq.responseText;
-			alert(url_global);
                      }
            oReq.send();
 }

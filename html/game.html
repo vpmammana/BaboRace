@@ -16,7 +16,7 @@
 
 .exemplo {
 	position: absolute;
-box-sizing: border-box ;
+	box-sizing: border-box ;
 
 }
 
@@ -160,14 +160,30 @@ body{
 <!--- <input id="botao_va_para_y" type="button" value="Va para Y" onclick="window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'va_para_y'); "> --->
 <!--- <input id="botao_reset" type="button" value="RESET" onclick="window.config.reset=true;"> --->
 
-
-<input class="extra" type="button" style="float: right; width: 80px; height: 40px; " value="help " onclick="alert('Os botões ao lado permitem inserir comandos no código à direita. Com as setas voce pode mudar o ponto de inserção. Com o delete voce pode apagar um comando. Quando estiver com o ponto de inserção num determinado local, o comando abaixo comecará a piscar, indicando que você pode entrar no bloco com a seta à direta. Seta à esquerda sai do bloco. Delete apaga o comando ou bloco que estiver abaixo do ponto de inserção.O Espaco dispara o codigo.')"/>
+<table style="color: white; float: right; ">
+<tr>
+<td>
 <div class="texto" style="color: white; float: right; ">
 Autor: Victor Pellegrini Mammana &nbsp
 <br>CEMADEN<br>
 Design: Babolina
 </div>
-<input class="extra" type="button" style="float: right; width: 80px; height: 40px; " value="Sair"/>
+</td>
+<td>
+<table>
+<tr>
+<td><input id="help" class="extra" type="button" style="float: right; width: 80px; height: 40px; " value="help " onclick="alert('Os botões ao lado permitem inserir comandos no código à direita. Com as setas voce pode mudar o ponto de inserção. Com o delete voce pode apagar um comando. Quando estiver com o ponto de inserção num determinado local, o comando abaixo comecará a piscar, indicando que você pode entrar no bloco com a seta à direta. Seta à esquerda sai do bloco. Delete apaga o comando ou bloco que estiver abaixo do ponto de inserção.O Espaco dispara o codigo.')"/>
+</td>
+</tr>
+<tr>
+<td>
+<input id="sair" class="extra" type="button" style="float: right; width: 80px; height: 40px;" value="Sair" onclick="window.open(url_retorna, '_self')" />
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
 </div>
 
 <div id="principal">
@@ -176,7 +192,7 @@ Design: Babolina
 </div>
 <script>
 
-
+var url_retorna;
 var whoami;
 
 var params = {};
@@ -186,6 +202,19 @@ location.search.slice(1).split("&").forEach(function(pair) {
         whoami=decodeURIComponent(pair[1]);
 });
 //alert(whoami);
+
+
+function busca_url_retorna(){
+           var resposta="";
+           var url='../php/retorna.php';
+           var oReq=new XMLHttpRequest();
+           oReq.open("GET", url, false);
+           oReq.onload = function (e) {
+                     url_retorna=oReq.responseText;
+                     }
+           oReq.send();
+}
+
 
 function ajusta_tamanho_componentes_texto(container){
 
@@ -440,6 +469,7 @@ window.controle.selecionado.desliza(0.1,0,300);
 
 document.getElementById("principal").addEventListener("focusout", function (e) {alert(e.activeElement);});
 
+busca_url_retorna();
 </script>
 
 <script type="module">
@@ -577,7 +607,6 @@ programa.style.height = contem.getBoundingClientRect().height + "px";
 //alert(contem.getBoundingClientRect().width);
 //contem.style.width = programa.offsetWidth + "px";
 //contem.style.height = programa.offsetHeight; 
-
 	
 
 window.config = new configuracoes(programa);

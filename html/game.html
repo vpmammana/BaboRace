@@ -359,6 +359,7 @@ if (correcao_y< programa.scrollTop) {
 
 document.addEventListener("keydown",
 function (e){
+window.controle.central.inatividade = Date.now();
 console.log("teste");
 console.log(e.key);
 if (e.target.className == "entrada") {
@@ -481,6 +482,8 @@ busca_url_retorna();
 	import { websocketa } from "./websocketa.js";
 
 function insere_bloco(objeto, tipo){
+window.controle.central.inatividade = Date.now();
+
 let objeto_itz = new bloco(window.config, null, null, objeto.esquerda, objeto.topo, tipo, objeto.guarda_altura, objeto.guarda_largura, objeto);
 objeto.insere_instrucao(objeto_itz);
 document.getElementById('programa').style.principal.innerHTML=''; document.getElementById('programa').style.principal.mostra();
@@ -488,6 +491,13 @@ scroll_programa(programa);
 }
 
 window.insere_bloco = insere_bloco;
+
+window.addEventListener("unload", 
+function (){
+window.usuarios.logout();
+}
+);
+
 
 window.addEventListener("load", 
 function () {
@@ -501,6 +511,9 @@ window.controle.socket = window.conexao_socket;
 
 setTimeout(function (){
 	window.usuarios = new usuarios(whoami);
+window.controle.usuarios = window.usuarios;
+window.controle.url_retorna = url_retorna;
+
 
 window.usuarios.carrega_lista_usuarios();
 //alert(window.usuarios.usuario_local.on_line);

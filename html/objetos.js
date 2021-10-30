@@ -184,6 +184,7 @@ constructor (div){
 	this.altura_inicial_percentual = 3;
 	this.socket = null;
 	this.forca_x = 100;
+	this.limite_inatividade = 60000; // 1 minuto de inatividade derruba o usuario
 	this.forca_y = 100;
 	this.auto_increment=0; // usado para gerar ids
 	this.fator_thrust_height = 0.3;	
@@ -209,6 +210,8 @@ constructor (div){
 	this.nome_imagem_thrust="fogo_victor.png";
 	this.conta_frames = 0;
 	this.intervalo_frames_troca_fantasia = 4;
+	this.usuarios = null;
+	this.url_retorna;
 }
 
 set central(objeto){
@@ -236,6 +239,16 @@ if (that.palco == null) { return;}
 if ( that.pronto_para_animar == false) { return;} // ainda nao tem os imgs para animar
 if (that.guarda_central == null) {that.guarda_central = that.selecionado;}
 let i;
+
+if ( that.central.guarda_vx !=0 || that.central.guarda_vy !=0 ) { // para otimizar performance
+	that.central.inatividade=Date.now();
+}
+
+if (Date.now() - that.central.inatividade > that.limite_inatividade) {
+	that.usuarios.logout();
+	window.open(that.url_retorna,"_self");
+		
+}
 
 	for (i=0; i < that.objetos_em_cena.length; i++){
 		
@@ -463,6 +476,7 @@ export class movel {
    estado="indefinido";
 
 constructor (id, arquivo, nome_fantasia, controle, tipo_objeto, tipo_tag, sofre_colisao, chama_de_volta){ // tipo tag determina se eh um IMG ou um DIV que guarda a fantasia
+	this.inatividade=Date.now();
 	this.chama_de_volta = chama_de_volta;
 	this.tipo_tag = tipo_tag;
 	this.controle = controle;

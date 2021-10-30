@@ -1,0 +1,21 @@
+A pandemia foi um período de grande aprendizado para educadores e educadoras.
+
+As escolas tiveram que se reinventar, buscando ferramentas que permitissem a continuidade do aprendizado mesmo remotamente.
+
+Mas a verdade é que o mundo digital ainda não tem uma ferramenta adequada para a interação remota no contexto escolar.
+
+Neste vídeo mostraremos um jogo de computador desenvolvido para melhorar as condições de aprendizagem dos estudantes em situações remotas.
+
+Mas nosso objetivo vai além de transpor para o mundo digital a experiência da aula convencional.
+
+Queremos criar um novo tipo de experiência de aprendizado conjunto, em que as crianças compartilhem o mesmo espaço de criação, vivenciando em tempo real o que cada um está fazendo e aprendendo.
+
+Nossa inspiração é a linguagem de programação Scratch, um marco para a revolução do processo de ensino-aprendizagem. Hoje mais de 50 milhões de crianças no mundo todo usam essa linguagem, que foi criada por Mitc
+hel Resnick há cerca de 15 anos. Em seu ensaio "designing for wide walls", Mitchel Resnick nos revela o conceito de "piso baixo" e "teto alto" trazido por Seymour Papert, mas acrescenta a noção de "paredes largas". A ideia é que, para que uma tecnologia seja efetiva, ela precisa ter poucas barreiras para os novatos começarem (piso baixo), mas também prover meios para que eles possam crescer em projetos cada vez mais sofisticados. Além disso, Resnick nos traz o desafio de criar muitos caminhos entre o "chão baixo" e o "teto alto".
+
+Essa forma de design tem conquistado multidões, mas no contexto da pandemia o "piso baixo" do scratch foi prejudicado por outras barreiras que se interpõem no caminho, tais como as ferramentas de interação remota, tais como o Zoom, Meet e Jitsi. Não podemos desconsiderar o papel
+
+Não obstante o pioneirismo e excelência dessa linguagem, existem pontos que podem ser melhorados.
+
+O primeiro deles é a questão do design universal.
+

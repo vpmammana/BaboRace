@@ -36,6 +36,7 @@ return  this.guarda_autenticando;
 export class usuarios {
 
 constructor (whoami){
+	this.websocket = null;
 	this.apelido = whoami;
 	this.numero_maximo_usuarios = 30;
 	this.usuario = new usuario(whoami); // carrega os dados do usuario que estah tentando autenticar
@@ -111,13 +112,17 @@ oReq.send();
 }
 
 login(){
+
 var resposta = "";
 var url = '../php/login_usuario.php?id_usuario='+this.usuario_local.id+'&operacao=in';
 var oReq = new XMLHttpRequest();
-
+let that=this;
 oReq.open("GET", url, false);
 oReq.onload = function (e) {
           resposta = oReq.responseText;
+	  let mensagem_login ='{"tipo":"login","user":"'+that.usuarios[that.usuario_local.id].apelido+'"}' ;
+	that.websocket.manda_mensagem(mensagem_login);
+
 //	  if (resposta=="sucesso") { return true;}
 //	  else { return false;}
           }
@@ -130,10 +135,12 @@ logout(){
 var resposta = "";
 var url = '../php/login_usuario.php?id_usuario='+this.usuario_local.id+'&operacao=out';
 var oReq = new XMLHttpRequest();
-
+let that=this;
 oReq.open("GET", url, false);
 oReq.onload = function (e) {
           resposta = oReq.responseText;
+	  let mensagem_logout ='{"tipo":"logout","user":"'+that.usuarios[that.usuario_local.id].apelido+'"}' ;
+	that.websocket.manda_mensagem(mensagem_logout);
           }
 oReq.send();
 }

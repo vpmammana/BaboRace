@@ -43,6 +43,29 @@ BaboRace - Escolha o carrinho para jogar!
 
 
 <script>
+
+var websocket_aberto = false;
+
+const conn_websocket = new WebSocket("ws://34.95.214.164:9980");
+
+conn_websocket.onopen = function (e) {
+	websocket_aberto = true;
+}
+
+conn_websocket.onmessage = function (event){
+
+let mensagem = JSON.parse(event.data);
+
+if (mensagem.tipo == "login" || mensagem.tipo == "logout") {window.location.reload(true);} // esse true só funciona no firefox -> ele forca o reload sem cache
+}
+
+function manda_no_websocket(mensagem){
+console.log("manda no websocket" + websocket_aberto);
+if (websocket_aberto) {console.log("vou mandar:"+mensagem); conn_websocket.send(mensagem);} else { alert("Conexão não está aberta");};
+
+}
+
+
 var lista_usuarios=[];
 var razao_tamanho = 0.4;
 var cor_back = "darkblue";
@@ -94,7 +117,7 @@ function busca_usuarios(){
                      }
            oReq.send();
 }
-
+// cria_item_menu(url_global+usuario.apelido, usuario.imagem, usuario.online, usuario.nome_movel, usuario.apelido, x, y, largura);
 function cria_item_menu(link, path_img, logado, nome, nome2, x, y, largura){
 //console.log("link: "+link+" path_img: "+path_img+" logado: "+ logado + "nome: "+nome+" nome2: "+nome2+" x: "+x+" y: "+y +" largura: "+largura)	
 	var elemento_a = document.createElement("a");
@@ -159,7 +182,7 @@ function cria_item_menu(link, path_img, logado, nome, nome2, x, y, largura){
 	)
 	if (logado == "out") {
 		elemento_a.style.opacity=1;
-		elemento_a.href=link;
+		elemento_a.href="javascript: window.open('"+link+"','_self')";
 		elemento_a.addEventListener("mouseover",
 		function () {
 			elemento_a.style.border = "1px solid red";
@@ -169,7 +192,7 @@ function cria_item_menu(link, path_img, logado, nome, nome2, x, y, largura){
 	} 
 	if (logado == "in"){
 		elemento_a.style.opacity = 0.5;
-		elemento_a.href ="";
+		elemento_a.href ="javascript:alert('Já está em uso.')";
 		//elemento_a.href = "javascript:alert('Este usuário não está disponível')";
 	}
 //return elemento_a;  cuidado porque o retorno eh assincrono. Isso aqui pode nao funcionar

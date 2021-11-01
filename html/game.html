@@ -254,11 +254,11 @@ let altura = parseInt(container.getBoundingClientRect().height);
 let borda =parseInt(borda_str.replace("px","")) / 1.5;
 let exemplo = exemplo_entrada.children[0].children[0];
 
-console.log(exemplo);
-console.log(exemplo.innerHTML);
-console.log(exemplo.getBoundingClientRect().height);
-console.log(exemplo.parentElement);
-console.log(exemplo.parentElement.parentElement);
+//console.log(exemplo);
+//console.log(exemplo.innerHTML);
+//console.log(exemplo.getBoundingClientRect().height);
+//console.log(exemplo.parentElement);
+//console.log(exemplo.parentElement.parentElement);
 	exemplo.style.display = "block";
 	exemplo.style.visibility = "visible";
 	exemplo.style.fontSize = altura *0.4 + "px"; 	
@@ -328,19 +328,19 @@ function isCharNumber(c) {
 function scroll_programa(programa){
 let correcao_y = 0;
 let elemento = programa.style.ponto_de_insercao.face;
-console.log("elemento funcao");
-console.log(elemento);
+//console.log("elemento funcao");
+//console.log(elemento);
 while (elemento != programa){
 	correcao_y = correcao_y +parseInt( elemento.style.top.replace("px",""));
 	elemento = elemento.parentElement;
-	console.log("correcao_y: " + correcao_y);
+	//console.log("correcao_y: " + correcao_y);
 }
 
 if ( ((correcao_y +  3* parseInt(programa.style.ponto_de_insercao.face.style.height.replace("px","")) ) - programa.scrollTop) > parseInt(contem.clientHeight))
 {
 
 	programa.scrollTop=parseInt( (correcao_y + 3* parseInt(programa.style.ponto_de_insercao.face.style.height.replace("px",""))) - parseInt(contem.clientHeight) );
-	console.log("scroll top -> "+programa.scrollTop+ " contem_height: "+contem.clientHeight+ " correcao_y: "+correcao_y);
+	//console.log("scroll top -> "+programa.scrollTop+ " contem_height: "+contem.clientHeight+ " correcao_y: "+correcao_y);
 }
 
 if (correcao_y< programa.scrollTop) {
@@ -360,8 +360,8 @@ if (correcao_y< programa.scrollTop) {
 document.addEventListener("keydown",
 function (e){
 window.controle.central.inatividade = Date.now();
-console.log("teste");
-console.log(e.key);
+//console.log("teste");
+//console.log(e.key);
 if (e.target.className == "entrada") {
 
 	if (!(e.key == "ArrowUp" || e.key == "ArrowDown")) {return;}
@@ -405,8 +405,8 @@ if (e.key == "ArrowRight") { if (pai.indice_ponto_de_blinking <= pai.instrucoes.
 				if (["desvio", "principal", "repeticao"].includes(pai.instrucoes[pai.indice_ponto_de_blinking].tipo) ) {
 					programa.style.ponto_de_insercao = pai.instrucoes[pai.indice_ponto_de_blinking].ativa_ponto_de_insercao(0); // coloca no comeco
 					var removed2 = pai.instrucoes.splice(pai.indice_ponto_de_insercao,1); 
-								console.log("direita");
-								console.log(removed2[0]);
+								//console.log("direita");
+								//console.log(removed2[0]);
 								removed2[0].face.remove();
 								removed2[0]={};
 								removed2=[];
@@ -427,8 +427,8 @@ if (e.key == "ArrowLeft") {
 		//alert(guarda);
 		programa.style.ponto_de_insercao = pai.elemento_pai.ativa_ponto_de_insercao(guarda);
 		programa.style.ponto_de_insercao.elemento_pai.indice_ponto_de_insercao = guarda;
-		console.log("esquerda");
-		console.log(removed);
+		//console.log("esquerda");
+		//console.log(removed);
 		removed[0].face.remove();
 		removed[0]={};
 		removed=[];
@@ -451,7 +451,7 @@ if (pai.indice_ponto_de_blinking <= pai.instrucoes.length - 1) {
 
 document.getElementById('programa').style.principal.innerHTML=''; 
 document.getElementById('programa').style.principal.mostra();
-console.log(contem.clientHeight + " - " + programa.style.ponto_de_insercao.face.style.top.replace("px","") );
+//console.log(contem.clientHeight + " - " + programa.style.ponto_de_insercao.face.style.top.replace("px","") );
 
 scroll_programa(programa);
 
@@ -511,6 +511,7 @@ window.controle.socket = window.conexao_socket;
 
 setTimeout(function (){
 	window.usuarios = new usuarios(whoami);
+window.usuarios.websocket = window.conexao_socket;
 window.controle.usuarios = window.usuarios;
 window.controle.url_retorna = url_retorna;
 
@@ -526,6 +527,8 @@ console.log("usuario_local");
 console.log(window.usuarios.usuario_local);
 
 window.usuarios.login();
+//let mensagem_login ='{"tipo":"login","user":"'+window.usuarios.usuarios[window.usuarios.usuario_local.id].apelido+'"}' ;
+//window.conexao_socket.manda_mensagem(mensagem_login);
 window.usuarios.usuarios[window.usuarios.usuario_local.id].online = "in";
 }, 2000);
 
@@ -539,8 +542,8 @@ for (let key in window.usuarios.usuarios)
  if (key != "length") {
 //		let objeto_em_cena = window.controle.objetos_em_cena[i];
 		let userman = window.usuarios.usuarios[key];
-console.log("userman");
-console.log(userman);
+//console.log("userman");
+//console.log(userman);
 		if (userman.online == "in") 
 {
 		let primeira_fantasia = userman.id_fantasia;

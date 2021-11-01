@@ -184,7 +184,7 @@ constructor (div){
 	this.altura_inicial_percentual = 3;
 	this.socket = null;
 	this.forca_x = 100;
-	this.limite_inatividade = 60000; // 1 minuto de inatividade derruba o usuario
+	this.limite_inatividade = 1800000; // 1 minuto de inatividade derruba o usuario
 	this.forca_y = 100;
 	this.auto_increment=0; // usado para gerar ids
 	this.fator_thrust_height = 0.3;	

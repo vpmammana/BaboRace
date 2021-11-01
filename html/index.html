@@ -12,6 +12,11 @@ body{
   background: radial-gradient(#0047ea, #151515);
   height: 100vh;
   overflow: hidden;
+-moz-transform: scale(0.5);
+-webkit-transform: scale(0.5);
+-o-transform: scale(0.5);
+-ms-transform: scale(0.5);
+transform: scale(0.5);
 }
 
 #cabecalio{
@@ -38,7 +43,6 @@ BaboRace - Escolha o carrinho para jogar!
 
 
 <script>
-
 var lista_usuarios=[];
 var razao_tamanho = 0.4;
 var cor_back = "darkblue";
@@ -95,7 +99,6 @@ function cria_item_menu(link, path_img, logado, nome, nome2, x, y, largura){
 //console.log("link: "+link+" path_img: "+path_img+" logado: "+ logado + "nome: "+nome+" nome2: "+nome2+" x: "+x+" y: "+y +" largura: "+largura)	
 	var elemento_a = document.createElement("a");
 	document.body.appendChild(elemento_a);
-	elemento_a.href=link;
 	elemento_a.style.width = largura + "px";
 	elemento_a.style.overflow="hidden";
 	elemento_a.style.visibility="visible";
@@ -156,6 +159,7 @@ function cria_item_menu(link, path_img, logado, nome, nome2, x, y, largura){
 	)
 	if (logado == "out") {
 		elemento_a.style.opacity=1;
+		elemento_a.href=link;
 		elemento_a.addEventListener("mouseover",
 		function () {
 			elemento_a.style.border = "1px solid red";
@@ -165,8 +169,10 @@ function cria_item_menu(link, path_img, logado, nome, nome2, x, y, largura){
 	} 
 	if (logado == "in"){
 		elemento_a.style.opacity = 0.5;
+		elemento_a.href ="";
+		//elemento_a.href = "javascript:alert('Este usuário não está disponível')";
 	}
-return elemento_a; // cuidado porque o retorno eh assincrono. Isso aqui pode nao funcionar
+//return elemento_a;  cuidado porque o retorno eh assincrono. Isso aqui pode nao funcionar
 }
 
 function apresenta_menu(){

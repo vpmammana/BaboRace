@@ -14,21 +14,25 @@ for (i=0; i < lista.length; i++) {
 //
 
 export class configuracoes {
-constructor(elemento_pai){
+constructor(elemento_pai, valor_parametro_de_tamanho, valor_parametro_de_largura){
+	this.guarda_parametro_de_tamanho = valor_parametro_de_tamanho;
+	this.guarda_parametro_de_largura = valor_parametro_de_largura;
+//window.config.topo=parseInt(document.getElementById("comandos").getBoundingClientRect().height) * 0.001; // usando comandos como escala
+//window.config.altura =  parseInt(document.getElementById("comandos").getBoundingClientRect().height) * 0.5;
+//window.config.altura_insercao = parseInt(document.getElementById("comandos").getBoundingClientRect().height) * 0.5;
+//window.config.font_ponto_insercao = window.config.altura_insercao/1.1 ;
+//window.config.fonte_tamanho = window.config.font_ponto_insercao; 
+//window.config.padding_inferior = parseInt(document.getElementById("comandos").getBoundingClientRect().height) * 0.2;
+	this.parametro_de_tamanho = valor_parametro_de_tamanho;
+	this.parametro_de_largura = valor_parametro_de_largura;
+
+	this.percentual_de_bordas = 0.05;
 	this.fator_reducao = 0.83;
 	this.delta_t_blink = 300;
-	this.fonte_tamanho = 20;
-	this.font_ponto_insercao = 13;
 	this.color_nome = "black";
 	this.background_nome = "";
-	this.altura = 150;
-	this.largura= 150;
-	this.altura_insercao = 20;
-	this.largura_insercao = this.largura;
 	this.conta_id = 0;
 	this.elemento_pai = elemento_pai;
-	this.esquerda = 10;
-	this.topo = 30;
 	this.backgroundcolor_Fx = "red";
 	this.backgroundcolor_Fy = "red";
 	this.backgroundcolor_delay = "white";
@@ -39,15 +43,9 @@ constructor(elemento_pai){
 	this.backgroundcolor_insercao = "green";
 	this.backgroundcolor_freio = "lightblue";
 	this.backgroundcolor_blink = "gray";
-	this.borderradius = "25px";
-	this.topo_nome =    parseInt(this.borderradius)/3;
-	this.esquerda_nome= parseInt(this.borderradius)/3;
-	this.borda = "5px solid black";
-	this.padding_inferior = 20;
-	this.borderradius_insercao = "5px";
-	this.borda_insercao = "2px solid black";
+	this.topo_nome =    parseInt(this.borderradius.replace("px",""))/3;
+	this.esquerda_nome= parseInt(this.borderradius.replace("px",""))/3;
 	this.background = document.body;
-	this.tab = 20;
 	this.classe_div = "instrucao_div";
 	this.executavel=[]
 	this.delta_t_execucao = 300; // ms para cara instrucao delta_t
@@ -56,6 +54,37 @@ constructor(elemento_pai){
 	this.em_execucao = false;
 	this.movel = null;
 }
+set parametro_de_largura(valor){
+	this.guarda_parametro_de_largura = valor;
+	this.largura= this.guarda_parametro_de_largura * 0.9; 
+	this.largura_insercao = this.largura; 
+	this.esquerda = this.largura * 0.05;
+	this.tab = this.largura * 0.05;
+
+
+}
+
+get parametro_de_largura(){
+	return guarda_paramentro_de_largura;
+}
+set parametro_de_tamanho(valor){
+	this.guarda_parametro_de_tamanho = valor;
+	this.fonte_tamanho = this.guarda_parametro_de_tamanho * 0.4;
+	this.altura = parseInt(this.guarda_parametro_de_tamanho * 0.5);
+	this.altura_insercao = parseInt(this.guarda_parametro_de_tamanho * 0.5);
+	this.font_ponto_insercao = parseInt(this.altura_insercao/1.1);
+	this.padding_inferior = parseInt(this.guarda_parametro_de_tamanho * 0.2);
+	this.topo = parseInt(this.guarda_parametro_de_tamanho * 0.001);
+	this.borderradius = this.guarda_parametro_de_tamanho * 0.25 +  "px"; 
+ 	this.borda = Math.ceil(this.guarda_parametro_de_tamanho * this.percentual_de_bordas) + "px solid black";
+	this.borderradius_insercao = Math.ceil(this.guarda_parametro_de_tamanho * this.percentual_de_bordas) + "px"; 
+	this.borda_insercao =  Math.ceil(this.guarda_parametro_de_tamanho * this.percentual_de_bordas) + "px solid black";  
+}
+
+get parametro_de_tamanho(){
+	return guarda_paramentro_de_tamanho;
+}
+
 }
 
 class ponto_insercao {
@@ -414,9 +443,17 @@ if (that.configuracoes.reset) { that.configuracoes.reset = false;   clearInterva
 
 
 lista_instrucoes(){
+
+let div_nome = this.face.style.titulo;
+
+	div_nome.style.fontSize = this.configuracoes.fonte_tamanho + "px";
+	div_nome.style.top      = this.configuracoes.topo_nome + "px";
+	div_nome.style.left     = this.configuracoes.esquerda_nome + "px";
+	div_nome.style.height   = this.configuracoes.fonte_tamanho + "px";
+
 let i;
 let desconto = parseInt(this.face.style.titulo.style.top.replace("px","")) + parseInt(this.face.style.titulo.style.height.replace("px","")) + this.configuracoes.padding_inferior;
-let baixo = desconto ;
+let baixo = desconto;
 //console.log(baixo);
 for (i=0; i< this.instrucoes.length; i++){
 	let instrucao=this.instrucoes[i];
@@ -452,8 +489,8 @@ retorna_face(){
 		//alert(this.elemento_pai.style.width);
 	}
 	if (["delay","va_para_x","va_para_y","Fy","Fx","repeticao","desvio", "freio"].includes(this.tipo)) {
-	div.style.width =  parseInt(this.elemento_pai.face.style.width.replace("px","")) *this.configuracoes.fator_reducao +"px"  ;
-	div.style.height = parseInt(this.elemento_pai.face.style.height.replace("px","")) *this.configuracoes.fator_reducao +"px" ;
+	div.style.width  = parseInt(this.elemento_pai.face.style.width.replace("px",""))  * this.configuracoes.fator_reducao +"px" ;
+	div.style.height = parseInt(this.elemento_pai.face.style.height.replace("px","")) * this.configuracoes.fator_reducao +"px" ;
 	}
 
 	if (["delay_exemplo","va_para_x_exemplo","va_para_y_exemplo","Fy_exemplo","Fx_exemplo","repeticao_exemplo","desvio_exemplo", "freio_exemplo"].includes(this.tipo)) {
@@ -468,6 +505,7 @@ retorna_face(){
 	div_nome.style.visibility = "visible";
 	div.appendChild(div_nome);
 	div_nome.style.fontSize = this.configuracoes.fonte_tamanho + "px";
+	//alert(this.configuracoes.fonte_tamanho);
 	div_nome.style.color = this.configuracoes.color_nome;
 	div_nome.style.backgroundColor = this.configuracoes.background_nome;
 	div_nome.innerHTML = this.nome;

@@ -6,17 +6,19 @@ Babo Race - Corrida da Babolina
 		</title>
 	</head>
 	<style>
+
+html {
+	height: 100%;
+	width: 100%;
+	position: absolute;
+}
+
 body{
-  background-color: blue;
   background: -moz-radial-gradient(center, ellipse cover, #0047ea 0%, #151515 100%);
   background: radial-gradient(#0047ea, #151515);
-  height: 100vh;
+  height: 100%;
+  width: 100%;
   overflow: hidden;
--moz-transform: scale(0.5);
--webkit-transform: scale(0.5);
--o-transform: scale(0.5);
--ms-transform: scale(0.5);
-transform: scale(0.5);
 }
 
 #cabecalio{
@@ -43,6 +45,10 @@ BaboRace - Escolha o carrinho para jogar!
 
 
 <script>
+
+
+document.body.style.height = document.body.style.clientHeight + "px";
+document.body.style.width = document.body.style.clientWidth + "px";
 
 var websocket_aberto = false;
 

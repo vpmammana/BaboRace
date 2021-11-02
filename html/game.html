@@ -66,7 +66,6 @@ body{
 	height: 6%;
 	padding: 0px;
 	border: 1px solid white;	
-	box-sizing: border-box;
 	z-index: 100;
 	background-color: blue;
 	overflow: hidden;
@@ -194,6 +193,7 @@ Design: Babolina
 
 var url_retorna;
 var whoami;
+var razao_botoes = 0.4;
 
 var params = {};
 location.search.slice(1).split("&").forEach(function(pair) {
@@ -202,6 +202,7 @@ location.search.slice(1).split("&").forEach(function(pair) {
         whoami=decodeURIComponent(pair[1]);
 });
 //alert(whoami);
+
 
 
 function busca_url_retorna(){
@@ -225,6 +226,7 @@ for (i=0; i < textos.length; i++)
 
 	texto = textos[i];
 	texto.style.fontSize = 0.25*(container.clientHeight)/2 + "px";
+	console.log(0.25*(container.clientHeight)/2 + "px");
 
 }
 
@@ -234,16 +236,23 @@ function ajusta_tamanho_componentes_extras(container){
 
 let i;
 let extras = document.getElementsByClassName("extra");
+console.log("Extras")
+console.log(extras);
 let razao_extra;
 for (i=0; i < extras.length; i++)
 {	
 
-	extra = extras[i];
-	razao_extra = extra.clientHeight/ extra.clientWidth;
+	let extra = extras[i];
+setTimeout(
+function (){
+	razao_extra = razao_botoes;
+	console.log(razao_extra);
 	extra.style.height = container.clientHeight/2 + "px";
 	extra.style.fontSize = 0.7*(container.clientHeight)/2 + "px";
-	extra.style.width = container.clientHeight /razao_extra + "px";
+	extra.style.width = ((container.clientHeight/2) /razao_extra) + "px";
+},300
 
+)
 }
 
 }
@@ -280,20 +289,31 @@ function ajusta_tamanho_de_todos_exemplos(container){
 let exemplos = document.getElementsByClassName("exemplo");
 let i;
 let altura = parseInt(container.getBoundingClientRect().height);
+let pos_x = 0;
+
+espacamento = comandos.getBoundingClientRect().height * 0.1;
+correcao_borda = Math.floor(comandos.getBoundingClientRect().height * 0.02);
 
 for (i=0; i < exemplos.length; i++){
 	exemplo = exemplos[i];
-	exemplo.style.fontSize = altura *0.3 + "px"; 	
+	console.log("altura: "+altura+" antes get: "+ exemplo.getBoundingClientRect().width);
+	exemplo.style.fontSize = altura *0.3 + "px"; 
+	console.log("depois get: "+ exemplo.getBoundingClientRect().width);
 	exemplo.style.display = "block";
 	exemplo.style.visibility = "visible";
 	exemplo.parentElement.style.top = "0px";
 	exemplo.parentElement.style.padding = "0px";
 	exemplo.parentElement.style.height = exemplo.style.fontSize;
+	console.log("Font: "+exemplo.style.fontSize);
 	exemplo.parentElement.parentElement.style.height = exemplo.getBoundingClientRect().height + "px";
+	console.log(exemplo.parentElement.parentElement);
+	exemplo.style.borderWidth = correcao_borda + "px";
 	exemplo.style.top="0px";
 	exemplo.parentElement.style.width = exemplo.getBoundingClientRect().width + "px";
-
+	exemplo.parentElement.style.left = "0px";
 	exemplo.parentElement.parentElement.style.width = exemplo.parentElement.style.width;
+	exemplo.parentElement.parentElement.style.left = pos_x + "px";
+	pos_x = pos_x + exemplo.clientWidth + espacamento;
 	
 }
 
@@ -359,6 +379,7 @@ if (correcao_y< programa.scrollTop) {
 
 document.addEventListener("keydown",
 function (e){
+window.config.parametro_de_tamanho = comandos.getBoundingClientRect().height;
 window.controle.central.inatividade = Date.now();
 //console.log("teste");
 //console.log(e.key);
@@ -617,6 +638,9 @@ var contem =  document.getElementById("contem");
 var programa = document.getElementById("programa");
 var comandos = document.getElementById("comandos");
 
+var espacamento    = comandos.getBoundingClientRect().height * 0.1;
+var correcao_borda = comandos.getBoundingClientRect().height * 0.02;
+
 programa.style.width = contem.getBoundingClientRect().width + "px";
 programa.style.height = contem.getBoundingClientRect().height + "px";
 //programa.style.height = "600px";
@@ -625,24 +649,23 @@ programa.style.height = contem.getBoundingClientRect().height + "px";
 //contem.style.height = programa.offsetHeight; 
 	
 
-window.config = new configuracoes(programa);
-window.config.topo=parseInt(document.getElementById("comandos").getBoundingClientRect().height) * 0.001; // usando comandos como escala
-window.config.altura =  parseInt(document.getElementById("comandos").getBoundingClientRect().height) * 0.5;
-window.config.altura_insercao = parseInt(document.getElementById("comandos").getBoundingClientRect().height) * 0.5;
-window.config.font_ponto_insercao = window.config.altura_insercao/1.1 ;
-window.config.fonte_tamanho = window.config.font_ponto_insercao; 
-window.config.padding_inferior = parseInt(document.getElementById("comandos").getBoundingClientRect().height) * 0.2;
-window.bloco1 = new bloco(config, null, null, config.esquerda, config.topo, "principal", config.altura, config.largura, config.elemento_pai);
+window.config = new configuracoes(programa, comandos.getBoundingClientRect().height, programa.getBoundingClientRect().width);
+//window.config.topo=parseInt(document.getElementById("comandos").getBoundingClientRect().height) * 0.001; // usando comandos como escala
+//window.config.altura =  parseInt(document.getElementById("comandos").getBoundingClientRect().height) * 0.5;
+//window.config.altura_insercao = parseInt(document.getElementById("comandos").getBoundingClientRect().height) * 0.5;
+//window.config.font_ponto_insercao = window.config.altura_insercao/1.1 ;
+//window.config.fonte_tamanho = window.config.font_ponto_insercao; 
+//window.config.padding_inferior = parseInt(document.getElementById("comandos").getBoundingClientRect().height) * 0.2;
+window.bloco1 = new bloco(window.config, null, null, window.config.esquerda, window.config.topo, "principal", window.config.altura, window.config.largura, window.config.elemento_pai);
 window.config.movel = window.controle.central;
 	window.controle.central.posicao_percentual_x=window.controle.posicao_inicial_percentual_x; // sempre posicione o movel depois do config
 	window.controle.central.posicao_percentual_y=window.controle.posicao_inicial_percentual_y + window.controle.objetos_em_cena.indexOf(window.controle.central);
 
-window.config_comandos = new configuracoes(comandos);
-window.config_comandos.topo=parseInt(document.getElementById("comandos").getBoundingClientRect().height) * 0.05;
-window.config_comandos.altura =  parseInt(document.getElementById("comandos").getBoundingClientRect().height) * 0.5;
-window.config_comandos.largura = 200;
+window.config_comandos = new configuracoes(comandos, comandos.getBoundingClientRect().height, programa.getBoundingClientRect().width);
+//window.config_comandos.topo=parseInt(document.getElementById("comandos").getBoundingClientRect().height) * 0.05;
+//window.config_comandos.altura =  parseInt(document.getElementById("comandos").getBoundingClientRect().height) * 0.5;
+//window.config_comandos.largura = 200;
 
-let espacamento=10;
 
 window.bloco_repete = new bloco(config_comandos, null, null, config_comandos.esquerda, config_comandos.topo, "repeticao_exemplo", config_comandos.altura, config_comandos.largura, config_comandos.elemento_pai);
 window.bloco_repete.face.addEventListener ("click",
@@ -708,6 +731,26 @@ programa.style.principal = bloco1;
 programa.style.ponto_de_insercao =  bloco1.ativa_ponto_de_insercao(0);
 bloco1.mostra(0);
 //ajusta_tamanho_de_todos_exemplos(comandos);
+
+
+const retamanho = new ResizeObserver(entries => {
+        for (const entry of entries) {
+setTimeout ( function () {ajusta_tamanho_de_todos_exemplos(comandos);}, 300);
+ajusta_tamanho_componentes_extras(comandos);
+ajusta_tamanho_componentes_texto(comandos);
+window.config.parametro_de_tamanho = comandos.getBoundingClientRect().height;
+window.config.parametro_de_largura = programa.getBoundingClientRect().width;
+window.config_comandos.parametro_de_tamanho =  comandos.getBoundingClientRect().height;
+programa.style.height = contem.getBoundingClientRect().height + "px";
+programa.style.width = contem.getBoundingClientRect().width   + "px";
+		programa.style.principal.innerHTML=''; 
+		programa.style.principal.mostra();
+
+console.log("Altura: "+document.getElementById("comandos").clientHeight);
+        }
+});
+
+retamanho.observe(document.body);
 
 
 	},3500);

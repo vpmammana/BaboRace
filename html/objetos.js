@@ -224,6 +224,11 @@ get central() {
 	return this.guarda_central;
 }
 
+correcao_de_palco(){
+alert("correcao");
+ 	this.palco.corrige_palco(parseInt(this.central.lista_de_fantasias[this.central.fantasia - 1].style.left.replace("px","")),parseInt(this.central.lista_de_fantasias[this.central.fantasia - 1].style.top.replace("px","")));
+}
+
 inicia_animacao(){
 	let that=this;
 	this.sistema_de_colisao.preenche_matriz_x();

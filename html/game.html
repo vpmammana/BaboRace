@@ -735,14 +735,23 @@ bloco1.mostra(0);
 
 const retamanho = new ResizeObserver(entries => {
         for (const entry of entries) {
-setTimeout ( function () {ajusta_tamanho_de_todos_exemplos(comandos);}, 300);
+setTimeout ( function () 
+	{
+		ajusta_tamanho_de_todos_exemplos(comandos);
+	}, 300);
+setTimeout ( function () 
+	{
+		window.controle.palco.tabuleiro.style.top = "0px";
+		window.controle.palco.tabuleiro.style.left = "0px";
+		window.controle.central.posicao_percentual_x = window.controle.central.posicao_percentual_x; // para forcar reposicionamento do scroll
+	}, 500);
+
 ajusta_tamanho_componentes_extras(comandos);
 ajusta_tamanho_componentes_texto(comandos);
 window.config.parametro_de_tamanho = comandos.getBoundingClientRect().height;
 window.config.parametro_de_largura = programa.getBoundingClientRect().width;
 window.config_comandos.parametro_de_tamanho =  comandos.getBoundingClientRect().height;
 
-window.controle.correcao_de_palco();
 programa.style.height = contem.getBoundingClientRect().height + "px";
 programa.style.width = contem.getBoundingClientRect().width   + "px";
 programa.style.principal.innerHTML=''; 

@@ -225,7 +225,6 @@ get central() {
 }
 
 correcao_de_palco(){
-alert("correcao");
  	this.palco.corrige_palco(parseInt(this.central.lista_de_fantasias[this.central.fantasia - 1].style.left.replace("px","")),parseInt(this.central.lista_de_fantasias[this.central.fantasia - 1].style.top.replace("px","")));
 }
 
@@ -399,6 +398,7 @@ corrige_palco(x_itz, y_itz) {
 	
 	var largura_tela = document.body.clientWidth;  
 	var  altura_tela = document.body.clientHeight - this.controle.espacamento_superior; // para descontar o menu horizontal no topo da pagina 
+	//alert("largura: "+largura_tela+"altura_tela: "+altura_tela);
 	var mobile = this.central.lista_de_fantasias[this.central.fantasia - 1];
 //	mobile.style.transition = "none";
 // as posicoes  abaixo se referem aa posicao do movel

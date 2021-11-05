@@ -182,6 +182,10 @@ constructor (div){
 	this.posicao_inicial_percentual_y = 82;
 	this.largura_inicial_percentual = 3;
 	this.altura_inicial_percentual = 3;
+	this.velocidade_limite = 0.003; // velocidade a partir da qual não vale mais a pena mandar pelo websocket
+	this.periodo_envio_websocket = 5; // reduz a taxa de envio para o websocket	
+	this.casas_decimais = 4; // casas decimais no websocket
+	this.conta_animation_steps = 0;
 	this.socket = null;
 	this.forca_x = 100;
 	this.limite_inatividade = 1800000; // 1 minuto de inatividade derruba o usuario
@@ -261,11 +265,18 @@ if (Date.now() - that.central.inatividade > that.limite_inatividade) {
 			objeto.guarda_ax = - objeto.guarda_vx * (objeto.atrito + (objeto.freio * objeto.guarda_atrito_freio));
 			objeto.guarda_vy = objeto.guarda_vy + objeto.guarda_ay * that.delta_t_simulacao;
 			objeto.guarda_ay = - objeto.guarda_vy * (objeto.atrito + (objeto.freio * objeto.guarda_atrito_freio));
-			if (Math.abs(objeto.guarda_vx) < 0.003) { objeto.guarda_vx = 0;} // mata um resquicio de velocidade o que vai melhorar a performance
-			if (Math.abs(objeto.guarda_vy) < 0.003) { objeto.guarda_vy = 0;}
+			if (Math.abs(objeto.guarda_vx) < this.velocidade_limite) { objeto.guarda_vx = 0;} // mata um resquicio de velocidade o que vai melhorar a performance
+			if (Math.abs(objeto.guarda_vy) < this.velocidade_limite) { objeto.guarda_vy = 0;}
 
 			if ( objeto.guarda_vx !=0 || objeto.guarda_vy !=0 ) { // para otimizar performance
-				that.socket.msg_posicao(objeto.usuario, objeto.id_usuario, objeto.id_fantasia, objeto.posicao_percentual_x, objeto.posicao_percentual_y);
+				if (that.conta_animation_steps >= that.periodo_envio_websocket){
+				that.socket.msg_posicao(objeto.usuario, objeto.id_usuario, objeto.id_fantasia, objeto.posicao_percentual_x.toFixed(that.casas_decimais), objeto.posicao_percentual_y.toFixed(that.casas_decimais));
+				that.conta_animation_steps = 0;
+				}
+				else
+				{
+				that.conta_animation_steps++;
+				}
 				objeto.velho_x = parseInt(objeto.lista_de_fantasias[objeto.fantasia -1].style.left.replace("px","")); // importante para a colisao: vai determinar a direcao do "ricochete"
 				objeto.velho_y = parseInt(objeto.lista_de_fantasias[objeto.fantasia -1].style.top.replace("px",""));
 	

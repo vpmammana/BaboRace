@@ -22,14 +22,14 @@ constructor (){
 		console.log("Conexão estabelecida");
 	}
 	this.conn_websocket.onmessage = function(event) {
-		console.log("recebeu mensagem");
+		console.log("recebeu mensagem -> "+ event.data);
 		that.mensagem_recebida = event.data;
 		that.trata_mensagem();
 	}
 
 } // fim constructor websocketa
 
-posiciona(usuario, id_usuario, x, y){
+posiciona(id_usuario, x, y){
 
 let i;
 
@@ -46,7 +46,7 @@ for (i=0; i < this.controle.objetos_remotos.length; i++){
 trata_mensagem(){
 	let msg_json = JSON.parse(this.mensagem_recebida);
 	if (msg_json.tipo = "pos") {
-		this.posiciona(msg_json.user, msg_json.id_u, msg_json.x, msg_json.y);
+		this.posiciona(msg_json.id_u, msg_json.x, msg_json.y);
 	}
 //	alert(this.mensagem_recebida);		
 } // fim trata_mensagem
@@ -63,7 +63,7 @@ manda_mensagem(mensagem){
 } // fim manda_mensagem
 
 msg_posicao(usuario, id_usuario, id_fantasia, x,y){
-	this.mensagem_a_enviar= '{"tipo":"pos","user":"'+usuario+'","id_u":"'+id_usuario+'","id_f":"'+id_fantasia+'","x":"'+x+'","y":"'+y+'"}';
+	this.mensagem_a_enviar= '{"tipo":"pos","id_u":"'+id_usuario+'","id_f":"'+id_fantasia+'","x":"'+x+'","y":"'+y+'"}';
 this.manda_mensagem(this.mensagem_a_enviar);
 } // fim msg_posicao
 

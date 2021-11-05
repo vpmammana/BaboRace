@@ -428,6 +428,7 @@ if (that.configuracoes.reset) { that.configuracoes.reset = false;   clearInterva
 	if (instrucao.funcao == "Fy") { carro.Fy =  parseFloat(document.getElementById(instrucao.parametro).value);}
 	if (instrucao.funcao == "va_para_x") { carro.guarda_vx=0; carro.guarda_vy=0; carro.posicao_percentual_x =   parseInt(document.getElementById(instrucao.parametro).value);}
 	if (instrucao.funcao == "va_para_y") { carro.guarda_vx=0; carro.guarda_vy=0;carro.posicao_percentual_y =  parseInt(document.getElementById(instrucao.parametro).value);}
+	if (instrucao.funcao == "va_para_x" || instrucao.funcao == "va_para_y") {carro.controle.socket.msg_posicao(carro.usuario, carro.id_usuario,  carro.lista_de_fantasias[carro.fantasia - 1], carro.posicao_percentual_x,carro.posicao_percentual_y);}
    	console.log("PC "+that.configuracoes.pc);	
 	let itz = instrucao.id.style.border; 
 	instrucao.id.style.border = "5px solid red";

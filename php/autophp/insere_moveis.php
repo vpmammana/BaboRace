@@ -257,7 +257,7 @@ echo "
 
 echo "
 <table class='botoeira'>
-<tr class='cabecalio_table'><th></th><th>id</th><th>nome_movel</th><th>time_stamp</th></tr>";
+<tr class='cabecalio_table'><th></th><th>id</th><th>nome_movel</th><th>x_inicial</th><th>y_inicial</th><th>time_stamp</th></tr>";
 
 
 
@@ -283,6 +283,10 @@ $id_registro=$row["id_chave_movel"];
 
 $nome_movel=$row["nome_movel"];
 $campos_atualizaveis=$campos_atualizaveis.",".'"campo_'.$id_registro.'_2"';
+$x_inicial=$row["x_inicial"];
+$campos_atualizaveis=$campos_atualizaveis.",".'"campo_'.$id_registro.'_3"';
+$y_inicial=$row["y_inicial"];
+$campos_atualizaveis=$campos_atualizaveis.",".'"campo_'.$id_registro.'_4"';
 $time_stamp=$row["time_stamp"];
 
 $campos_atualizaveis=$campos_atualizaveis."]";
@@ -295,6 +299,30 @@ echo "<tr class='principal'><td>".$row_number."</td><td>".$id_chave_movel."</td>
 					data-alterado='nao'
 					data-tabela='moveis'
 					data-campo='nome_movel'
+                                        data-id='".$id_registro."'
+        				data-nivel='0'
+				/>
+			   </td><td>
+				<input 
+					id='campo_".$id_registro."_3' 
+                                        class='editavel'
+					type='text' 
+					value='".$x_inicial."'
+					data-alterado='nao'
+					data-tabela='moveis'
+					data-campo='x_inicial'
+                                        data-id='".$id_registro."'
+        				data-nivel='0'
+				/>
+			   </td><td>
+				<input 
+					id='campo_".$id_registro."_4' 
+                                        class='editavel'
+					type='text' 
+					value='".$y_inicial."'
+					data-alterado='nao'
+					data-tabela='moveis'
+					data-campo='y_inicial'
                                         data-id='".$id_registro."'
         				data-nivel='0'
 				/>

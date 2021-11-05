@@ -11,7 +11,7 @@ $database="baboracex";
 $conn= new mysqli("localhost", $username, $pass, $database);
 $arr=array();
 
-$sql="select id_chave_registrado, nome_registrado, id_chave_movel, nome_movel, nome_on_line, id_chave_fantasia, nome_fantasia, photo_filename_fantasia, ordem from fantasias as f, moveis as m, registrados as r, moveis_fantasias as mf, tipos_operacoes_on_line where id_chave_movel = r.id_movel and mf.id_movel = id_chave_movel and mf.id_fantasia = id_chave_fantasia and id_on_line=id_chave_tipo_operacao_on_line and id_chave_registrado and id_chave_registrado = ".$id_usuario." order by nome_registrado, ordem";
+$sql="select id_chave_registrado, nome_registrado, x_inicial, y_inicial, id_chave_movel, nome_movel, nome_on_line, id_chave_fantasia, nome_fantasia, photo_filename_fantasia, ordem from fantasias as f, moveis as m, registrados as r, moveis_fantasias as mf, tipos_operacoes_on_line where id_chave_movel = r.id_movel and mf.id_movel = id_chave_movel and mf.id_fantasia = id_chave_fantasia and id_on_line=id_chave_tipo_operacao_on_line and id_chave_registrado and id_chave_registrado = ".$id_usuario." order by nome_registrado, ordem";
 
 
 $result=$conn->query("$sql");
@@ -29,8 +29,10 @@ if ($result->num_rows >0) {
       $nome_fantasia = $row["nome_fantasia"];
       $imagem = $row["photo_filename_fantasia"];
       $ordem = $row["ordem"];
+      $x_inicial = $row["x_inicial"];
+      $y_inicial = $row["y_inicial"];
       
-   array_push($arr,array('id_usuario' => $id_usuario, 'nome_registrado' => $nome_registrado, 'id_movel'=> $id_movel , 'nome_movel' => $nome_movel, 'online' => $online, 'id_fantasia' => $id_fantasia,  'nome_fantasia' => $nome_fantasia, 'imagem'=> $imagem, 'ordem' => $ordem));
+   array_push($arr,array('id_usuario' => $id_usuario, 'nome_registrado' => $nome_registrado, 'id_movel'=> $id_movel , 'nome_movel' => $nome_movel, 'online' => $online, 'id_fantasia' => $id_fantasia,  'nome_fantasia' => $nome_fantasia, 'imagem'=> $imagem, 'ordem' => $ordem, 'x_inicial' => $x_inicial, 'y_inicial' => $y_inicial));
     }
 
 $final = array('lista' => $arr);

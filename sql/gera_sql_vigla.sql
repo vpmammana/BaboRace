@@ -7,7 +7,7 @@ create table fantasias(id_chave_fantasia int not null auto_increment, nome_fanta
 
 create table tipos_operacoes_on_line(id_chave_tipo_operacao_on_line int not null auto_increment, nome_on_line varchar(20), primary key(id_chave_tipo_operacao_on_line)) comment = "Guarda tipo de operacao.";
 
-create table moveis(id_chave_movel int not null auto_increment, nome_movel varchar(100), time_stamp timestamp, primary key (id_chave_movel), unique(nome_movel)) comment="Apenas um movel por registrado";
+create table moveis(id_chave_movel int not null auto_increment, nome_movel varchar(100), x_inicial int, y_inicial int, time_stamp timestamp, primary key (id_chave_movel), unique(nome_movel)) comment="Apenas um movel por registrado";
 
 create table registrados(id_chave_registrado int not null auto_increment, nome_registrado varchar(100), apelido varchar(100), id_on_line int, id_movel int comment "Como eh unique, apenas um movel por registrado", time_stamp timestamp, primary key(id_chave_registrado), unique(nome_registrado), unique(id_movel)) comment="Escolhido como registrado para linkar na base de dados do sistema de identificacao de QR code";
 
@@ -22,12 +22,12 @@ ALTER TABLE operacoes_on_line ADD CONSTRAINT FK_registrado_operacao FOREIGN KEY 
 ALTER TABLE registrados ADD CONSTRAINT FK_registrado_on_line FOREIGN KEY (id_on_line) REFERENCES tipos_operacoes_on_line(id_chave_tipo_operacao_on_line);
 ALTER TABLE operacoes_on_line ADD CONSTRAINT FK_operacao_on_line FOREIGN KEY (id_operacao) REFERENCES tipos_operacoes_on_line(id_chave_tipo_operacao_on_line);
 
-insert into moveis(nome_movel) values ("carrinho_amarelo");
-insert into moveis(nome_movel) values ("carrinho_vermelho");
-insert into moveis(nome_movel) values ("carro_babolina");
-insert into moveis(nome_movel) values ("FuscaValdo");
-insert into moveis(nome_movel) values ("MamonaMovel");
-insert into moveis(nome_movel) values ("Carcovado");
+insert into moveis(x_inicial, y_inicial, nome_movel) values (-5, 90, "carrinho_amarelo");
+insert into moveis(x_inicial, y_inicial, nome_movel) values (-5, 85, "carrinho_vermelho");
+insert into moveis(x_inicial, y_inicial, nome_movel) values (-5, 80, "carro_babolina");
+insert into moveis(x_inicial, y_inicial, nome_movel) values (-5, 75, "FuscaValdo");
+insert into moveis(x_inicial, y_inicial, nome_movel) values (-5, 70, "MamonaMovel");
+insert into moveis(x_inicial, y_inicial, nome_movel) values (-5, 65, "Carcovado");
 
 insert into fantasias (nome_fantasia, photo_filename_fantasia) values ("carrinho_amarelo_1", "../php/imagens/carrinho_amarelo1.png");
 insert into fantasias (nome_fantasia, photo_filename_fantasia) values ("carrinho_amarelo_2", "../php/imagens/carrinho_amarelo2.png");

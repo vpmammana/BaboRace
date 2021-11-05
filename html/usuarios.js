@@ -45,12 +45,6 @@ constructor (whoami){
 	this.lista_de_fantasias = {};
 }
 
-inicializa_lista_usuarios_remotos(){
-	let i;
-	for (i = 0; i < this.numero_maximo_usuarios; i++){
-		this.usuarios_remotos.push(null);	
-	}
-}
 
 carrega_json_na_matriz(matriz_destino, matriz_origem){
 
@@ -120,8 +114,8 @@ let that=this;
 oReq.open("GET", url, false);
 oReq.onload = function (e) {
           resposta = oReq.responseText;
-	  let mensagem_login ='{"tipo":"login","user":"'+that.usuarios[that.usuario_local.id].apelido+'"}' ;
-	that.websocket.manda_mensagem(mensagem_login);
+	
+	that.websocket.msg_login(that.usuarios[that.usuario_local.id].apelido, that.usuarios[that.usuario_local.id].id_usuario);
 
 //	  if (resposta=="sucesso") { return true;}
 //	  else { return false;}
@@ -139,8 +133,9 @@ let that=this;
 oReq.open("GET", url, false);
 oReq.onload = function (e) {
           resposta = oReq.responseText;
-	  let mensagem_logout ='{"tipo":"logout","user":"'+that.usuarios[that.usuario_local.id].apelido+'"}' ;
-	that.websocket.manda_mensagem(mensagem_logout);
+	let este_usuario = that.usuarios[that.usuario_local.id];
+	that.websocket.msg_posicao(este_usuario.apelido, este_usuario.id_usuario, este_usuario.id_fantasia, este_usuario.x_inicial, este_usuario.y_inicial);	
+	that.websocket.msg_logout(that.usuarios[that.usuario_local.id].apelido, that.usuarios[that.usuario_local.id].id_usuario);
           }
 oReq.send();
 }

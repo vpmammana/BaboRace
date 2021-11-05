@@ -218,6 +218,58 @@ constructor (div){
 	this.url_retorna;
 }
 
+cria_moveis_dos_usuarios (){
+let i=0;
+let objeto_em_cena;
+for (let key in this.usuarios.usuarios)
+{
+ if (Object.prototype.hasOwnProperty.call(this.usuarios.usuarios, key)) {
+ if (key != "length") {
+//              let objeto_em_cena = window.controle.objetos_em_cena[i];
+                let userman = this.usuarios.usuarios[key];
+//console.log("userman");
+//console.log(userman);
+//                if (userman.online == "in") 
+//{
+                let primeira_fantasia = userman.id_fantasia;
+                if (userman.id_usuario == this.usuarios.usuario_local.id) 
+                        { 
+                                objeto_em_cena = new movel("movel_"+userman.id, userman.imagem, userman.nome_fantasia, this, "movel", "img","falta_algoritmo_para_sofre_colisao");
+                                //objeto_em_cena.usuario=
+                                this.selecionado = objeto_em_cena; 
+                                this.central = objeto_em_cena;  
+                        }
+                        else
+                        {
+                                objeto_em_cena = new movel("remoto_"+userman.id, userman.imagem, userman.nome_fantasia, this, "remoto", "img","falta_algoritmo_para_sofre_colisao");
+                        }
+                objeto_em_cena.usuario = userman.nome_registrado;
+                objeto_em_cena.id_fantasia = userman.id_fantasia;
+                objeto_em_cena.id_usuario = userman.id_usuario;
+                objeto_em_cena.largura_percentual = this.largura_inicial_percentual;
+                objeto_em_cena.altura_percentual = this.altura_inicial_percentual;
+		objeto_em_cena.posicao_percentual_x = userman.x_inicial;
+		objeto_em_cena.posicao_percentual_y = userman.y_inicial;
+
+                for (let key2 in this.usuarios.lista_de_fantasias[userman.id_usuario]){
+                         if (Object.prototype.hasOwnProperty.call(this.usuarios.lista_de_fantasias[userman.id_usuario], key2)) {
+                         if (key2 != "length") {
+                                let fantasy =   this.usuarios.lista_de_fantasias[userman.id_usuario][key2];
+                                if (fantasy.id_fantasia != primeira_fantasia) {objeto_em_cena.acrescenta_fantasia(fantasy.imagem, fantasy.nome_fantasia);}
+                         }
+                }
+                i++;
+ }
+//}
+}
+//   window.movel1 = new movel("amarelo", "../fantasias/carrinho_amarelo1.png", "fantasia1", window.controle, "movel", "img","falta_algoritmo_para_sofre_colisao");
+//   window.movel2 = new movel("vermelho", "../fantasias/carrinho_vermelho1.png", "fantasia1", window.controle, "movel", "img","fata_algoritmo_para_sofre_colisao");
+}
+}
+} // cria_moveis_dos_usuarios
+
+
+
 set central(objeto){
 	this.guarda_central = objeto;
 	if (this.palco == null ) {alert("Erro: Por algum motivo o palco nao foi criado.");}

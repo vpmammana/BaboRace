@@ -45,9 +45,18 @@ for (i=0; i < this.controle.objetos_remotos.length; i++){
 
 trata_mensagem(){
 	let msg_json = JSON.parse(this.mensagem_recebida);
-	if (msg_json.tipo = "pos") {
+	if (msg_json.tipo == "pos") {
 		this.posiciona(msg_json.id_u, msg_json.x, msg_json.y);
 	}
+	if (msg_json.tipo == "in") {
+
+		this.controle.usuarios.usuarios[msg_json.id_u].online="in";
+	}
+	if (msg_json.tipo == "out") {
+
+		this.controle.usuarios.usuarios[msg_json.id_u].online="out";
+	}
+
 //	alert(this.mensagem_recebida);		
 } // fim trata_mensagem
 

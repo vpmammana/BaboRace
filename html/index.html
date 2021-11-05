@@ -62,7 +62,7 @@ conn_websocket.onmessage = function (event){
 
 let mensagem = JSON.parse(event.data);
 
-if (mensagem.tipo == "login" || mensagem.tipo == "logout") {window.location.reload(true);} // esse true só funciona no firefox -> ele forca o reload sem cache
+if (mensagem.tipo == "in" || mensagem.tipo == "out") {window.location.reload(true);} // esse true só funciona no firefox -> ele forca o reload sem cache
 }
 
 function manda_no_websocket(mensagem){

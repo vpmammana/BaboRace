@@ -554,57 +554,14 @@ window.usuarios.usuarios[window.usuarios.usuario_local.id].online = "in";
 }, 2000);
 
 setTimeout(
-function (){
-let i=0;
-let objeto_em_cena;
-for (let key in window.usuarios.usuarios)
+function ()
 {
- if (Object.prototype.hasOwnProperty.call(window.usuarios.usuarios, key)) {
- if (key != "length") {
-//		let objeto_em_cena = window.controle.objetos_em_cena[i];
-		let userman = window.usuarios.usuarios[key];
-//console.log("userman");
-//console.log(userman);
-		if (userman.online == "in") 
-{
-		let primeira_fantasia = userman.id_fantasia;
-		if (userman.id_usuario == window.usuarios.usuario_local.id) 
-			{ 
-				objeto_em_cena = new movel("movel_"+userman.id, userman.imagem, userman.nome_fantasia, window.controle, "movel", "img","falta_algoritmo_para_sofre_colisao");
-				//objeto_em_cena.usuario=
-				window.controle.selecionado = objeto_em_cena; 
-				window.controle.central = objeto_em_cena;  
-			}
-			else
-			{
-				objeto_em_cena = new movel("remoto_"+userman.id, userman.imagem, userman.nome_fantasia, window.controle, "remoto", "img","falta_algoritmo_para_sofre_colisao");
-			}
-		objeto_em_cena.usuario = userman.nome_registrado;
-		objeto_em_cena.id_fantasia = userman.id_fantasia;
-		objeto_em_cena.id_usuario = userman.id_usuario;
-		objeto_em_cena.largura_percentual = window.controle.largura_inicial_percentual;
-      		objeto_em_cena.altura_percentual = window.controle.altura_inicial_percentual;
-		for (let key2 in window.usuarios.lista_de_fantasias[userman.id_usuario]){
-			 if (Object.prototype.hasOwnProperty.call(window.usuarios.lista_de_fantasias[userman.id_usuario], key2)) {
-			 if (key2 != "length") {
-				let fantasy = 	window.usuarios.lista_de_fantasias[userman.id_usuario][key2];
-				if (fantasy.id_fantasia != primeira_fantasia) {objeto_em_cena.acrescenta_fantasia(fantasy.imagem, fantasy.nome_fantasia);}
-			 }
-
-		}
-		i++;
- }
-}
-}
-
-//   window.movel1 = new movel("amarelo", "../fantasias/carrinho_amarelo1.png", "fantasia1", window.controle, "movel", "img","falta_algoritmo_para_sofre_colisao");
-//   window.movel2 = new movel("vermelho", "../fantasias/carrinho_vermelho1.png", "fantasia1", window.controle, "movel", "img","fata_algoritmo_para_sofre_colisao");
-
-}
-}
+window.controle.cria_moveis_dos_usuarios();
 }
 , 2500
 );
+//   window.movel1 = new movel("amarelo", "../fantasias/carrinho_amarelo1.png", "fantasia1", window.controle, "movel", "img","falta_algoritmo_para_sofre_colisao");
+//   window.movel2 = new movel("vermelho", "../fantasias/carrinho_vermelho1.png", "fantasia1", window.controle, "movel", "img","fata_algoritmo_para_sofre_colisao");
 
 //setTimeout(
 //function () {
@@ -658,8 +615,8 @@ window.config = new configuracoes(programa, comandos.getBoundingClientRect().hei
 //window.config.padding_inferior = parseInt(document.getElementById("comandos").getBoundingClientRect().height) * 0.2;
 window.bloco1 = new bloco(window.config, null, null, window.config.esquerda, window.config.topo, "principal", window.config.altura, window.config.largura, window.config.elemento_pai);
 window.config.movel = window.controle.central;
-	window.controle.central.posicao_percentual_x=window.controle.posicao_inicial_percentual_x; // sempre posicione o movel depois do config
-	window.controle.central.posicao_percentual_y=window.controle.posicao_inicial_percentual_y + window.controle.objetos_em_cena.indexOf(window.controle.central);
+//	window.controle.central.posicao_percentual_x=window.controle.posicao_inicial_percentual_x; // sempre posicione o movel depois do config
+//	window.controle.central.posicao_percentual_y=window.controle.posicao_inicial_percentual_y + window.controle.objetos_em_cena.indexOf(window.controle.central);
 
 window.config_comandos = new configuracoes(comandos, comandos.getBoundingClientRect().height, programa.getBoundingClientRect().width);
 //window.config_comandos.topo=parseInt(document.getElementById("comandos").getBoundingClientRect().height) * 0.05;

@@ -257,7 +257,7 @@ echo "
 
 echo "
 <table class='botoeira'>
-<tr class='cabecalio_table'><th></th><th>id</th><th>nome_registrado</th><th>apelido</th><th>id_on_line</th><th>id_movel</th><th>time_stamp</th></tr>";
+<tr class='cabecalio_table'><th></th><th>id</th><th>nome_registrado</th><th>apelido</th><th>id_on_line</th><th>id_movel</th><th>cookie</th><th>time_stamp</th></tr>";
 
 
 
@@ -289,6 +289,8 @@ $id_on_line=$row["id_on_line"];
 
 $id_movel=$row["id_movel"];
 
+$cookie=$row["cookie"];
+$campos_atualizaveis=$campos_atualizaveis.",".'"campo_'.$id_registro.'_6"';
 $time_stamp=$row["time_stamp"];
 
 $campos_atualizaveis=$campos_atualizaveis."]";
@@ -382,7 +384,19 @@ echo "<tr class='principal'><td>".$row_number."</td><td>".$id_chave_registrado."
   </div>
 </div>
 </td>
-<td>".$time_stamp."</td>
+<td>
+				<input 
+					id='campo_".$id_registro."_6' 
+                                        class='editavel'
+					type='text' 
+					value='".$cookie."'
+					data-alterado='nao'
+					data-tabela='registrados'
+					data-campo='cookie'
+                                        data-id='".$id_registro."'
+        				data-nivel='0'
+				/>
+			   </td><td>".$time_stamp."</td>
 	<th class='classe_ponto_insercao_nton' id='ponto_insercao_nton_".'"'.$id_registro.'"'."'>
 	".''.$id_registro.''."	
 	</th>

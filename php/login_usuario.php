@@ -7,6 +7,10 @@ if(isset($_GET["operacao"])){
   $operacao = $_GET["operacao"];
 } else { echo "falhou_faltou_operacao"; return;}
 
+if(isset($_GET["cookie"])){
+  $cookie = $_GET["cookie"];
+} else { echo "faltou_cookie"; return;}
+
 
 include "atomo.php";
 $database="baboracex";
@@ -15,7 +19,7 @@ $conn= new mysqli("localhost", $username, $pass, $database);
 
 
 
-$sql="update registrados set id_on_line = (select id_chave_tipo_operacao_on_line from tipos_operacoes_on_line where nome_on_line ='".$operacao."') where id_chave_registrado = ".$id_usuario;
+$sql="update registrados set id_on_line = (select id_chave_tipo_operacao_on_line from tipos_operacoes_on_line where nome_on_line ='".$operacao."'), cookie='".$cookie."' where id_chave_registrado = ".$id_usuario;
 
 echo $sql;
 

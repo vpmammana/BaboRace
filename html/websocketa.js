@@ -49,7 +49,8 @@ trata_mensagem(){
 		this.posiciona(msg_json.id_u, msg_json.x, msg_json.y);
 	}
 	if (msg_json.tipo == "in") {
-
+		let itzao = this.controle.central;
+		this.msg_posicao(itzao.apelido, itzao.id_usuario, itzao.id_fantasia, itzao.posicao_percentual_x, itzao.posicao_percentual_y);
 		this.controle.usuarios.usuarios[msg_json.id_u].online="in";
 	}
 	if (msg_json.tipo == "out") {

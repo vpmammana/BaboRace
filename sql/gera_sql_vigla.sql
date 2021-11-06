@@ -9,7 +9,7 @@ create table tipos_operacoes_on_line(id_chave_tipo_operacao_on_line int not null
 
 create table moveis(id_chave_movel int not null auto_increment, nome_movel varchar(100), x_inicial int, y_inicial int, time_stamp timestamp, primary key (id_chave_movel), unique(nome_movel)) comment="Apenas um movel por registrado";
 
-create table registrados(id_chave_registrado int not null auto_increment, nome_registrado varchar(100), apelido varchar(100), id_on_line int, id_movel int comment "Como eh unique, apenas um movel por registrado", time_stamp timestamp, primary key(id_chave_registrado), unique(nome_registrado), unique(id_movel)) comment="Escolhido como registrado para linkar na base de dados do sistema de identificacao de QR code";
+create table registrados(id_chave_registrado int not null auto_increment, nome_registrado varchar(100), apelido varchar(100), id_on_line int, id_movel int comment "Como eh unique, apenas um movel por registrado", cookie varchar(10) comment "serve para indicar se aquele usuario jah esta logado, impedindo que ele recarregue a pagina, o que dispararia um - esse usuario jah estah logado", time_stamp timestamp, primary key(id_chave_registrado), unique(nome_registrado), unique(id_movel)) comment="Escolhido como registrado para linkar na base de dados do sistema de identificacao de QR code";
 
 create table moveis_fantasias(id_chave_movel_fantasia int not null auto_increment, nome_movel_fantasia varchar(100), id_fantasia int, id_movel int, ordem int, time_stamp timestamp, primary key (id_chave_movel_fantasia), unique(ordem, id_movel));
 

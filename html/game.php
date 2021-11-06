@@ -119,6 +119,32 @@ body{
 </style>
 
 <body>
+
+
+<?php
+
+$arr_cookie_options = array (
+                'expires' => time() + 60*60*24*30,
+                'path' => '/',
+                'domain' => '34.95.214.164', // leading dot for compatibility or use subdomain
+                'secure' => false,     // or false
+                'httponly' => false,    // or false
+                'samesite' => 'Strict' // None || Lax  || Strict
+                );
+
+if(!isset($_COOKIE['BaboRace'])) {
+    setcookie('BaboRace',rand(1,100000) , $arr_cookie_options); // 86400 = 1 day
+}
+//else
+//{
+//echo $_COOKIE['lg'];
+//	if ($chave == $_COOKIE['lg']) {
+//		echo "bateu";
+//	}
+//	else {echo "Não bateu";}
+//}
+?>
+
 <div id="nao_opaco"></div>
 <div id="contem">
 <div id="programa">
@@ -532,6 +558,7 @@ window.controle.socket = window.conexao_socket;
 
 setTimeout(function (){
 	window.usuarios = new usuarios(whoami);
+window.usuarios.cookie = <?php echo "'".$_COOKIE['BaboRace']."'"; ?>;
 window.usuarios.websocket = window.conexao_socket;
 window.controle.usuarios = window.usuarios;
 window.controle.url_retorna = url_retorna;
@@ -540,7 +567,7 @@ window.controle.url_retorna = url_retorna;
 window.usuarios.carrega_lista_usuarios();
 //alert(window.usuarios.usuario_local.on_line);
 
-while (window.usuarios.usuario_local.on_line=="in"){ // ja estah logado
+while (window.usuarios.usuario_local.on_line=="in" && window.usuarios.cookie == window.usuarios.usuario_local.cookie){ // ja estah logado - note que se o cookie lido no cliente for igual ao da base, deixa logar.
 	alert("O usuário "+whoami+" já está logado. Quer tentar mais uma vez?");
 	window.usuarios.usuario_local =window.usuarios.usuario.autenticando;
 }

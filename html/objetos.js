@@ -1098,10 +1098,10 @@ acrescenta_fantasia(arquivo, nome){
 
 	fantasy.src=arquivo;
 
-fantasy.addEventListener("click", ()=> {
-	controle.selecionado = that;
-	controle.central = that;
-        }, true);
+//fantasy.addEventListener("click", ()=> {
+//	controle.selecionado = that;
+//	controle.central = that;
+//        }, true);
 
 
 	fantasy.alt="erro: "+arquivo+" não encontrado";

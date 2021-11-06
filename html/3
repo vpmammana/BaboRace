@@ -42,7 +42,6 @@ constructor (whoami){
 	this.usuario = new usuario(whoami); // carrega os dados do usuario que estah tentando autenticar
 	this.usuario_local = this.usuario.autenticando;
 	this.usuarios = {};
-	this.cookie = "sem_cookie";
 	this.lista_de_fantasias = {};
 }
 
@@ -128,7 +127,7 @@ logout(){
 
 
 var resposta = "";
-var url = '../php/login_usuario.php?id_usuario='+this.usuario_local.id+'&operacao=out&cookie=sem_cookie';
+var url = '../php/login_usuario.php?id_usuario='+this.usuario_local.id+'&operacao=out';
 var oReq = new XMLHttpRequest();
 let that=this;
 oReq.open("GET", url, false);

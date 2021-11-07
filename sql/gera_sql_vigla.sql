@@ -22,12 +22,12 @@ ALTER TABLE operacoes_on_line ADD CONSTRAINT FK_registrado_operacao FOREIGN KEY 
 ALTER TABLE registrados ADD CONSTRAINT FK_registrado_on_line FOREIGN KEY (id_on_line) REFERENCES tipos_operacoes_on_line(id_chave_tipo_operacao_on_line);
 ALTER TABLE operacoes_on_line ADD CONSTRAINT FK_operacao_on_line FOREIGN KEY (id_operacao) REFERENCES tipos_operacoes_on_line(id_chave_tipo_operacao_on_line);
 
-insert into moveis(x_inicial, y_inicial, nome_movel) values (-5, 90, "carrinho_amarelo");
-insert into moveis(x_inicial, y_inicial, nome_movel) values (-5, 85, "carrinho_vermelho");
-insert into moveis(x_inicial, y_inicial, nome_movel) values (-5, 80, "carro_babolina");
-insert into moveis(x_inicial, y_inicial, nome_movel) values (-5, 75, "FuscaValdo");
-insert into moveis(x_inicial, y_inicial, nome_movel) values (-5, 70, "MamonaMovel");
-insert into moveis(x_inicial, y_inicial, nome_movel) values (-5, 65, "Carcovado");
+insert into moveis(x_inicial, y_inicial, nome_movel) values (10, 93, "carrinho_amarelo");
+insert into moveis(x_inicial, y_inicial, nome_movel) values (10, 88, "carrinho_vermelho");
+insert into moveis(x_inicial, y_inicial, nome_movel) values (10, 85, "carro_babolina");
+insert into moveis(x_inicial, y_inicial, nome_movel) values (10, 82, "FuscaValdo");
+insert into moveis(x_inicial, y_inicial, nome_movel) values (10, 87, "MamonaMovel");
+insert into moveis(x_inicial, y_inicial, nome_movel) values (10, 91, "Carcovado");
 
 insert into fantasias (nome_fantasia, photo_filename_fantasia) values ("carrinho_amarelo_1", "../php/imagens/carrinho_amarelo1.png");
 insert into fantasias (nome_fantasia, photo_filename_fantasia) values ("carrinho_amarelo_2", "../php/imagens/carrinho_amarelo2.png");

@@ -182,6 +182,7 @@ constructor (div){
 	this.posicao_inicial_percentual_y = 82;
 	this.largura_inicial_percentual = 3;
 	this.altura_inicial_percentual = 3;
+	this.proporcao_inicial = 1.5;
 	this.velocidade_limite = 0.003; // velocidade a partir da qual não vale mais a pena mandar pelo websocket
 	this.periodo_envio_websocket = 5; // reduz a taxa de envio para o websocket	
 	this.casas_decimais = 4; // casas decimais no websocket
@@ -246,8 +247,9 @@ for (let key in this.usuarios.usuarios)
                 objeto_em_cena.usuario = userman.nome_registrado;
                 objeto_em_cena.id_fantasia = userman.id_fantasia;
                 objeto_em_cena.id_usuario = userman.id_usuario;
-                objeto_em_cena.largura_percentual = this.largura_inicial_percentual;
-                objeto_em_cena.altura_percentual = this.altura_inicial_percentual;
+                //objeto_em_cena.largura_percentual = this.largura_inicial_percentual;
+                //objeto_em_cena.altura_percentual = this.altura_inicial_percentual;
+		objeto_em_cena.proporcao = this.proporcao_inicial;
 		objeto_em_cena.posicao_percentual_x = userman.x_inicial;
 		objeto_em_cena.posicao_percentual_y = userman.y_inicial;
 
@@ -262,8 +264,7 @@ for (let key in this.usuarios.usuarios)
  }
 //}
 }
-//   window.movel1 = new movel("amarelo", "../fantasias/carrinho_amarelo1.png", "fantasia1", window.controle, "movel", "img","falta_algoritmo_para_sofre_colisao");
-//   window.movel2 = new movel("vermelho", "../fantasias/carrinho_vermelho1.png", "fantasia1", window.controle, "movel", "img","fata_algoritmo_para_sofre_colisao");
+
 }
 }
 } // cria_moveis_dos_usuarios
@@ -573,6 +574,8 @@ constructor (id, arquivo, nome_fantasia, controle, tipo_objeto, tipo_tag, sofre_
 		
 	this.max_tentativas_de_definir_tamanho = 30;
 	this.tentativas_de_definir_tamanho = 0;	
+	this.max_tentativas_de_definir_proporcao = 30;
+	this.tentativas_de_definir_proporcao = 0;	
 	this.max_tentativas_de_definir_posicao = 30;
 	this.tentativas_de_definir_posicao = 0;	
 
@@ -598,6 +601,7 @@ constructor (id, arquivo, nome_fantasia, controle, tipo_objeto, tipo_tag, sofre_
 
 	this.largura_container=document.getElementById("principal").clientWidth;
 	this.altura_container=document.getElementById("principal").clientHeight;
+	this.guarda_proporcao = 100;
 	this.guarda_largura_percentual=100;
 	this.guarda_altura_percentual=100;
 	this.guarda_posicao_percentual_x = 50;
@@ -742,6 +746,14 @@ get largura_percentual (){
 
 get altura_percentual (){
 	return this.guarda_altura_percentual;
+}
+
+get proporcao(){
+	return this.guarda_proporcao;
+}
+
+set proporcao(value){
+	this.tamanho_proporcional(value);
 }
 
 set largura_percentual (value){
@@ -948,6 +960,36 @@ if (this.lista_de_fantasias.length > 0) {
 
 }
 
+tamanho_proporcional(proporcao){
+	this.guarda_proporcao = proporcao;
+
+	if (this.fantasia > 0) {
+	this.largura_container=document.getElementById("principal").clientWidth;
+	this.altura_container=document.getElementById("principal").clientHeight;
+
+	this.largura = this.lista_de_fantasias[this.fantasia - 1].width;                         
+	this.altura  = this.lista_de_fantasias[this.fantasia - 1].height;
+	this.razao_de_aspecto = this.largura / this.altura;
+
+	this.tentativas_de_definir_proporcao = 0;
+	this.lista_de_fantasias[this.fantasia - 1].height = Math.round(this.altura_container * proporcao/100 );
+	this.lista_de_fantasias[this.fantasia - 1].width  = Math.round(this.altura_container * proporcao/100) * this.razao_de_aspecto;
+
+	this.guarda_largura_percentual  = (this.lista_de_fantasias[this.fantasia - 1].width / this.largura_container)*100;                          
+	this.guarda_altura_percentual   = (this.lista_de_fantasias[this.fantasia - 1].height / this.altura_container)*100;                        	
+
+	this.img_imagem_thrust.height       = this.lista_de_fantasias[this.fantasia - 1].height * this.controle.fator_thrust_height;
+	this.img_imagem_thrust.width        = this.lista_de_fantasias[this.fantasia - 1].width  * this.controle.fator_thrust_width ;
+	this.posiciona_percentual(this.posicao_percentual_x, this.posicao_percentual_y);
+	this.atualiza_fantasia();
+}
+else {
+	this.tentativas_de_definir_proporcao++;
+	if (this.tentativas_de_definir_proporcao < this.max_tentativas_de_definir_proporcao) { let that=this; setTimeout(function () {that.tamanho_proporcional(proporcao);}, 100)}
+	else {alert("Nao foi possivel definir o tamanho da fantasia. Provavelmente o tempo de carga da fantasia estah muito longo.");}
+}
+
+}
 
 
 tamanho_percentual(x,y){
@@ -957,6 +999,9 @@ tamanho_percentual(x,y){
 	//console.log(this.lista_de_fantasias[0]);
 	//console.log(this.fantasia);
 if (this.fantasia > 0) {
+	this.largura_container=document.getElementById("principal").clientWidth;
+	this.altura_container=document.getElementById("principal").clientHeight;
+
 	this.tentativas_de_definir_tamanho = 0;
 	this.lista_de_fantasias[this.fantasia - 1].height = Math.round(this.altura_container * y/100 );
 	this.lista_de_fantasias[this.fantasia - 1].width  = Math.round(this.largura_container * x/100);
@@ -1109,13 +1154,15 @@ acrescenta_fantasia(arquivo, nome){
 	that.lista_de_fantasias.push(fantasy);
 	that.velho_fantasia = that.fantasia;
 	that.fantasia = that.lista_de_fantasias.length;
-		that.largura = this.width;
-		that.altura  = this.height;
-		that.razao_de_aspecto = that.largura / that.altura;
+
+
+
 		that.controle.largura_inicial_percentual = that.razao_de_aspecto * that.controle.altura_inicial_percentual;
 		that.guarda_largura_percentual = that.razao_de_aspecto * that.guarda_altura_percentual;
-		
+		if (that.tipo_objeto == "fixo") {		
 		that.tamanho_percentual(that.guarda_largura_percentual, that.guarda_altura_percentual);
+		}
+		else {  that.tamanho_proporcional(that.guarda_proporcao);}
 },false);
 
 }

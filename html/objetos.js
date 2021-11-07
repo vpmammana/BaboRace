@@ -404,13 +404,10 @@ for (i=0; i<this.cenario_json.pontos.length; i++){
 	//console.log(i+") auto: "+this.controle.auto_increment);
 	let largura = Math.abs(ponto.right_percentual -  ponto.left_percentual  );
 	let altura  = Math.abs(ponto.top_percentual   -  ponto.bottom_percentual);
-//console.log(this.controle.objetos_fixos.length - 1 + "] L: " + objeto_do_cenario.posicao_percentual_x + " T:"+objeto_do_cenario.posicao_percentual_y + " H:" + objeto_do_cenario.altura_percentual + " W:" + objeto_do_cenario.largura_percentual  );
-//console.log(this.controle.objetos_fixos.length - 1 + ") L: " + ponto.left_percentual + " R:"+ponto.right_percentual + " T:" + ponto.top_percentual + " B:" + ponto.bottom_percentual + " W:" + largura + " H:" + altura );
 	objeto_do_cenario.posicao_percentual_x = parseFloat(ponto.left_percentual) + parseFloat(largura) / 2;
 	objeto_do_cenario.posicao_percentual_y = parseFloat(ponto.top_percentual) + parseFloat(altura) /2;
 	objeto_do_cenario.largura_percentual = parseFloat(largura) ;
 	objeto_do_cenario.altura_percentual =  parseFloat(altura);
-//console.log(this.controle.objetos_fixos.length - 1 + "> L: " + objeto_do_cenario.posicao_percentual_x + " T:"+objeto_do_cenario.posicao_percentual_y + " H:" + objeto_do_cenario.altura_percentual + " W:" + objeto_do_cenario.largura_percentual  );
 	
 }
 }
@@ -553,6 +550,7 @@ constructor (id, arquivo, nome_fantasia, controle, tipo_objeto, tipo_tag, sofre_
 	this.usuario = "";
 	this.id_fantasia = -1;
 	this.id_usuario = -1;
+	this.razao_de_aspecto = 1;
 	
 	this.guarda_rotacao = 0;
 
@@ -748,7 +746,6 @@ get altura_percentual (){
 
 set largura_percentual (value){
 	this.tamanho_percentual(value,this.guarda_altura_percentual);
-	//console.log("largura: "+value + " guarda largura:"+ this.guarda_largura_percentual);
 }
 
 set altura_percentual (value){
@@ -756,11 +753,11 @@ set altura_percentual (value){
 }
 
 set posicao_percentual_x (value){
-	this.posiciona_percentual(value,this.guarda_posicao_percentual_y);
+	this.posiciona_percentual(parseFloat(value),this.guarda_posicao_percentual_y);
 }
 
 set posicao_percentual_y (value){
-	this.posiciona_percentual(this.guarda_posicao_percentual_x,value);
+	this.posiciona_percentual(this.guarda_posicao_percentual_x,parseFloat(value));
 }
 
 get posicao_percentual_x (){
@@ -1114,7 +1111,11 @@ acrescenta_fantasia(arquivo, nome){
 	that.fantasia = that.lista_de_fantasias.length;
 		that.largura = this.width;
 		that.altura  = this.height;
-		that.tamanho_percentual(that.guarda_largura_percentual, that.guarda_largura_percentual);
+		that.razao_de_aspecto = that.largura / that.altura;
+		that.controle.largura_inicial_percentual = that.razao_de_aspecto * that.controle.altura_inicial_percentual;
+		that.guarda_largura_percentual = that.razao_de_aspecto * that.guarda_altura_percentual;
+		
+		that.tamanho_percentual(that.guarda_largura_percentual, that.guarda_altura_percentual);
 },false);
 
 }

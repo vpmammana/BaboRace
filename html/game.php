@@ -428,7 +428,7 @@ if (e.keyCode == 32 ) { limpa_todos_blink(window.config);
 
 		      }
 
-if (e.key == "Delete") {
+if (e.key == "Delete" || e.key == "Backspace") { // hackead para apple que fornece backspace quando digita delete
 	if (pai.indice_ponto_de_blinking <= pai.instrucoes.length - 1 && pai.indice_ponto_de_blinking >0)
 	{
 		let removed3 = pai.instrucoes.splice(pai.indice_ponto_de_blinking,1);
@@ -587,26 +587,7 @@ window.controle.cria_moveis_dos_usuarios();
 }
 , 2500
 );
-//   window.movel1 = new movel("amarelo", "../fantasias/carrinho_amarelo1.png", "fantasia1", window.controle, "movel", "img","falta_algoritmo_para_sofre_colisao");
-//   window.movel2 = new movel("vermelho", "../fantasias/carrinho_vermelho1.png", "fantasia1", window.controle, "movel", "img","fata_algoritmo_para_sofre_colisao");
 
-//setTimeout(
-//function () {
-//
-//
-//	window.movel1.acrescenta_fantasia("../fantasias/carrinho_amarelo2.png", "fantasia2");
-//	window.movel1.acrescenta_fantasia("../fantasias/carrinho_amarelo3.png", "fantasia3");
-//	window.movel1.acrescenta_fantasia("../fantasias/carrinho_amarelo4.png", "fantasia4");
-//	//window.movel1.acrescenta_fantasia("../fantasias/carrinho_vermelho1.png", "fantasia4");
-//    console.log(window.movel1)
-//	window.movel1.posicao_percentual_x=10;
-//	window.movel1.posicao_percentual_y=90;
-//	window.movel2.largura_percentual=3;
-//	window.movel2.altura_percentual=3;
-//	//window.movel1.acrescenta_em_detecao(window.movel2);
-//	window.movel2.posicao_percentual_x=20;
-//	window.movel2.posicao_percentual_y=90;
-//},3000);
 
 setTimeout(function (){
 	//alert(window.movel1.estado_prop);

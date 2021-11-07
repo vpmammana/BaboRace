@@ -411,7 +411,7 @@ window.controle.central.inatividade = Date.now();
 //console.log(e.key);
 if (e.target.className == "entrada") {
 
-	if (!(e.key == "ArrowUp" || e.key == "ArrowDown")) {return;}
+	if (!(e.key == "ArrowUp" || e.key == "ArrowDown" || e.keyCode == 32)) { return;}
 }
 
 let pai =  programa.style.ponto_de_insercao.elemento_pai;

@@ -179,6 +179,7 @@ export class controle_geral {
 
 constructor (div){
 	this.posicao_inicial_percentual_x = 10;
+	this.toggle_comandos_programa = "comandos"; // define se as setas selecionam comandos ou programas
 	this.posicao_inicial_percentual_y = 82;
 	this.largura_inicial_percentual = 3;
 	this.altura_inicial_percentual = 3;
@@ -641,13 +642,13 @@ set Fx(valor) {
 		if (valor > 0){
 			this.img_imagem_thrust.style.transform="rotate(0deg)";
 			this.correcao_thrust_x = - this.img_imagem_thrust.width;
-			this.correcao_thrust_y =  this.lista_de_fantasias[this.fantasia - 1].width /2;
+			this.correcao_thrust_y = this.lista_de_fantasias[this.fantasia - 1].height /2;
 			
 		}
 		if (valor < 0){
 			this.img_imagem_thrust.style.transform="rotate(180deg)";
 			this.correcao_thrust_x = this.lista_de_fantasias[this.fantasia - 1].width;
-			this.correcao_thrust_y =  this.lista_de_fantasias[this.fantasia - 1].width /2;
+			this.correcao_thrust_y = this.lista_de_fantasias[this.fantasia - 1].height /2;
 		}
 	this.img_imagem_thrust.style.visibility = "visible";
 	let that = this;
@@ -668,12 +669,12 @@ set Fy(valor) {
 		if (valor < 0){
 			this.img_imagem_thrust.style.transform="rotate(90deg)";
 			this.correcao_thrust_y = - this.img_imagem_thrust.height;
-			this.correcao_thrust_x =  this.lista_de_fantasias[this.fantasia - 1].height /2;
+			this.correcao_thrust_x =  this.lista_de_fantasias[this.fantasia - 1].width /2;
 		}
 		if (valor > 0){
 			this.img_imagem_thrust.style.transform="rotate(270deg)";
 			this.correcao_thrust_y =   this.lista_de_fantasias[this.fantasia - 1].height;
-			this.correcao_thrust_x =  this.lista_de_fantasias[this.fantasia - 1].height /2;
+			this.correcao_thrust_x =  this.lista_de_fantasias[this.fantasia - 1].width /2;
 		}
 	this.img_imagem_thrust.style.visibility = "visible";
 	let that = this;

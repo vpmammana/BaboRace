@@ -45,12 +45,16 @@ for (i=0; i < this.controle.objetos_remotos.length; i++){
 
 trata_mensagem(){
 	let msg_json = JSON.parse(this.mensagem_recebida);
+	if (msg_json.tipo == "outro") {
+		let that=this;
+		setTimeout(function () {that.posiciona(msg_json.id_u, msg_json.x, msg_json.y); }, 500);
+	}
 	if (msg_json.tipo == "pos") {
 		this.posiciona(msg_json.id_u, msg_json.x, msg_json.y);
 	}
 	if (msg_json.tipo == "in") {
 		let itzao = this.controle.central;
-		this.msg_posicao(itzao.apelido, itzao.id_usuario, itzao.id_fantasia, itzao.posicao_percentual_x, itzao.posicao_percentual_y);
+		this.msg_outro_carro(itzao.apelido, itzao.id_usuario, itzao.id_fantasia, itzao.posicao_percentual_x, itzao.posicao_percentual_y);
 		this.controle.usuarios.usuarios[msg_json.id_u].online="in";
 	}
 	if (msg_json.tipo == "out") {
@@ -71,6 +75,13 @@ manda_mensagem(mensagem){
 			}
 		};
 } // fim manda_mensagem
+
+msg_outro_carro(usuario, id_usuario, id_fantasia, x,y){
+	this.mensagem_a_enviar= '{"tipo":"outro","id_u":"'+id_usuario+'","id_f":"'+id_fantasia+'","x":"'+x+'","y":"'+y+'"}';
+this.manda_mensagem(this.mensagem_a_enviar);
+} // fim msg_posicao
+
+
 
 msg_posicao(usuario, id_usuario, id_fantasia, x,y){
 	this.mensagem_a_enviar= '{"tipo":"pos","id_u":"'+id_usuario+'","id_f":"'+id_fantasia+'","x":"'+x+'","y":"'+y+'"}';

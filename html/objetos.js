@@ -180,6 +180,10 @@ export class controle_geral {
 constructor (div){
 	this.posicao_inicial_percentual_x = 10;
 	this.toggle_comandos_programa = "comandos"; // define se as setas selecionam comandos ou programas
+	this.opacidade_selecionado =0.9;
+	this.opacidade_nao_selecionado = 0.9;
+	this.borda_selecionado ="5px solid yellow";
+	this.borda_nao_selecionado = "1px solid black";
 	this.posicao_inicial_percentual_y = 82;
 	this.largura_inicial_percentual = 3;
 	this.altura_inicial_percentual = 3;

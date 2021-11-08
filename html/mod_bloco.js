@@ -33,6 +33,18 @@ constructor(elemento_pai, valor_parametro_de_tamanho, valor_parametro_de_largura
 	this.background_nome = "";
 	this.conta_id = 0;
 	this.elemento_pai = elemento_pai;
+
+	this.color_Fx = "black";
+	this.color_Fy = "black";
+	this.color_delay = "black";
+	this.color_repeticao = "black";
+	this.color_principal = "yellow";
+	this.color_desvio = "white";
+	this.color_va_para = "black";
+	this.color_insercao = "black";
+	this.color_freio = "black";
+	this.color_blink = "white";
+
 	this.backgroundcolor_Fx = "red";
 	this.backgroundcolor_Fy = "red";
 	this.backgroundcolor_delay = "white";
@@ -171,6 +183,7 @@ constructor (configuracoes, bloco_superior, condicional, esquerda, topo, tipo, a
 		{
 			this.nome = "freia <input id='freio_"+this.configuracoes.conta_id+"' class='entrada' type='text' maxlength='1' style='width:"+itz_font+"px' size='2' maxlength='2' value='1' size='2'/> <i>(atrito)</i>";
 			this.background_tipo = this.configuracoes.backgroundcolor_freio;
+			this.color_tipo = this.configuracoes.color_freio;
 			this.elemento_parametro = document.getElementById("freio_"+this.configuracoes.conta_id);
 			this.funcao_parametro = {n_instrucao: +this.configuracoes.conta_id, funcao: "freio", parametro: "freio_"+this.configuracoes.conta_id , id: null };
 			this.opacidade = 1.0; 
@@ -180,6 +193,7 @@ constructor (configuracoes, bloco_superior, condicional, esquerda, topo, tipo, a
 		{
 			this.nome = "espera <input id='espera_"+this.configuracoes.conta_id+"' class='entrada' type='text' size='2' maxlength='2' style='width:"+itz_font * 2+"px' value='10' size='2'/> ciclos";
 			this.background_tipo = this.configuracoes.backgroundcolor_delay;
+			this.color_tipo = this.configuracoes.color_delay;
 			this.elemento_parametro =  document.getElementById("espera_"+this.configuracoes.conta_id);
 			this.funcao_parametro = {n_instrucao: +this.configuracoes.conta_id, funcao: "espera", parametro: "espera_"+this.configuracoes.conta_id, id: null };
 			this.opacidade = 1.0; 
@@ -188,6 +202,7 @@ constructor (configuracoes, bloco_superior, condicional, esquerda, topo, tipo, a
 		{
 			this.nome = "vá! X = <input id='va_para_x_"+this.configuracoes.conta_id+"' class='entrada' style='width:"+itz_font * 4+"px'  type='text' value='10' size='2'/>%";
 			this.background_tipo = this.configuracoes.backgroundcolor_va_para; 
+			this.color_tipo = this.configuracoes.color_va_para; 
 			this.elemento_parametro =  document.getElementById("va_para_x_"+this.configuracoes.conta_id); 
 			this.funcao_parametro = {n_instrucao: +this.configuracoes.conta_id, funcao: "va_para_x", parametro: "va_para_x_"+this.configuracoes.conta_id, id: null  }; 
 			this.opacidade = 1.0; 
@@ -196,6 +211,7 @@ constructor (configuracoes, bloco_superior, condicional, esquerda, topo, tipo, a
 		{
 			this.nome = " vá! Y = <input id='va_para_y_"+this.configuracoes.conta_id+"' class='entrada' style='width:"+itz_font * 4+"px' type='text' value='10' size='2'/>%";
 			this.background_tipo = this.configuracoes.backgroundcolor_va_para; 
+			this.color_tipo = this.configuracoes.color_va_para; 
 			this.elemento_parametro =  document.getElementById("va_para_y_"+this.configuracoes.conta_id); 
 			this.funcao_parametro = {n_instrucao: +this.configuracoes.conta_id, funcao: "va_para_y", parametro: "va_para_y_"+this.configuracoes.conta_id, id: null  }; 
 			this.opacidade = 1.0; 
@@ -205,6 +221,7 @@ constructor (configuracoes, bloco_superior, condicional, esquerda, topo, tipo, a
 		{
 			this.nome = "Fy <input id='Fy_"+this.configuracoes.conta_id+"' class='entrada' ' style='width:"+itz_font*5+"px' maxlength='5' type='text' value='10' size='2'/> <i>(força)</i>";
 			this.background_tipo = this.configuracoes.backgroundcolor_Fy; 
+			this.color_tipo = this.configuracoes.color_Fy; 
 			this.elemento_parametro =  document.getElementById("Fy_"+this.configuracoes.conta_id); 
 			this.funcao_parametro = {n_instrucao: +this.configuracoes.conta_id, funcao: "Fy", parametro: "Fy_"+this.configuracoes.conta_id, id: null  }; 
 			this.opacidade = 1.0; 
@@ -213,6 +230,7 @@ constructor (configuracoes, bloco_superior, condicional, esquerda, topo, tipo, a
 		{
 			this.nome = "Fx <input id='Fx_"+this.configuracoes.conta_id+"' style='width:"+itz_font * 5+"px' maxlength='5' class='entrada' type='text' value='10' size='2'/> <i>(força)</i>";
 			this.background_tipo = this.configuracoes.backgroundcolor_Fx; 
+			this.color_tipo = this.configuracoes.color_Fx; 
 			this.elemento_parametro =  document.getElementById("Fx_"+this.configuracoes.conta_id); 
 			this.funcao_parametro = {n_instrucao: +this.configuracoes.conta_id, funcao: "Fx", parametro: "Fx_"+this.configuracoes.conta_id, id: null  }; 
 			this.opacidade = 1.0; 
@@ -220,8 +238,9 @@ constructor (configuracoes, bloco_superior, condicional, esquerda, topo, tipo, a
 	
 	if (tipo == "principal" ) 
 		{
-			this.nome = "principal";
+			this.nome = "Programação";
 			this.background_tipo = this.configuracoes.backgroundcolor_principal; 
+			this.color_tipo = this.configuracoes.color_principal; 
 			this.elemento_parametro =  document.getElementById("principal_"+this.configuracoes.conta_id); 
 			this.funcao_parametro = {n_instrucao: +this.configuracoes.conta_id, funcao: "principal", parametro: "principal_"+this.configuracoes.conta_id, id: null  }; 
 			this.opacidade = 1.0; 
@@ -230,6 +249,7 @@ constructor (configuracoes, bloco_superior, condicional, esquerda, topo, tipo, a
 		{
 			this.nome = "repete <input id='repeticao_"+this.configuracoes.conta_id+"' class='entrada' type='text' value='10' maxlength='2' style='width: "+itz_font * 2+"px' size='2'/> vezes";
 			this.background_tipo = this.configuracoes.backgroundcolor_repeticao;
+			this.color_tipo = this.configuracoes.color_repeticao;
 			this.elemento_parametro =  document.getElementById("repeticao_"+this.configuracoes.conta_id); 
 			this.funcao_parametro = {n_instrucao: +this.configuracoes.conta_id, funcao: "repete", parametro: "repeticao_"+this.configuracoes.conta_id, id: null  }; 
 			this.opacidade = 1.0; 
@@ -239,6 +259,7 @@ constructor (configuracoes, bloco_superior, condicional, esquerda, topo, tipo, a
 		{
 			this.nome = "se";
 			this.background_tipo = this.configuracoes.backgroundcolor_desvio;
+			this.color_tipo = this.configuracoes.color_desvio;
 			this.opacidade = 0.8; 
 		}
 
@@ -248,6 +269,7 @@ constructor (configuracoes, bloco_superior, condicional, esquerda, topo, tipo, a
 		{
 			this.nome = "<span class='exemplo'>freia <i>(atrito)</i></span>";
 			this.background_tipo = this.configuracoes.backgroundcolor_freio;
+			this.color_tipo = this.configuracoes.color_freio;
 			this.elemento_parametro = document.getElementById("freio_"+this.configuracoes.conta_id);
 			this.funcao_parametro = {n_instrucao: +this.configuracoes.conta_id, funcao: "freio", parametro: "freio_"+this.configuracoes.conta_id , id: null };
 			this.opacidade = 1.0; 
@@ -257,6 +279,7 @@ constructor (configuracoes, bloco_superior, condicional, esquerda, topo, tipo, a
 		{
 			this.nome = "<span class='exemplo'>espera <i>(ciclos)</i></span>";
 			this.background_tipo = this.configuracoes.backgroundcolor_delay;
+			this.color_tipo = this.configuracoes.color_delay;
 			this.elemento_parametro =  document.getElementById("espera_"+this.configuracoes.conta_id);
 			this.funcao_parametro = {n_instrucao: +this.configuracoes.conta_id, funcao: "espera", parametro: "espera_"+this.configuracoes.conta_id, id: null };
 			this.opacidade = 1.0; 
@@ -265,6 +288,7 @@ constructor (configuracoes, bloco_superior, condicional, esquerda, topo, tipo, a
 		{
 			this.nome = "<span class='exemplo'>vá para X (%)</span>";
 			this.background_tipo = this.configuracoes.backgroundcolor_va_para; 
+			this.color_tipo = this.configuracoes.color_va_para; 
 			this.elemento_parametro =  document.getElementById("va_para_x_"+this.configuracoes.conta_id); 
 			this.funcao_parametro = {n_instrucao: +this.configuracoes.conta_id, funcao: "va_para_x", parametro: "va_para_x_"+this.configuracoes.conta_id, id: null  }; 
 			this.opacidade = 1.0; 
@@ -273,6 +297,7 @@ constructor (configuracoes, bloco_superior, condicional, esquerda, topo, tipo, a
 		{
 			this.nome = "<span class='exemplo'>vá para Y (%)</span>";
 			this.background_tipo = this.configuracoes.backgroundcolor_va_para; 
+			this.color_tipo = this.configuracoes.color_va_para; 
 			this.elemento_parametro =  document.getElementById("va_para_y_"+this.configuracoes.conta_id); 
 			this.funcao_parametro = {n_instrucao: +this.configuracoes.conta_id, funcao: "va_para_y", parametro: "va_para_y_"+this.configuracoes.conta_id, id: null  }; 
 			this.opacidade = 1.0; 
@@ -282,6 +307,7 @@ constructor (configuracoes, bloco_superior, condicional, esquerda, topo, tipo, a
 		{
 			this.nome = "<span class='exemplo'>Fy <i>(força)</i></span>";
 			this.background_tipo = this.configuracoes.backgroundcolor_Fy; 
+			this.color_tipo = this.configuracoes.color_Fy; 
 			this.elemento_parametro =  document.getElementById("Fy_"+this.configuracoes.conta_id); 
 			this.funcao_parametro = {n_instrucao: +this.configuracoes.conta_id, funcao: "Fy", parametro: "Fy_"+this.configuracoes.conta_id, id: null  }; 
 			this.opacidade = 1.0; 
@@ -290,6 +316,7 @@ constructor (configuracoes, bloco_superior, condicional, esquerda, topo, tipo, a
 		{
 			this.nome = "<span class='exemplo'>Fx <i>(força)</i></span>";
 			this.background_tipo = this.configuracoes.backgroundcolor_Fx; 
+			this.color_tipo = this.configuracoes.color_Fx; 
 			this.elemento_parametro =  document.getElementById("Fx_"+this.configuracoes.conta_id); 
 			this.funcao_parametro = {n_instrucao: +this.configuracoes.conta_id, funcao: "Fx", parametro: "Fx_"+this.configuracoes.conta_id, id: null  }; 
 			this.opacidade = 1.0; 
@@ -299,6 +326,7 @@ constructor (configuracoes, bloco_superior, condicional, esquerda, topo, tipo, a
 		{
 			this.nome = "<span class='exemplo'>principal_exemplo</span>";
 			this.background_tipo = this.configuracoes.backgroundcolor_principal; 
+			this.color_tipo = this.configuracoes.color_principal; 
 			this.elemento_parametro =  document.getElementById("principal_"+this.configuracoes.conta_id); 
 			this.funcao_parametro = {n_instrucao: +this.configuracoes.conta_id, funcao: "principal", parametro: "principal_"+this.configuracoes.conta_id, id: null  }; 
 			this.opacidade = 1.0; 
@@ -307,6 +335,7 @@ constructor (configuracoes, bloco_superior, condicional, esquerda, topo, tipo, a
 		{
 			this.nome = "<span class='exemplo'>repete <i>(vezes)</i></span>";
 			this.background_tipo = this.configuracoes.backgroundcolor_repeticao;
+			this.color_tipo = this.configuracoes.color_repeticao;
 			this.elemento_parametro =  document.getElementById("repeticao_"+this.configuracoes.conta_id); 
 			this.funcao_parametro = {n_instrucao: +this.configuracoes.conta_id, funcao: "repete", parametro: "repeticao_"+this.configuracoes.conta_id, id: null  }; 
 			this.opacidade = 1.0; 
@@ -316,6 +345,7 @@ constructor (configuracoes, bloco_superior, condicional, esquerda, topo, tipo, a
 		{
 			this.nome = "<span class='exemplo'>se</span>";
 			this.background_tipo = this.configuracoes.backgroundcolor_desvio;
+			this.color_tipo = this.configuracoes.color_desvio;
 			this.opacidade = 0.8; 
 		}
 
@@ -480,6 +510,7 @@ retorna_face(){
 	div.style.display="block";
 	div.style.position="absolute";
 	div.style.backgroundColor = this.background_tipo;
+	div.style.color = this.color_tipo;
 	div.style.borderRadius = this.configuracoes.borderradius;
 	div.style.border = this.configuracoes.borda;
 	div.style.top = this.topo + "px";
@@ -507,7 +538,7 @@ retorna_face(){
 	div.appendChild(div_nome);
 	div_nome.style.fontSize = this.configuracoes.fonte_tamanho + "px";
 	//alert(this.configuracoes.fonte_tamanho);
-	div_nome.style.color = this.configuracoes.color_nome;
+	div_nome.style.color = this.configuracoes.color_tipo;
 	div_nome.style.backgroundColor = this.configuracoes.background_nome;
 	div_nome.innerHTML = this.nome;
 	div_nome.style.position = "absolute";

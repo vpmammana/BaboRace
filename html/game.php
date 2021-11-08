@@ -221,6 +221,14 @@ var url_retorna;
 var whoami;
 var razao_botoes = 0.4;
 
+var voices = speechSynthesis.getVoices();
+
+voices.forEach(function(voice) {
+  console.log(voice.name, voice.default ? voice.default :'');
+});
+
+
+
 var params = {};
 location.search.slice(1).split("&").forEach(function(pair) {
    pair = pair.split("=");
@@ -230,6 +238,16 @@ location.search.slice(1).split("&").forEach(function(pair) {
 //alert(whoami);
 
 
+function speakText(text) {
+  // stop any speaking in progress
+  window.speechSynthesis.cancel();
+
+  // speak text
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'pt-br';
+//  utterance.voice = voices[34]; 
+  window.speechSynthesis.speak(utterance);
+}
 
 function busca_url_retorna(){
            var resposta="";
@@ -405,18 +423,39 @@ if (correcao_y< programa.scrollTop) {
 
 document.addEventListener("keydown",
 function (e){
+
 window.config.parametro_de_tamanho = comandos.getBoundingClientRect().height;
 window.controle.central.inatividade = Date.now();
-//console.log("teste");
-//console.log(e.key);
+
 if (e.target.className == "entrada") {
 
-	if (!(e.key == "ArrowUp" || e.key == "ArrowDown" || e.keyCode == 32)) { return;}
+	if (!(e.key == "ArrowUp" || e.key == "ArrowDown" || e.key == "Enter")) { return;}
 }
 
 let pai =  programa.style.ponto_de_insercao.elemento_pai;
 
-if (e.keyCode == 32 ) { limpa_todos_blink(window.config);
+if (e.keyCode == 32) 
+	{ 
+			if (window.controle.toggle_comandos_programa == "comandos") 
+				{
+					programa.style.opacity = window.controle.opacidade_selecionado;
+					comandos.style.opacity = window.controle.opacidade_nao_selecionado;
+					programa.style.border = window.controle.borda_selecionado; 
+					comandos.style.border = window.controle.borda_nao_selecionado;
+					window.controle.toggle_comandos_programa = "programa";
+				} 
+				else 
+				{
+					comandos.style.opacity = window.controle.opacidade_selecionado;
+					programa.style.opacity = window.controle.opacidade_nao_selecionado; 
+					comandos.style.border = window.controle.borda_selecionado; 
+					programa.style.border = window.controle.borda_nao_selecionado;
+					window.controle.toggle_comandos_programa = "comandos"; 
+				} 
+	speakText(window.controle.toggle_comandos_programa); return; 
+	}
+
+if (e.key == "Enter" && window.controle.toggle_comandos_programa == "programa" ) { limpa_todos_blink(window.config);
 			 if (window.config.em_execucao) 
 				{
 					window.config.reset = true; 
@@ -428,7 +467,7 @@ if (e.keyCode == 32 ) { limpa_todos_blink(window.config);
 
 		      }
 
-if (e.key == "Delete" || e.key == "Backspace") { // hackead para apple que fornece backspace quando digita delete
+if ((e.key == "Delete" || e.key == "Backspace") && window.controle.toggle_comandos_programa == "programa" ) { // hackead para apple que fornece backspace quando digita delete
 	if (pai.indice_ponto_de_blinking <= pai.instrucoes.length - 1 && pai.indice_ponto_de_blinking >0)
 	{
 		let removed3 = pai.instrucoes.splice(pai.indice_ponto_de_blinking,1);
@@ -445,9 +484,9 @@ if (e.key == "Delete" || e.key == "Backspace") { // hackead para apple que forne
 }		
 
 
-if (e.key == "ArrowUp") { if (pai.indice_ponto_de_insercao>0) { swap(pai.instrucoes,pai.indice_ponto_de_insercao, pai.indice_ponto_de_insercao - 1);  pai.indice_ponto_de_insercao--; } }
-if (e.key == "ArrowDown") { if (pai.indice_ponto_de_insercao< pai.instrucoes.length - 1) { swap(pai.instrucoes,pai.indice_ponto_de_insercao, pai.indice_ponto_de_insercao + 1);  pai.indice_ponto_de_insercao++; } }
-if (e.key == "ArrowRight") { if (pai.indice_ponto_de_blinking <= pai.instrucoes.length - 1 && pai.indice_ponto_de_blinking >0) 
+if (e.key == "ArrowUp" && window.controle.toggle_comandos_programa == "programa" ) { if (pai.indice_ponto_de_insercao>0) { swap(pai.instrucoes,pai.indice_ponto_de_insercao, pai.indice_ponto_de_insercao - 1);  pai.indice_ponto_de_insercao--; } }
+if (e.key == "ArrowDown" && window.controle.toggle_comandos_programa == "programa"  ) { if (pai.indice_ponto_de_insercao< pai.instrucoes.length - 1) { swap(pai.instrucoes,pai.indice_ponto_de_insercao, pai.indice_ponto_de_insercao + 1);  pai.indice_ponto_de_insercao++; } }
+if (e.key == "ArrowRight" && window.controle.toggle_comandos_programa == "programa"  ) { if (pai.indice_ponto_de_blinking <= pai.instrucoes.length - 1 && pai.indice_ponto_de_blinking >0) 
 				{ 
 				if (["desvio", "principal", "repeticao"].includes(pai.instrucoes[pai.indice_ponto_de_blinking].tipo) ) {
 					programa.style.ponto_de_insercao = pai.instrucoes[pai.indice_ponto_de_blinking].ativa_ponto_de_insercao(0); // coloca no comeco
@@ -466,7 +505,7 @@ if (e.key == "ArrowRight") { if (pai.indice_ponto_de_blinking <= pai.instrucoes.
 				} 
 			}
 
-if (e.key == "ArrowLeft") { 
+if (e.key == "ArrowLeft" && window.controle.toggle_comandos_programa == "programa"  ) { 
 	if ( pai.elemento_pai != document.getElementById("programa")) {
 		let removed = pai.instrucoes.splice(pai.indice_ponto_de_insercao,1);  
 		pai.indice_ponto_de_insercao=-1;
@@ -556,6 +595,11 @@ window.conexao_socket = new websocketa();
 window.conexao_socket.controle = window.controle;
 window.controle.socket = window.conexao_socket;
 
+programa.style.opacity = window.controle.opacidade_nao_selecionado;
+comandos.style.opacity = window.controle.opacidade_selecionado;
+programa.style.border = window.controle.borda_nao_selecionado;
+comandos.style.border = window.controle.borda_selecionado;
+
 setTimeout(function (){
 	window.usuarios = new usuarios(whoami);
 window.usuarios.cookie = <?php echo "'".$_COOKIE['BaboRace']."'"; ?>;
@@ -602,6 +646,8 @@ setTimeout(function (){
 var contem =  document.getElementById("contem");
 var programa = document.getElementById("programa");
 var comandos = document.getElementById("comandos");
+
+
 
 var espacamento    = comandos.getBoundingClientRect().height * 0.1;
 var correcao_borda = comandos.getBoundingClientRect().height * 0.02;

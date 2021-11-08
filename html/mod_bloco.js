@@ -176,6 +176,8 @@ export class bloco {
 
 constructor (configuracoes, bloco_superior, condicional, esquerda, topo, tipo, altura, largura, elemento_pai){
 	this.configuracoes = configuracoes;
+	this.edit_box = null;
+	this.conta_blink = 0;
 	this.id = "bloco_" + this.configuracoes.conta_id;
 	this.funcao_parametro = {n_instrucao: -1, funcao: "dummy", parametro: "dummy_"+this.configuracoes.conta_id, id: null };
 	let itz_font = this.configuracoes.fonte_tamanho * 0.7; // razao de aspecto chutada
@@ -247,7 +249,7 @@ constructor (configuracoes, bloco_superior, condicional, esquerda, topo, tipo, a
 		}
 	if (tipo == "repeticao" ) 
 		{
-			this.nome = "repete <input id='repeticao_"+this.configuracoes.conta_id+"' class='entrada' type='text' value='10' maxlength='2' style='width: "+itz_font * 2+"px' size='2'/> vezes";
+			this.nome = "repete <input id='repeticao_"+this.configuracoes.conta_id+"' class='entrada'  type='text' value='10' maxlength='2' style='width: "+itz_font * 2+"px' size='2'/> vezes";
 			this.background_tipo = this.configuracoes.backgroundcolor_repeticao;
 			this.color_tipo = this.configuracoes.color_repeticao;
 			this.elemento_parametro =  document.getElementById("repeticao_"+this.configuracoes.conta_id); 
@@ -409,7 +411,7 @@ insere_instrucao(objeto){
 	limpa_todos_blink(this.configuracoes);
 	this.indice_ponto_de_insercao++;
 	this.indice_ponto_de_blinking = this.indice_ponto_de_insercao + 1;
-	if(this.indice_ponto_de_blinking <= this.instrucoes.length - 1 && ["repeticao", "desvio", "principal"].includes(this.instrucoes[this.indice_ponto_de_blinking].tipo)) {this.instrucoes[this.indice_ponto_de_blinking].inicia_blink();}
+	if(this.indice_ponto_de_blinking <= this.instrucoes.length - 1 && ["freio", "delay", "va_para_x", "va_para_y", "Fy", "Fx", "repeticao", "desvio", "principal"].includes(this.instrucoes[this.indice_ponto_de_blinking].tipo)) {this.instrucoes[this.indice_ponto_de_blinking].inicia_blink(); }
 //	this.indice_ponto_de_insercao++;
 }
 
@@ -551,14 +553,20 @@ retorna_face(){
 }
 
 inicia_blink(){
+
+
+	this.edit_box =  document.getElementById(this.funcao_parametro.parametro); 
 	let that = this;
+	this.conta_blink = 0;
 	this.blink = setInterval ( function () 
-		{ 
-			if (that.face.style.backgroundColor== that.background_tipo) {
-				that.face.style.backgroundColor = that.configuracoes.backgroundcolor_blink;
+		{
+			if (that.conta_blink < 2) {that.edit_box.focus();}
+			that.conta_blink++;
+			if (that.edit_box.style.backgroundColor== that.background_tipo) {
+				that.edit_box.style.backgroundColor = that.configuracoes.backgroundcolor_blink;
 			}
 			else {
-				that.face.style.backgroundColor = that.background_tipo;
+				that.edit_box.style.backgroundColor = that.background_tipo;
 			}
 			//console.log(that.configuracoes.delta_t_blink);
 		}  , that.configuracoes.delta_t_blink);
@@ -566,7 +574,9 @@ inicia_blink(){
 
 fim_blink(){
 	clearInterval(this.blink);
-	this.face.style.backgroundColor = this.background_tipo;
+	if (this.edit_box == null) {return;}
+//	document.body.focus();
+	this.edit_box.style.backgroundColor = this.background_tipo;
 } // fim fim_blink()
 
 } // fim class bloco

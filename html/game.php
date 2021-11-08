@@ -147,10 +147,10 @@ if(!isset($_COOKIE['BaboRace'])) {
 
 <div id="nao_opaco"></div>
 <div id="contem">
-<div id="programa">
+<div id="programa" tabindex="0">
 </div>
 </div>
-<div id="comandos">
+<div id="comandos" tabindex="0">
 <!---<table width="10%" cellspacing="0">--->
 <!---	<tr>--->
 <!---		<td><input type="button" value="Gira Móvel" onclick="window.controle.selecionado.gira(document.getElementById('delta_graus').value,document.getElementById('passos').value);"></td>--->
@@ -500,7 +500,7 @@ if (e.key == "ArrowUp" && window.controle.toggle_comandos_programa == "programa"
 if (e.key == "ArrowDown" && window.controle.toggle_comandos_programa == "programa"  ) { if (pai.indice_ponto_de_insercao< pai.instrucoes.length - 1) { swap(pai.instrucoes,pai.indice_ponto_de_insercao, pai.indice_ponto_de_insercao + 1);  pai.indice_ponto_de_insercao++; } }
 if (e.key == "ArrowRight" && window.controle.toggle_comandos_programa == "programa"  ) { if (pai.indice_ponto_de_blinking <= pai.instrucoes.length - 1 && pai.indice_ponto_de_blinking >0) 
 				{ 
-				if (["desvio", "principal", "repeticao"].includes(pai.instrucoes[pai.indice_ponto_de_blinking].tipo) && apertou_shift ) {
+				if (["desvio", "principal", "repeticao"].includes(pai.instrucoes[pai.indice_ponto_de_blinking].tipo) && !apertou_shift ) {
 					programa.style.ponto_de_insercao = pai.instrucoes[pai.indice_ponto_de_blinking].ativa_ponto_de_insercao(0); // coloca no comeco
 					var removed2 = pai.instrucoes.splice(pai.indice_ponto_de_insercao,1); 
 								//console.log("direita");
@@ -515,8 +515,12 @@ if (e.key == "ArrowRight" && window.controle.toggle_comandos_programa == "progra
 
 				}
 
-				if (["freio","delay","va_para_x","va_para_y","Fy","Fx","repeticao","desvio"] && !apertou_shift){
-				 alert("aqui falta encontrar uma forma de apontar para o editbox (input-text). Ele esta dentro do div, que eh dado por pai.instrucoes[ponto_blincking], mas nao eh facil de achar ele no meio de todos os elementos que existem.");	
+				if (["freio","delay","va_para_x","va_para_y","Fy","Fx","repeticao","desvio"].includes(pai.instrucoes[pai.indice_ponto_de_blinking].tipo) && apertou_shift)
+				{
+					document.getElementById(pai.instrucoes[pai.indice_ponto_de_blinking].funcao_parametro.parametro).focus();
+//					document.getElementById(pai.instrucoes[pai.indice_ponto_de_blinking].funcao_parametro.parametro).scrollIntoView();
+					console.log(document.activeElement);
+					return;
 				} 
 
 				} 
@@ -552,7 +556,7 @@ pai.indice_ponto_de_blinking = pai.indice_ponto_de_insercao + 1;
 
 limpa_todos_blink(window.config);
 if (pai.indice_ponto_de_blinking <= pai.instrucoes.length - 1) { 
-		if (["desvio", "principal", "repeticao"].includes(pai.instrucoes[pai.indice_ponto_de_blinking].tipo) ) {
+		if (["freio", "delay", "va_para_x", "va_para_y", "Fy", "Fx", "repeticao", "desvio", "principal"].includes(pai.instrucoes[pai.indice_ponto_de_blinking].tipo) ) {
 				pai.instrucoes[pai.indice_ponto_de_blinking].inicia_blink();
 		}
 }
@@ -576,7 +580,6 @@ window.controle.selecionado.desliza(0.1,0,300);
 
 }
 
-document.getElementById("principal").addEventListener("focusout", function (e) {alert(e.activeElement);});
 
 busca_url_retorna();
 </script>

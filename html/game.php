@@ -462,7 +462,6 @@ let pai =  programa.style.ponto_de_insercao.elemento_pai;
 
 document.addEventListener("keydown",
 function (e){
-let apertou_ctrl = e.ctrlKey;
 window.config.parametro_de_tamanho = comandos.getBoundingClientRect().height;
 window.controle.central.inatividade = Date.now();
 

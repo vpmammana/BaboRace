@@ -548,19 +548,41 @@ retorna_face(){
 	div_nome.style.left = this.configuracoes.esquerda_nome + "px";
 	div_nome.style.height = this.configuracoes.fonte_tamanho + "px";
 	div.style.titulo = div_nome;
+	let that=this;
 
+	if (["delay","va_para_x","va_para_y","Fy","Fx","repeticao","desvio", "freio"].includes(this.tipo)) {
+	setTimeout(function () // verifiquei mais de uma vez e esse timing é necessário
+		{
+			that.edit_box =  document.getElementById(that.funcao_parametro.parametro); 	
+			console.log(that.edit_box);
+			that.edit_box.addEventListener("keydown",
+				function (e) {
+						let apertou_ctrl = e.ctrlKey;
+						if ((e.key == "ArrowRight" && (that.edit_box.selectionStart == that.edit_box.value.length)) || e.key == "ArrowDown" ) {document.getElementById("principal").focus(); entra_no_bloco();}
+						if (e.keyCode == 32 ) { habilita_comandos(programa, comandos);}
+				});
+			 that.edit_box.addEventListener("focus",
+				function (e) {
+						that.edit_box.selectionStart = 0;
+						that.edit_box.selectionEnd = 0;
+				});
+
+		}, 500);
+	}
 	return div;
 }
 
 inicia_blink(){
 
 
-	this.edit_box =  document.getElementById(this.funcao_parametro.parametro); 
 	let that = this;
 	this.conta_blink = 0;
 	this.blink = setInterval ( function () 
 		{
-			if (that.conta_blink < 2) {that.edit_box.focus();}
+			if (that.conta_blink < 2) 
+				{
+					//that.edit_box.focus(); vou deixar aqui porque pode ser util para criar alguma forma de interacao que varia no tempo (numero de blinks)
+				}
 			that.conta_blink++;
 			if (that.edit_box.style.backgroundColor== that.background_tipo) {
 				that.edit_box.style.backgroundColor = that.configuracoes.backgroundcolor_blink;

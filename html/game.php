@@ -392,7 +392,8 @@ function habilita_comandos(programa, comandos){
 					programa.style.opacity = window.controle.opacidade_nao_selecionado; 
 					comandos.style.border = window.controle.borda_selecionado; 
 					programa.style.border = window.controle.borda_nao_selecionado;
-					window.controle.toggle_comandos_programa = "comandos"; 
+					window.controle.toggle_comandos_programa = "comandos";
+					comandos.focus(); 
 	speakText(window.controle.toggle_comandos_programa); 
 }
 
@@ -440,16 +441,34 @@ if (correcao_y< programa.scrollTop) {
 
 }
 
+function entra_no_bloco (){
+let pai =  programa.style.ponto_de_insercao.elemento_pai;
+	if (["desvio", "principal", "repeticao"].includes(pai.instrucoes[pai.indice_ponto_de_blinking].tipo)) {
+		programa.style.ponto_de_insercao = pai.instrucoes[pai.indice_ponto_de_blinking].ativa_ponto_de_insercao(0); // coloca no comeco
+		let removed2 = pai.instrucoes.splice(pai.indice_ponto_de_insercao,1); 
+					//console.log("direita");
+					//console.log(removed2[0]);
+					removed2[0].face.remove();
+					removed2[0]={};
+					removed2=[];
+					document.getElementById('programa').style.principal.innerHTML=''; 
+					document.getElementById('programa').style.principal.mostra();
+					limpa_todos_blink(window.config);
+					return;
+
+	}
+} // fim entra_no_bloco
+
 
 document.addEventListener("keydown",
 function (e){
-let apertou_shift = e.shiftKey;
+let apertou_ctrl = e.ctrlKey;
 window.config.parametro_de_tamanho = comandos.getBoundingClientRect().height;
 window.controle.central.inatividade = Date.now();
 
 if (e.target.className == "entrada") {
 
-	if (!(e.key == "ArrowUp" || e.key == "ArrowDown" || e.key == "Enter")) { return;}
+	if (!(e.key == "ArrowUp" || e.key == "ArrowDown" || e.key == "Enter" || (e.key == "ArrowRight"))) { return;}
 }
 
 let pai =  programa.style.ponto_de_insercao.elemento_pai;
@@ -500,29 +519,13 @@ if (e.key == "ArrowUp" && window.controle.toggle_comandos_programa == "programa"
 if (e.key == "ArrowDown" && window.controle.toggle_comandos_programa == "programa"  ) { if (pai.indice_ponto_de_insercao< pai.instrucoes.length - 1) { swap(pai.instrucoes,pai.indice_ponto_de_insercao, pai.indice_ponto_de_insercao + 1);  pai.indice_ponto_de_insercao++; } }
 if (e.key == "ArrowRight" && window.controle.toggle_comandos_programa == "programa"  ) { if (pai.indice_ponto_de_blinking <= pai.instrucoes.length - 1 && pai.indice_ponto_de_blinking >0) 
 				{ 
-				if (["desvio", "principal", "repeticao"].includes(pai.instrucoes[pai.indice_ponto_de_blinking].tipo) && !apertou_shift ) {
-					programa.style.ponto_de_insercao = pai.instrucoes[pai.indice_ponto_de_blinking].ativa_ponto_de_insercao(0); // coloca no comeco
-					var removed2 = pai.instrucoes.splice(pai.indice_ponto_de_insercao,1); 
-								//console.log("direita");
-								//console.log(removed2[0]);
-								removed2[0].face.remove();
-								removed2[0]={};
-								removed2=[];
-								document.getElementById('programa').style.principal.innerHTML=''; 
-								document.getElementById('programa').style.principal.mostra();
-								limpa_todos_blink(window.config);
-								return;
-
-				}
-
-				if (["freio","delay","va_para_x","va_para_y","Fy","Fx","repeticao","desvio"].includes(pai.instrucoes[pai.indice_ponto_de_blinking].tipo) && apertou_shift)
-				{
-					document.getElementById(pai.instrucoes[pai.indice_ponto_de_blinking].funcao_parametro.parametro).focus();
-//					document.getElementById(pai.instrucoes[pai.indice_ponto_de_blinking].funcao_parametro.parametro).scrollIntoView();
-					console.log(document.activeElement);
+					if (e.target.className != "entrada") {
+						pai.instrucoes[pai.indice_ponto_de_blinking].edit_box.focus();
+						pai.instrucoes[pai.indice_ponto_de_blinking].edit_box.selectionStart = 0;
+						pai.instrucoes[pai.indice_ponto_de_blinking].edit_box.selectionEnd = 0;
+					}
+	
 					return;
-				} 
-
 				} 
 			}
 

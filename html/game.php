@@ -376,6 +376,25 @@ for (i=0; i < lista.length; i++) {
 }
 
 
+function habilita_programa(programa, comandos){
+					programa.style.opacity = window.controle.opacidade_selecionado;
+					comandos.style.opacity = window.controle.opacidade_nao_selecionado;
+					programa.style.border = window.controle.borda_selecionado; 
+					comandos.style.border = window.controle.borda_nao_selecionado;
+					window.controle.toggle_comandos_programa = "programa";
+
+	speakText(window.controle.toggle_comandos_programa); 
+}
+
+
+function habilita_comandos(programa, comandos){
+					comandos.style.opacity = window.controle.opacidade_selecionado;
+					programa.style.opacity = window.controle.opacidade_nao_selecionado; 
+					comandos.style.border = window.controle.borda_selecionado; 
+					programa.style.border = window.controle.borda_nao_selecionado;
+					window.controle.toggle_comandos_programa = "comandos"; 
+	speakText(window.controle.toggle_comandos_programa); 
+}
 
 function swap(lista, indice_origem, indice_destino){
 
@@ -421,9 +440,10 @@ if (correcao_y< programa.scrollTop) {
 
 }
 
+
 document.addEventListener("keydown",
 function (e){
-
+let apertou_shift = e.shiftKey;
 window.config.parametro_de_tamanho = comandos.getBoundingClientRect().height;
 window.controle.central.inatividade = Date.now();
 
@@ -438,21 +458,13 @@ if (e.keyCode == 32)
 	{ 
 			if (window.controle.toggle_comandos_programa == "comandos") 
 				{
-					programa.style.opacity = window.controle.opacidade_selecionado;
-					comandos.style.opacity = window.controle.opacidade_nao_selecionado;
-					programa.style.border = window.controle.borda_selecionado; 
-					comandos.style.border = window.controle.borda_nao_selecionado;
-					window.controle.toggle_comandos_programa = "programa";
+					habilita_programa(programa, comandos);
 				} 
 				else 
 				{
-					comandos.style.opacity = window.controle.opacidade_selecionado;
-					programa.style.opacity = window.controle.opacidade_nao_selecionado; 
-					comandos.style.border = window.controle.borda_selecionado; 
-					programa.style.border = window.controle.borda_nao_selecionado;
-					window.controle.toggle_comandos_programa = "comandos"; 
-				} 
-	speakText(window.controle.toggle_comandos_programa); return; 
+					habilita_comandos(programa, comandos);
+				}
+	return; 
 	}
 
 if (e.key == "Enter" && window.controle.toggle_comandos_programa == "programa" ) { limpa_todos_blink(window.config);
@@ -488,7 +500,7 @@ if (e.key == "ArrowUp" && window.controle.toggle_comandos_programa == "programa"
 if (e.key == "ArrowDown" && window.controle.toggle_comandos_programa == "programa"  ) { if (pai.indice_ponto_de_insercao< pai.instrucoes.length - 1) { swap(pai.instrucoes,pai.indice_ponto_de_insercao, pai.indice_ponto_de_insercao + 1);  pai.indice_ponto_de_insercao++; } }
 if (e.key == "ArrowRight" && window.controle.toggle_comandos_programa == "programa"  ) { if (pai.indice_ponto_de_blinking <= pai.instrucoes.length - 1 && pai.indice_ponto_de_blinking >0) 
 				{ 
-				if (["desvio", "principal", "repeticao"].includes(pai.instrucoes[pai.indice_ponto_de_blinking].tipo) ) {
+				if (["desvio", "principal", "repeticao"].includes(pai.instrucoes[pai.indice_ponto_de_blinking].tipo) && apertou_shift ) {
 					programa.style.ponto_de_insercao = pai.instrucoes[pai.indice_ponto_de_blinking].ativa_ponto_de_insercao(0); // coloca no comeco
 					var removed2 = pai.instrucoes.splice(pai.indice_ponto_de_insercao,1); 
 								//console.log("direita");
@@ -502,8 +514,18 @@ if (e.key == "ArrowRight" && window.controle.toggle_comandos_programa == "progra
 								return;
 
 				}
+
+				if (["freio","delay","va_para_x","va_para_y","Fy","Fx","repeticao","desvio"] && !apertou_shift){
+				 alert("aqui falta encontrar uma forma de apontar para o editbox (input-text). Ele esta dentro do div, que eh dado por pai.instrucoes[ponto_blincking], mas nao eh facil de achar ele no meio de todos os elementos que existem.");	
+				} 
+
 				} 
 			}
+
+
+
+
+
 
 if (e.key == "ArrowLeft" && window.controle.toggle_comandos_programa == "programa"  ) { 
 	if ( pai.elemento_pai != document.getElementById("programa")) {
@@ -642,12 +664,39 @@ setTimeout(function (){
 
 	window.controle.inicia_animacao();
 
-
+var habilita_evento_programa = true;
+var habilita_evento_comandos = true;
 var contem =  document.getElementById("contem");
 var programa = document.getElementById("programa");
 var comandos = document.getElementById("comandos");
 
+programa.addEventListener("mouseover", 
+function (){
+if (habilita_evento_programa){
+	habilita_programa(programa, comandos);	
+	habilita_evento_programa = false;
+}
+}
+);
 
+programa.addEventListener("mouseout",
+function () { habilita_evento_programa = true;}
+);
+
+
+
+comandos.addEventListener("mouseover", 
+function (){
+if (habilita_evento_comandos){
+	habilita_comandos(programa, comandos);	
+	habilita_evento_comandos = false;
+}
+}
+);
+
+programa.addEventListener("mouseout",
+function () { habilita_evento_comandos = true;}
+);
 
 var espacamento    = comandos.getBoundingClientRect().height * 0.1;
 var correcao_borda = comandos.getBoundingClientRect().height * 0.02;

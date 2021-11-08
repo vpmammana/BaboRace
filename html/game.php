@@ -14,6 +14,12 @@
 	</head>
 <style>
 
+#seta {
+	position: absolute;	
+	z-index: 1000;
+	visibility: hidden;
+}
+
 .exemplo {
 	position: absolute;
 	box-sizing: border-box ;
@@ -49,6 +55,7 @@ input[type="text"]{
     width: 2rem;
     border: 1px solid black;
 }
+
 
 body{
   background-color: blue;
@@ -144,6 +151,8 @@ if(!isset($_COOKIE['BaboRace'])) {
 //	else {echo "Não bateu";}
 //}
 ?>
+
+<img id="seta" src="../php/imagens/seta_boa.png">
 
 <div id="nao_opaco"></div>
 <div id="contem">
@@ -462,6 +471,7 @@ let pai =  programa.style.ponto_de_insercao.elemento_pai;
 
 document.addEventListener("keydown",
 function (e){
+
 window.config.parametro_de_tamanho = comandos.getBoundingClientRect().height;
 window.controle.central.inatividade = Date.now();
 
@@ -484,7 +494,10 @@ if (e.keyCode == 32)
 				}
 	return; 
 	}
-
+if (e.key == "ArrowDown" && window.controle.toggle_comandos_programa == "comandos" ) {
+	window.config_comandos.insere_bloco_apontado_pela_seta_selecao();
+}
+ 
 if (e.key == "Enter" && window.controle.toggle_comandos_programa == "programa" ) { limpa_todos_blink(window.config);
 			 if (window.config.em_execucao) 
 				{
@@ -529,7 +542,19 @@ if (e.key == "ArrowRight" && window.controle.toggle_comandos_programa == "progra
 			}
 
 
+if (e.key == "ArrowLeft" && window.controle.toggle_comandos_programa == "comandos"  ) { 
+	window.config_comandos.retorna_seta_selecao();
+	window.config_comandos.move_seta_selecao();
+	return;
 
+}
+
+if (e.key == "ArrowRight" && window.controle.toggle_comandos_programa == "comandos"  ) { 
+	window.config_comandos.avanca_seta_selecao();
+	window.config_comandos.move_seta_selecao();
+	return;
+
+}
 
 
 
@@ -727,6 +752,9 @@ window.config.movel = window.controle.central;
 //	window.controle.central.posicao_percentual_y=window.controle.posicao_inicial_percentual_y + window.controle.objetos_em_cena.indexOf(window.controle.central);
 
 window.config_comandos = new configuracoes(comandos, comandos.getBoundingClientRect().height, programa.getBoundingClientRect().width);
+window.config_comandos.seta_selecao = document.getElementById("seta");
+setTimeout( function () {window.config_comandos.move_seta_selecao();}, 2000);
+
 //window.config_comandos.topo=parseInt(document.getElementById("comandos").getBoundingClientRect().height) * 0.05;
 //window.config_comandos.altura =  parseInt(document.getElementById("comandos").getBoundingClientRect().height) * 0.5;
 //window.config_comandos.largura = 200;
@@ -737,6 +765,8 @@ window.bloco_repete.face.addEventListener ("click",
 function () {window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'repeticao');});
 bloco_repete.mostra();
 window.config_comandos.largura = ajusta_tamanho_do_exemplo(comandos, window.bloco_repete.face, window.config_comandos.borderradius);
+window.config_comandos.lista_de_exemplos.push(window.bloco_repete);
+
 
 window.config_comandos.esquerda = window.config_comandos.esquerda + window.config_comandos.largura + espacamento;
 window.bloco_va_para_x = new bloco(config_comandos, null, null, config_comandos.esquerda, config_comandos.topo, "va_para_x_exemplo", config_comandos.altura, config_comandos.largura, config_comandos.elemento_pai);
@@ -744,6 +774,7 @@ window.bloco_va_para_x.face.addEventListener ("click",
 function () {window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'va_para_x');});
 bloco_va_para_x.mostra();
 window.config_comandos.largura = ajusta_tamanho_do_exemplo(comandos, window.bloco_va_para_x.face, window.config_comandos.borderradius);
+window.config_comandos.lista_de_exemplos.push(window.bloco_va_para_x);
 
 window.config_comandos.esquerda = window.config_comandos.esquerda + window.config_comandos.largura + espacamento;
 window.bloco_va_para_y = new bloco(config_comandos, null, null, config_comandos.esquerda, config_comandos.topo, "va_para_y_exemplo", config_comandos.altura, config_comandos.largura, config_comandos.elemento_pai);
@@ -751,6 +782,7 @@ window.bloco_va_para_y.face.addEventListener ("click",
 function () {window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'va_para_y');});
 bloco_va_para_y.mostra();
 window.config_comandos.largura = ajusta_tamanho_do_exemplo(comandos, window.bloco_va_para_y.face, window.config_comandos.borderradius);
+window.config_comandos.lista_de_exemplos.push(window.bloco_va_para_y);
 
 window.config_comandos.esquerda = window.config_comandos.esquerda + window.config_comandos.largura + espacamento;
 window.bloco_Fx = new bloco(config_comandos, null, null, config_comandos.esquerda, config_comandos.topo, "Fx_exemplo", config_comandos.altura, config_comandos.largura, config_comandos.elemento_pai);
@@ -758,6 +790,7 @@ window.bloco_Fx.face.addEventListener ("click",
 function () {window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'Fx');});
 bloco_Fx.mostra();
 window.config_comandos.largura = ajusta_tamanho_do_exemplo(comandos, window.bloco_Fx.face, window.config_comandos.borderradius);
+window.config_comandos.lista_de_exemplos.push(window.bloco_Fx);
 
 window.config_comandos.esquerda = window.config_comandos.esquerda + window.config_comandos.largura + espacamento;
 window.bloco_Fy = new bloco(config_comandos, null, null, config_comandos.esquerda, config_comandos.topo, "Fy_exemplo", config_comandos.altura, config_comandos.largura, config_comandos.elemento_pai);
@@ -765,6 +798,7 @@ window.bloco_Fy.face.addEventListener ("click",
 function () {window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'Fy');});
 bloco_Fy.mostra();
 window.config_comandos.largura = ajusta_tamanho_do_exemplo(comandos, window.bloco_Fy.face, window.config_comandos.borderradius);
+window.config_comandos.lista_de_exemplos.push(window.bloco_Fy);
 
 window.config_comandos.esquerda = window.config_comandos.esquerda + window.config_comandos.largura + espacamento;
 window.bloco_delay = new bloco(config_comandos, null, null, config_comandos.esquerda, config_comandos.topo, "delay_exemplo", config_comandos.altura, config_comandos.largura, config_comandos.elemento_pai);
@@ -772,6 +806,7 @@ window.bloco_delay.face.addEventListener ("click",
 function () {window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'delay');});
 bloco_delay.mostra();
 window.config_comandos.largura = ajusta_tamanho_do_exemplo(comandos, window.bloco_delay.face, window.config_comandos.borderradius);
+window.config_comandos.lista_de_exemplos.push(window.bloco_delay);
 
 window.config_comandos.esquerda = window.config_comandos.esquerda + window.config_comandos.largura + espacamento;
 window.bloco_freio = new bloco(config_comandos, null, null, config_comandos.esquerda, config_comandos.topo, "freio_exemplo", config_comandos.altura, config_comandos.largura, config_comandos.elemento_pai);
@@ -779,6 +814,7 @@ window.bloco_freio.face.addEventListener ("click",
 function () {window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'freio');});
 bloco_freio.mostra();
 window.config_comandos.largura = ajusta_tamanho_do_exemplo(comandos, window.bloco_freio.face, window.config_comandos.borderradius);
+window.config_comandos.lista_de_exemplos.push(window.bloco_freio);
 
 window.config_comandos.esquerda = window.config_comandos.esquerda + window.config_comandos.largura + espacamento;
 window.bloco_desvio = new bloco(config_comandos, null, null, config_comandos.esquerda, config_comandos.topo, "desvio_exemplo", config_comandos.altura, config_comandos.largura, config_comandos.elemento_pai);
@@ -786,6 +822,7 @@ window.bloco_desvio.face.addEventListener ("click",
 function () {alert("Este comando ainda não está disponível. Aguarde a próxima versão."); return; window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, 'desvio');});
 bloco_desvio.mostra();
 window.config_comandos.largura = ajusta_tamanho_do_exemplo(comandos, window.bloco_desvio.face, window.config_comandos.borderradius);
+window.config_comandos.lista_de_exemplos.push(window.bloco_desvio);
 
 
 ajusta_tamanho_componentes_extras(comandos);

@@ -70,7 +70,8 @@ manda_mensagem(mensagem){
 	else 
 		{ 
 			if (this.mensagem_de_falha_mostrada == false){
-			alert("Conexão websocket não está aberta");
+			speakText("Você está jogando ofi laine");
+			alert("Você está jogando offline");
 			this.mensagem_de_falha_mostrada = true;
 			}
 		};

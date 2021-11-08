@@ -25,7 +25,7 @@ constructor(elemento_pai, valor_parametro_de_tamanho, valor_parametro_de_largura
 //window.config.padding_inferior = parseInt(document.getElementById("comandos").getBoundingClientRect().height) * 0.2;
 	this.parametro_de_tamanho = valor_parametro_de_tamanho;
 	this.parametro_de_largura = valor_parametro_de_largura;
-
+	this.posicao_seta_selecao = 0;
 	this.percentual_de_bordas = 0.05;
 	this.fator_reducao = 0.83;
 	this.delta_t_blink = 300;
@@ -33,7 +33,7 @@ constructor(elemento_pai, valor_parametro_de_tamanho, valor_parametro_de_largura
 	this.background_nome = "";
 	this.conta_id = 0;
 	this.elemento_pai = elemento_pai;
-
+	this.seta_selecao = null;
 	this.color_Fx = "black";
 	this.color_Fy = "black";
 	this.color_delay = "black";
@@ -59,7 +59,8 @@ constructor(elemento_pai, valor_parametro_de_tamanho, valor_parametro_de_largura
 	this.esquerda_nome= parseInt(this.borderradius.replace("px",""))/3;
 	this.background = document.body;
 	this.classe_div = "instrucao_div";
-	this.executavel=[]
+	this.executavel=[];
+	this.lista_de_exemplos = [];
 	this.delta_t_execucao = 300; // ms para cara instrucao delta_t
 	this.pc = 0;
 	this.reset = false;
@@ -97,7 +98,31 @@ get parametro_de_tamanho(){
 	return guarda_paramentro_de_tamanho;
 }
 
+avanca_seta_selecao(){
+	if (this.posicao_seta_selecao < this.lista_de_exemplos.length - 1) { this.posicao_seta_selecao++;}
+
 }
+
+retorna_seta_selecao(){
+	if (this.posicao_seta_selecao > 0) { this.posicao_seta_selecao--;}
+
+}
+
+move_seta_selecao(){
+	let img = this.seta_selecao;
+	img.style.visibility = "visible";
+	let objeto = this.lista_de_exemplos[this.posicao_seta_selecao].face;
+	img.style.top = parseInt(objeto.style.top.replace("px","")) + objeto.clientHeight + "px";
+	img.style.left = parseInt(objeto.style.left.replace("px","")) + objeto.clientWidth/2 - img.clientWidth / 2 + "px";
+	
+}
+
+insere_bloco_apontado_pela_seta_selecao(){
+	let tipo = this.lista_de_exemplos[this.posicao_seta_selecao].tipo.replace("_exemplo","");
+	window.insere_bloco(document.getElementById('programa').style.ponto_de_insercao.elemento_pai, tipo);
+}
+
+} // class configuracoes
 
 class ponto_insercao {
 constructor (esquerda, topo, largura, altura, elemento_pai, configuracoes){
@@ -114,6 +139,9 @@ constructor (esquerda, topo, largura, altura, elemento_pai, configuracoes){
 	this.esquerda = esquerda;
 	this.face = this.retorna_face();
 }
+
+
+
 
 mostra(baixo){
 	this.elemento_pai.face.appendChild(this.face);

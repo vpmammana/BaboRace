@@ -390,7 +390,7 @@ function habilita_programa(programa, comandos){
 					comandos.style.opacity = window.controle.opacidade_nao_selecionado;
 					programa.style.border = window.controle.borda_selecionado; 
 					comandos.style.border = window.controle.borda_nao_selecionado;
-					window.controle.toggle_comandos_programa = "programa";
+					window.controle.toggle_comandos_programa = "comandos/programa";
 
 	speakText(window.controle.toggle_comandos_programa); 
 }
@@ -401,7 +401,7 @@ function habilita_comandos(programa, comandos){
 					programa.style.opacity = window.controle.opacidade_nao_selecionado; 
 					comandos.style.border = window.controle.borda_selecionado; 
 					programa.style.border = window.controle.borda_nao_selecionado;
-					window.controle.toggle_comandos_programa = "comandos";
+					window.controle.toggle_comandos_programa = "comandos/programa";
 					comandos.focus(); 
 	speakText(window.controle.toggle_comandos_programa); 
 }
@@ -484,7 +484,7 @@ let pai =  programa.style.ponto_de_insercao.elemento_pai;
 
 if (e.keyCode == 32) 
 	{ 
-			if (window.controle.toggle_comandos_programa == "comandos") 
+			if (window.controle.toggle_comandos_programa == "comandos/programa") 
 				{
 					habilita_programa(programa, comandos);
 				} 
@@ -494,11 +494,11 @@ if (e.keyCode == 32)
 				}
 	return; 
 	}
-if (e.key == "ArrowDown" && window.controle.toggle_comandos_programa == "comandos" ) {
+if (e.key == "s" && window.controle.toggle_comandos_programa == "comandos/programa" ) {
 	window.config_comandos.insere_bloco_apontado_pela_seta_selecao();
 }
  
-if (e.key == "Enter" && window.controle.toggle_comandos_programa == "programa" ) { limpa_todos_blink(window.config);
+if (e.key == "Enter" && window.controle.toggle_comandos_programa == "comandos/programa" ) { limpa_todos_blink(window.config);
 			 if (window.config.em_execucao) 
 				{
 					window.config.reset = true; 
@@ -510,7 +510,7 @@ if (e.key == "Enter" && window.controle.toggle_comandos_programa == "programa" )
 
 		      }
 
-if ((e.key == "Delete" || e.key == "Backspace") && window.controle.toggle_comandos_programa == "programa" ) { // hackead para apple que fornece backspace quando digita delete
+if ((e.key == "Delete" || e.key == "Backspace") && window.controle.toggle_comandos_programa == "comandos/programa" ) { // hackead para apple que fornece backspace quando digita delete
 	if (pai.indice_ponto_de_blinking <= pai.instrucoes.length - 1 && pai.indice_ponto_de_blinking >0)
 	{
 		let removed3 = pai.instrucoes.splice(pai.indice_ponto_de_blinking,1);
@@ -527,9 +527,9 @@ if ((e.key == "Delete" || e.key == "Backspace") && window.controle.toggle_comand
 }		
 
 
-if (e.key == "ArrowUp" && window.controle.toggle_comandos_programa == "programa" ) { if (pai.indice_ponto_de_insercao>0) { swap(pai.instrucoes,pai.indice_ponto_de_insercao, pai.indice_ponto_de_insercao - 1);  pai.indice_ponto_de_insercao--; } }
-if (e.key == "ArrowDown" && window.controle.toggle_comandos_programa == "programa"  ) { if (pai.indice_ponto_de_insercao< pai.instrucoes.length - 1) { swap(pai.instrucoes,pai.indice_ponto_de_insercao, pai.indice_ponto_de_insercao + 1);  pai.indice_ponto_de_insercao++; } }
-if (e.key == "ArrowRight" && window.controle.toggle_comandos_programa == "programa"  ) { if (pai.indice_ponto_de_blinking <= pai.instrucoes.length - 1 && pai.indice_ponto_de_blinking >0) 
+if (e.key == "ArrowUp" && window.controle.toggle_comandos_programa == "comandos/programa" ) { if (pai.indice_ponto_de_insercao>0) { swap(pai.instrucoes,pai.indice_ponto_de_insercao, pai.indice_ponto_de_insercao - 1);  pai.indice_ponto_de_insercao--; } }
+if (e.key == "ArrowDown" && window.controle.toggle_comandos_programa == "comandos/programa"  ) { if (pai.indice_ponto_de_insercao< pai.instrucoes.length - 1) { swap(pai.instrucoes,pai.indice_ponto_de_insercao, pai.indice_ponto_de_insercao + 1);  pai.indice_ponto_de_insercao++; } }
+if (e.key == "ArrowRight" && window.controle.toggle_comandos_programa == "comandos/programa"  ) { if (pai.indice_ponto_de_blinking <= pai.instrucoes.length - 1 && pai.indice_ponto_de_blinking >0) 
 				{ 
 					if (e.target.className != "entrada") {
 						pai.instrucoes[pai.indice_ponto_de_blinking].edit_box.focus();
@@ -542,14 +542,14 @@ if (e.key == "ArrowRight" && window.controle.toggle_comandos_programa == "progra
 			}
 
 
-if (e.key == "ArrowLeft" && window.controle.toggle_comandos_programa == "comandos"  ) { 
+if (e.key == "a" && window.controle.toggle_comandos_programa == "comandos/programa"  ) { 
 	window.config_comandos.retorna_seta_selecao();
 	window.config_comandos.move_seta_selecao();
 	return;
 
 }
 
-if (e.key == "ArrowRight" && window.controle.toggle_comandos_programa == "comandos"  ) { 
+if (e.key == "d" && window.controle.toggle_comandos_programa == "comandos/programa"  ) { 
 	window.config_comandos.avanca_seta_selecao();
 	window.config_comandos.move_seta_selecao();
 	return;
@@ -558,7 +558,7 @@ if (e.key == "ArrowRight" && window.controle.toggle_comandos_programa == "comand
 
 
 
-if (e.key == "ArrowLeft" && window.controle.toggle_comandos_programa == "programa"  ) { 
+if (e.key == "ArrowLeft" && window.controle.toggle_comandos_programa == "comandos/programa"  ) { 
 	if ( pai.elemento_pai != document.getElementById("programa")) {
 		let removed = pai.instrucoes.splice(pai.indice_ponto_de_insercao,1);  
 		pai.indice_ponto_de_insercao=-1;
